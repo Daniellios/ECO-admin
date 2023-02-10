@@ -1,35 +1,47 @@
-import { Refine } from "@pankod/refine-core";
+import { Refine, useList } from "@pankod/refine-core";
 import {
-    notificationProvider,
-    Layout,
-    ErrorComponent,
+  notificationProvider,
+  Layout,
+  ErrorComponent,
 } from "@pankod/refine-antd";
 import dataProvider from "@pankod/refine-simple-rest";
 import routerProvider from "@pankod/refine-react-router-v6";
 import "@pankod/refine-antd/dist/reset.css";
 
-import { PostList, PostCreate, PostEdit, PostShow } from "./pages/posts";
+import { UsersList, UserCreate, UserEdit, UserShow } from "./pages/Users";
+import { myDataProvider } from "./dataProvider";
 
 const App: React.FC = () => {
-    return (
-        <Refine
-            routerProvider={routerProvider}
-            dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-            notificationProvider={notificationProvider}
-            Layout={Layout}
-            catchAll={<ErrorComponent />}
-            resources={[
-                {
-                    name: "posts",
-                    list: PostList,
-                    create: PostCreate,
-                    edit: PostEdit,
-                    show: PostShow,
-                    canDelete: true,
-                },
-            ]}
-        />
-    );
+  //   const { data, isLoading, isError } = useList({
+  //     dataProviderName: "myDataProvider",
+  //     resource: "users",
+  //     config: {
+  //         pagination: {
+
+  //         }
+  //     }
+  //   });
+
+  return (
+    <Refine
+      routerProvider={routerProvider}
+      dataProvider={myDataProvider("http://localhost:5000/api")}
+      notificationProvider={notificationProvider}
+      Layout={Layout}
+      catchAll={<ErrorComponent />}
+      resources={[
+        {
+          name: "users",
+          options: { label: "Экологи" },
+          list: UsersList,
+          //   create: UserCreate,
+          //   edit: UserEdit,
+          show: UserShow,
+          canDelete: true,
+        },
+      ]}
+    />
+  );
 };
 
 export default App;

@@ -1,30 +1,27 @@
 import React from "react";
 import { IResourceComponentsProps } from "@pankod/refine-core";
 
-import {
-    Create,
-    Form,
-    Input,
-    Select,
-    useForm,
-    useSelect,
-} from "@pankod/refine-antd";
+import { Edit, Form, Input, Select } from "@pankod/refine-antd";
+
+import { useForm, useSelect } from "@pankod/refine-antd";
 
 import MDEditor from "@uiw/react-md-editor";
 
 import { IPost, ICategory } from "../../interfaces";
 
-export const PostCreate: React.FC<IResourceComponentsProps> = () => {
-    const { formProps, saveButtonProps } = useForm<IPost>({
-        // warnWhenUnsavedChanges: true,
+export const UserEdit: React.FC<IResourceComponentsProps> = () => {
+    const { formProps, saveButtonProps, queryResult } = useForm<IPost>({
+        warnWhenUnsavedChanges: true,
     });
 
+    const postData = queryResult?.data?.data;
     const { selectProps: categorySelectProps } = useSelect<ICategory>({
         resource: "categories",
+        defaultValue: postData?.category.id,
     });
 
     return (
-        <Create saveButtonProps={saveButtonProps}>
+        <Edit saveButtonProps={saveButtonProps}>
             <Form {...formProps} layout="vertical">
                 <Form.Item
                     label="Title"
@@ -86,6 +83,6 @@ export const PostCreate: React.FC<IResourceComponentsProps> = () => {
                     <MDEditor data-color-mode="light" />
                 </Form.Item>
             </Form>
-        </Create>
+        </Edit>
     );
 };
