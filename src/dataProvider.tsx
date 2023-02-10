@@ -46,4 +46,11 @@ export const myDataProvider = (apiUrl: string): DataProvider => ({
 
     return { data, total };
   },
+  getOne: async ({ resource, id }) => {
+    const url = `${API_URL}${resource}/${id}`;
+
+    const { data } = await axiosInstance.get(url);
+
+    return { data };
+  },
 });
