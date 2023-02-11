@@ -37,7 +37,7 @@ const App: React.FC = () => {
           options: { label: "Экологи" },
           list: UsersList,
           //   create: UserCreate,
-          //   edit: UserEdit,
+          edit: UserEdit,
           show: UserShow,
           canDelete: true,
         },

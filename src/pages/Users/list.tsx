@@ -37,12 +37,13 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
   //   });
 
   return (
-    <List>
+    <List title="Список экологов">
       <Table {...tableProps} rowKey="id" bordered={true}>
         <Table.Column dataIndex="id" title="ID" align="left" />
         <Table.Column<IUser>
           dataIndex={["firstName", "secondName", "thirdName"]}
           title="Ф.И.О"
+          ellipsis
           align="center"
           width={"160px"}
           render={(value, record) => {
@@ -108,7 +109,9 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
               Number(a.isEmailConfirmed) - Number(b.isEmailConfirmed),
           }}
           showSorterTooltip={{ title: "Отсортировать по подтверждению" }}
-          render={(value: boolean) => <BooleanField value={value} />}
+          render={(value: boolean) => (
+            <BooleanField color={value ? "lime" : "red"} value={value} />
+          )}
         />
         <Table.Column
           dataIndex="status"
