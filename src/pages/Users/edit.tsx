@@ -1,87 +1,143 @@
 import React from "react";
 import { IResourceComponentsProps } from "@pankod/refine-core";
 
-import { Edit, Form, Input, Select } from "@pankod/refine-antd";
+import {
+  Col,
+  Edit,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+} from "@pankod/refine-antd";
 
 import { useForm, useSelect } from "@pankod/refine-antd";
 
-import MDEditor from "@uiw/react-md-editor";
-
-import { IUser } from "../../interfaces";
+import { IUpdateUser, IUser, UserStatus } from "../../interfaces";
+import MyRefreshButton from "../../components/MyRefreshButton";
+import MySaveButton from "../../components/MySaveButton";
+import MyDeleteButton from "../../components/MyDeleteButton";
 
 export const UserEdit: React.FC<IResourceComponentsProps> = () => {
-  const { formProps, saveButtonProps, queryResult } = useForm<IUser>({
-    warnWhenUnsavedChanges: true,
-  });
+  const { formProps, saveButtonProps, queryResult, formLoading } =
+    useForm<IUpdateUser>({
+      warnWhenUnsavedChanges: true,
+    });
 
-  const postData = queryResult?.data?.data;
+  const userData = queryResult?.data?.data;
   // const { selectProps: categorySelectProps } = useSelect<ICategory>({
   //     resource: "categories",
   //     defaultValue: postData?.category.id,
   // });
 
   return (
-    <Edit saveButtonProps={saveButtonProps}>
+    <Edit
+      title={"Редактировать"}
+      isLoading={formLoading}
+      footerButtons={() => (
+        <>
+          <MyDeleteButton></MyDeleteButton>
+          <MySaveButton></MySaveButton>
+        </>
+      )}
+      headerButtons={() => (
+        <>
+          <MyRefreshButton></MyRefreshButton>
+        </>
+      )}
+    >
       <Form {...formProps} layout="vertical">
-        <Form.Item
-          label="Title"
-          name="title"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Category"
-          name={["category", "id"]}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          {/* <Select {...categorySelectProps} /> */}
-        </Form.Item>
-        <Form.Item
-          label="Status"
-          name="status"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select
-            options={[
-              {
-                label: "Published",
-                value: "published",
-              },
-              {
-                label: "Draft",
-                value: "draft",
-              },
-              {
-                label: "Rejected",
-                value: "rejected",
-              },
-            ]}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Content"
-          name="content"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <MDEditor data-color-mode="light" />
-        </Form.Item>
+        <>
+          <Row align="middle" justify="start">
+            <Col span={3}>
+              <Form.Item
+                label="Имя"
+                name="firstName"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col span={3} push={1}>
+              <Form.Item
+                label="Фамилия"
+                name="secondName"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col span={3} push={2}>
+              <Form.Item
+                label="Отчество"
+                name="thirdName"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row align="middle" justify="start">
+            <Col span={3}>
+              <Form.Item
+                label="Телефон"
+                name="phone"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col span={3} push={1}>
+              <Form.Item
+                label="Статус"
+                name="status"
+                rules={[
+                  {
+                    type: "enum",
+                    required: false,
+                  },
+                ]}
+              >
+                <Select
+                  options={[
+                    {
+                      label: "Подтвержден",
+                      value: "CONFIRMED",
+                    },
+                    {
+                      label: "В проверке",
+                      value: "IN_CHECK",
+                    },
+                    {
+                      label: "Забанен",
+                      value: "BANNED",
+                    },
+                  ]}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </>
       </Form>
     </Edit>
   );

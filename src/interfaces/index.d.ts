@@ -11,6 +11,22 @@ export enum Role {
   COMPANY = "COMPANY",
 }
 
+export interface IUpdateUser {
+  firstName: string;
+
+  secondName: string;
+
+  thirdName: string;
+
+  status: UserStatus;
+
+  phone: string;
+
+  workLoad: number;
+
+  workLoadLimit: number;
+}
+
 export interface IUser {
   id: number;
   firstName: string;
