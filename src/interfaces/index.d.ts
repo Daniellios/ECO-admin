@@ -1,7 +1,6 @@
 export enum UserStatus {
   CONFIRMED = "CONFIRMED",
   BANNED = "BANNED",
-  DECLINED = "DECLINED",
   IN_CHECK = "IN_CHECK",
 }
 
@@ -18,6 +17,7 @@ export interface IUser {
   secondName: string;
   thirdName: string;
   isEmailConfirmed: boolean;
+  phone: string;
   email: string;
   roles: Role;
   status: UserStatus;

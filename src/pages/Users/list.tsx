@@ -23,6 +23,7 @@ import {
 import { useTable, useSelect } from "@pankod/refine-antd";
 
 import { IUser, UserStatus } from "../../interfaces";
+import MyRefreshButton from "../../components/MyRefreshButton";
 
 export const UsersList: React.FC<IResourceComponentsProps> = () => {
   const { tableProps, filters } = useTable<IUser>({

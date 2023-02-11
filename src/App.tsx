@@ -10,6 +10,7 @@ import "@pankod/refine-antd/dist/reset.css";
 
 import { UsersList, UserCreate, UserEdit, UserShow } from "./pages/Users";
 import { myDataProvider } from "./dataProvider";
+import authProvider from "./authProvider";
 
 const App: React.FC = () => {
   //   const { data, isLoading, isError } = useList({
@@ -25,6 +26,7 @@ const App: React.FC = () => {
   return (
     <Refine
       routerProvider={routerProvider}
+      // authProvider={authProvider}
       dataProvider={myDataProvider("http://localhost:5000/api")}
       notificationProvider={notificationProvider}
       Layout={Layout}
