@@ -12,6 +12,9 @@ import { UsersList, UserCreate, UserEdit, UserShow } from "./pages/Users";
 import { myDataProvider } from "./dataProvider";
 import authProvider from "./authProvider";
 
+import { BookOutlined, UserOutlined } from "@ant-design/icons";
+import { ApplicationsList } from "./pages/Applications";
+
 const App: React.FC = () => {
   //   const { data, isLoading, isError } = useList({
   //     dataProviderName: "myDataProvider",
@@ -40,6 +43,13 @@ const App: React.FC = () => {
           edit: UserEdit,
           show: UserShow,
           canDelete: true,
+          icon: <UserOutlined />,
+        },
+        {
+          name: "applications",
+          options: { label: "Заявки" },
+          list: ApplicationsList,
+          icon: <BookOutlined />,
         },
       ]}
     />

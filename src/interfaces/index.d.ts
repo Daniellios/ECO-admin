@@ -11,6 +11,26 @@ export enum Role {
   COMPANY = "COMPANY",
 }
 
+export interface IFilterUserProps {
+  id: number;
+
+  firstName: string;
+
+  secondName: string;
+
+  thirdName: string;
+
+  isEmailConfirmed: boolean;
+
+  phone: string;
+
+  status: UserStatus;
+
+  workLoad: number;
+
+  workLoadLimit: number;
+}
+
 export interface IUpdateUser {
   firstName: string;
 
@@ -25,6 +45,16 @@ export interface IUpdateUser {
   workLoad: number;
 
   workLoadLimit: number;
+}
+
+export interface IApplication {
+  id: string;
+  createdAt: Date;
+  applicantName: string;
+  details: string;
+  email: string;
+  phone: string;
+  isProcessed: boolean;
 }
 
 export interface IUser {

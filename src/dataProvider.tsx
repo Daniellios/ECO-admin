@@ -8,7 +8,7 @@ const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
   const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInJvbGVzIjoiTUFOQUdFUiIsImlzRW1haWxDb25maXJtZWQiOnRydWUsImlhdCI6MTY3NjA5NzQwOSwiZXhwIjoxNjc2MTgzODA5fQ.fziBpy3j3fU7d1dw0lN-qTglSPKCcKzkz8es2IM3K5c";
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInJvbGVzIjoiTUFOQUdFUiIsImlzRW1haWxDb25maXJtZWQiOnRydWUsImlhdCI6MTY3NjE4MzAzNCwiZXhwIjoxNjc2MjY5NDM0fQ.Km70i_lWFyzVQf9QoNQjTB8bHpsgyJe6UGfTLXSb0bs";
   if (token) {
     if (request.headers) {
       request.headers["Authorization"] = `${token}`;
@@ -38,7 +38,7 @@ axiosInstance.interceptors.response.use(
 
 export const myDataProvider = (apiUrl: string): DataProvider => ({
   ...restDataProvider(apiUrl),
-  getList: async ({ resource, hasPagination }) => {
+  getList: async ({ resource, hasPagination, filters }) => {
     const url = `${API_URL}${resource}`;
 
     const { data, headers } = await axiosInstance.get(url);

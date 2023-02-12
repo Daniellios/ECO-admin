@@ -2,6 +2,8 @@ import {
   IResourceComponentsProps,
   useMany,
   getDefaultFilter,
+  CrudFilters,
+  HttpError,
 } from "@pankod/refine-core";
 
 import {
@@ -18,17 +20,47 @@ import {
   BooleanField,
   Tooltip,
   Input,
+  Form,
+  Col,
+  Row,
+  Button,
+  Card,
 } from "@pankod/refine-antd";
 
 import { useTable, useSelect } from "@pankod/refine-antd";
 
-import { IUser, UserStatus } from "../../interfaces";
+import { IFilterUserProps, IUser, UserStatus } from "../../interfaces";
 import MyRefreshButton from "../../components/MyRefreshButton";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import { useMemo } from "react";
 
 export const UsersList: React.FC<IResourceComponentsProps> = () => {
-  const { tableProps, filters } = useTable<IUser>({
-    syncWithLocation: true,
-  });
+  const { tableProps, filters, tableQueryResult, searchFormProps, setFilters } =
+    useTable<IUser, HttpError>({
+      syncWithLocation: true,
+      queryOptions: {},
+    });
+
+  // const currentFilterValues = useMemo(() => {
+  //   // Filters can be a LogicalFilter or a ConditionalFilter. ConditionalFilter not have field property. So we need to filter them.
+  //   // We use flatMap for better type support.
+  //   const logicalFilters = filters.flatMap((item) =>
+  //     "field" in item ? item : []
+  //   );
+
+  //   return {
+  //     firstName:
+  //       logicalFilters.find((item) => item.field === "firstName")?.value || "",
+  //     phone: logicalFilters.find((item) => item.field === "phone")?.value || "",
+  //     id: logicalFilters.find((item) => item.field === "id")?.value || "",
+  //     status:
+  //       logicalFilters.find((item) => item.field === "status")?.value || "",
+  //   };
+  // }, [filters]);
 
   //   const { selectProps: categorySelectProps } = useSelect<ICategory>({
   //     optionLabel: "title",
@@ -38,7 +70,12 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <List title="Список экологов">
-      <Table {...tableProps} rowKey="id" bordered={true}>
+      <Table
+        {...tableProps}
+        rowKey="id"
+        bordered={true}
+        loading={tableQueryResult.isLoading}
+      >
         <Table.Column dataIndex="id" title="ID" align="left" />
         <Table.Column<IUser>
           dataIndex={["firstName", "secondName", "thirdName"]}
@@ -58,8 +95,27 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex="phone"
           title="Телефон"
-          filterDropdown={() => {
-            return <Input></Input>;
+          filterDropdown={(props) => {
+            return (
+              <FilterDropdown {...props}>
+                <Input
+                  placeholder="Телефон"
+                  prefix={<SearchOutlined />}
+                  // value={currentFilterValues.phone}
+                  onChange={(e) => {
+                    setFilters([
+                      {
+                        field: "phone",
+                        operator: "contains",
+                        value: !!e.currentTarget.value
+                          ? e.currentTarget.value
+                          : undefined,
+                      },
+                    ]);
+                  }}
+                />
+              </FilterDropdown>
+            );
           }}
         />
         <Table.Column dataIndex="email" title="Почта" />
@@ -110,7 +166,13 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
           }}
           showSorterTooltip={{ title: "Отсортировать по подтверждению" }}
           render={(value: boolean) => (
-            <BooleanField color={value ? "lime" : "red"} value={value} />
+            <BooleanField
+              value={value}
+              valueLabelFalse="Не подтверждена"
+              valueLabelTrue="Подтверждена"
+              trueIcon={<CheckOutlined style={{ color: "#52c41a" }} />}
+              falseIcon={<CloseOutlined style={{ color: "#ff4d4f" }} />}
+            />
           )}
         />
         <Table.Column
