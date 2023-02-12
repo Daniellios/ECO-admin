@@ -1,5 +1,5 @@
 import { HttpError, IResourceComponentsProps } from "@pankod/refine-core";
-import { useTable, useSelect, DateField } from "@pankod/refine-antd";
+import { useTable, useSelect, DateField, TextField } from "@pankod/refine-antd";
 import React from "react";
 import { BooleanField, EmailField, List, Table } from "@pankod/refine-antd";
 import { IApplication } from "../../interfaces";
@@ -23,15 +23,18 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex="details"
           title="Детали"
-          align="left"
+          align="center"
           ellipsis
+          render={(value: string) => {
+            return <TextField value={value ? value : "-"}></TextField>;
+          }}
         />
         <Table.Column
           dataIndex="email"
           title="Почта"
-          align="left"
+          align="center"
           render={(value: string) => {
-            return <EmailField value={value}></EmailField>;
+            return <TextField value={value ? value : "-"}></TextField>;
           }}
         />
         <Table.Column dataIndex="phone" title="Телефон" align="left" />
@@ -47,11 +50,11 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column<IApplication>
           dataIndex="isProcessed"
           title="Статус"
-          align="left"
+          align="center"
           sorter={{
             compare: (a, b) => Number(a.isProcessed) - Number(b.isProcessed),
           }}
-          showSorterTooltip={{ title: "Отсортировать по обработке" }}
+          showSorterTooltip={{ title: "Отсортировать по статусу обработки" }}
           render={(value: boolean) => (
             <BooleanField
               value={value}
