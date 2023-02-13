@@ -18,11 +18,12 @@ import {
   Card,
   Row,
   Col,
+  AntdBreadcrumb,
 } from "@pankod/refine-antd";
 
 import { IUser } from "../../interfaces";
-import MyDeleteButton from "../../components/MyDeleteButton";
-import MyRefreshButton from "../../components/MyRefreshButton";
+import MyDeleteButton from "../../components/buttons/MyDeleteButton";
+import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 
 const { Title, Text } = Typography;
 

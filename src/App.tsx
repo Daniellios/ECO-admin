@@ -8,13 +8,13 @@ import routerProvider from "@pankod/refine-react-router-v6";
 import "@pankod/refine-antd/dist/reset.css";
 
 import { UsersList, UserCreate, UserEdit, UserShow } from "./pages/Users";
-import { usersDataProvider } from "./providers/users-provider";
+import { usersDataProvider } from "./providers/data/users-provider";
 import authProvider from "./authProvider";
 
 import { BookOutlined, UserOutlined } from "@ant-design/icons";
 import { ApplicationsList } from "./pages/Applications";
 import { API_URL } from "./providers/config";
-import { applicationsDataProvider } from "./providers/applications-provider";
+import { applicationsDataProvider } from "./providers/data/applications-provider";
 
 const App: React.FC = () => {
   return (
@@ -36,6 +36,7 @@ const App: React.FC = () => {
           //   create: UserCreate,
           edit: UserEdit,
           show: UserShow,
+
           canDelete: true,
           icon: <UserOutlined />,
         },

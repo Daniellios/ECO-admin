@@ -14,9 +14,9 @@ import {
 import { useForm, useSelect } from "@pankod/refine-antd";
 
 import { IUpdateUser, IUser, UserStatus } from "../../interfaces";
-import MyRefreshButton from "../../components/MyRefreshButton";
-import MySaveButton from "../../components/MySaveButton";
-import MyDeleteButton from "../../components/MyDeleteButton";
+import MyRefreshButton from "../../components/buttons/MyRefreshButton";
+import MySaveButton from "../../components/buttons/MySaveButton";
+import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 
 export const UserEdit: React.FC<IResourceComponentsProps> = () => {
   const { formProps, saveButtonProps, queryResult, formLoading } =

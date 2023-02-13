@@ -1,7 +1,7 @@
 import { DataProvider, HttpError } from "@pankod/refine-core";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import restDataProvider from "@pankod/refine-simple-rest";
-import { API_URL, axiosInstance } from "./config";
+import { API_URL, axiosInstance } from "../config";
 
 export const usersDataProvider = (apiUrl: string): DataProvider => ({
   ...restDataProvider(apiUrl),

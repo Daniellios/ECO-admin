@@ -1,4 +1,10 @@
-import { HttpError, IResourceComponentsProps } from "@pankod/refine-core";
+import {
+  HttpError,
+  IResourceComponentsProps,
+  useList,
+  useNotification,
+  useResource,
+} from "@pankod/refine-core";
 import {
   useTable,
   useSelect,
@@ -13,25 +19,34 @@ import {
   Input,
   Select,
   Button,
+  DeleteButton,
+  Breadcrumb,
 } from "@pankod/refine-antd";
 import React from "react";
 import { BooleanField, EmailField, List, Table } from "@pankod/refine-antd";
 import { IApplication } from "../../interfaces";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import MySaveButton from "../../components/MySaveButton";
+import MySaveButton from "../../components/buttons/MySaveButton";
+import MyDeleteButton from "../../components/buttons/MyDeleteButton";
+import MyEditButton from "../../components/buttons/MyEditButton";
 
 // TODO  MAKE NEW DATA PROVIDER FOR
 
 //https://refine.dev/docs/api-reference/antd/hooks/form/useModalForm/
 export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
+  const { resource } = useResource({
+    resourceNameOrRouteName: "applications",
+  });
+
   const { tableProps, filters, tableQueryResult } = useTable<
     IApplication,
     HttpError
   >({
-    syncWithLocation: true,
+    syncWithLocation: false,
     initialPageSize: 15,
-    resource: "applications",
-    dataProviderName: "applications",
+    resource: resource.name,
+    dataProviderName: resource.name,
+    defaultSetFilterBehavior: "replace",
   });
 
   const {
@@ -105,14 +120,26 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
             align="center"
             render={(_, record) => (
               <Space>
-                <Tooltip title="Изменить">
-                  <EditButton
-                    hideText
-                    size="small"
-                    recordItemId={record.id}
-                    onClick={() => editModalShow(record.id)}
-                  />
-                </Tooltip>
+                <MyEditButton
+                  hideText
+                  size="small"
+                  recordItemId={record.id}
+                  onClick={() => editModalShow(record.id)}
+                />
+                <MyDeleteButton
+                  hideText
+                  successNotification={{
+                    message: "Заявка успешно удалена",
+                    type: "success",
+                  }}
+                  errorNotification={{
+                    message: "Ошибка при удалении заявки",
+                    type: "error",
+                  }}
+                  resource={resource.name}
+                  size="small"
+                  recordItemId={record.id}
+                />
               </Space>
             )}
           />
