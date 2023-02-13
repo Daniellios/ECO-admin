@@ -1,42 +1,9 @@
 import { DataProvider, HttpError } from "@pankod/refine-core";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import restDataProvider from "@pankod/refine-simple-rest";
+import { API_URL, axiosInstance } from "./config";
 
-const API_URL = "http://localhost:5000/api/";
-
-const axiosInstance = axios.create();
-
-axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
-  const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInJvbGVzIjoiTUFOQUdFUiIsImlzRW1haWxDb25maXJtZWQiOnRydWUsImlhdCI6MTY3NjE4MzAzNCwiZXhwIjoxNjc2MjY5NDM0fQ.Km70i_lWFyzVQf9QoNQjTB8bHpsgyJe6UGfTLXSb0bs";
-  if (token) {
-    if (request.headers) {
-      request.headers["Authorization"] = `${token}`;
-    } else {
-      request.headers = {
-        Authorization: `${token}`,
-      };
-    }
-  }
-  return request;
-});
-
-axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    const customError: HttpError = {
-      ...error,
-      message: error.response?.data?.message,
-      statusCode: error.response?.status,
-    };
-
-    return Promise.reject(customError);
-  }
-);
-
-export const myDataProvider = (apiUrl: string): DataProvider => ({
+export const usersDataProvider = (apiUrl: string): DataProvider => ({
   ...restDataProvider(apiUrl),
   getList: async ({ resource, hasPagination, filters }) => {
     const url = `${API_URL}${resource}`;

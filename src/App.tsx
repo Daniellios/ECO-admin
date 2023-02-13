@@ -1,36 +1,30 @@
-import { Refine, useList } from "@pankod/refine-core";
+import { Refine } from "@pankod/refine-core";
 import {
   notificationProvider,
   Layout,
   ErrorComponent,
 } from "@pankod/refine-antd";
-import dataProvider from "@pankod/refine-simple-rest";
 import routerProvider from "@pankod/refine-react-router-v6";
 import "@pankod/refine-antd/dist/reset.css";
 
 import { UsersList, UserCreate, UserEdit, UserShow } from "./pages/Users";
-import { myDataProvider } from "./dataProvider";
+import { usersDataProvider } from "./providers/users-provider";
 import authProvider from "./authProvider";
 
 import { BookOutlined, UserOutlined } from "@ant-design/icons";
 import { ApplicationsList } from "./pages/Applications";
+import { API_URL } from "./providers/config";
+import { applicationsDataProvider } from "./providers/applications-provider";
 
 const App: React.FC = () => {
-  //   const { data, isLoading, isError } = useList({
-  //     dataProviderName: "myDataProvider",
-  //     resource: "users",
-  //     config: {
-  //         pagination: {
-
-  //         }
-  //     }
-  //   });
-
   return (
     <Refine
       routerProvider={routerProvider}
       // authProvider={authProvider}
-      dataProvider={myDataProvider("http://localhost:5000/api")}
+      dataProvider={{
+        default: usersDataProvider(API_URL),
+        applications: applicationsDataProvider(API_URL),
+      }}
       notificationProvider={notificationProvider}
       Layout={Layout}
       catchAll={<ErrorComponent />}
@@ -47,7 +41,7 @@ const App: React.FC = () => {
         },
         {
           name: "applications",
-          options: { label: "Заявки" },
+          options: { label: "Заявки", dataProviderName: "applications" },
           list: ApplicationsList,
           icon: <BookOutlined />,
         },

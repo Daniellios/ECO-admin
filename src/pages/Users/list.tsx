@@ -41,6 +41,7 @@ import { useMemo } from "react";
 export const UsersList: React.FC<IResourceComponentsProps> = () => {
   const { tableProps, filters, tableQueryResult, searchFormProps, setFilters } =
     useTable<IUser, HttpError>({
+      resource: "users",
       syncWithLocation: true,
       queryOptions: {},
     });
@@ -198,7 +199,6 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column<IUser>
           title="Действия"
           align="center"
-          dataIndex="actions"
           render={(_, record) => (
             <Space>
               <Tooltip title="Изменить">
