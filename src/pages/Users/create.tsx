@@ -10,8 +10,6 @@ import {
   useSelect,
 } from "@pankod/refine-antd";
 
-import MDEditor from "@uiw/react-md-editor";
-
 import { IUser } from "../../interfaces";
 
 export const UserCreate: React.FC<IResourceComponentsProps> = () => {

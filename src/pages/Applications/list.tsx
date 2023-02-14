@@ -16,6 +16,7 @@ import {
   DatePicker,
   DatePickerProps,
   Divider,
+  Button,
 } from "@pankod/refine-antd";
 import React from "react";
 import { BooleanField, EmailField, List, Table } from "@pankod/refine-antd";
@@ -68,6 +69,10 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
     return date?.get("d");
   };
 
+  const handleFormClear = () => {
+    searchFormProps.form?.resetFields();
+  };
+
   const {
     modalProps: editModalProps,
     formProps: editFormProps,
@@ -82,11 +87,11 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
     <>
       <List
         title="Заявки на консультацию"
-        headerButtons={() => (
-          <>
-            <MyRefreshButton resource={resource.name}></MyRefreshButton>
-          </>
-        )}
+        // headerButtons={() => (
+        //   <>
+        //     <MyRefreshButton resource={resource.name}></MyRefreshButton>
+        //   </>
+        // )}
       >
         <Form
           {...searchFormProps}
@@ -94,6 +99,8 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
           autoComplete="on"
           size="middle"
         >
+          <h3>Фильтр по заявкам</h3>
+          <Divider type="vertical"></Divider>
           <Form.Item name="phone">
             <Input placeholder="Телефон" />
           </Form.Item>
@@ -119,11 +126,14 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
               ]}
             />
           </Form.Item>
-          <MySaveButton
-            onClick={searchFormProps.form?.submit}
-            icon={null}
-            title="Применить"
-          />
+          <Space>
+            <MySaveButton
+              onClick={searchFormProps.form?.submit}
+              icon={null}
+              title="Применить"
+            />
+            <Button onClick={handleFormClear}>Очистить фильтр </Button>
+          </Space>
         </Form>
 
         <Divider></Divider>
