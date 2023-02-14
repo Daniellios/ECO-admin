@@ -8,15 +8,29 @@ export const applicationsDataProvider = (apiUrl: string): DataProvider => ({
   getList: async ({
     resource,
     hasPagination,
+
     filters,
     pagination,
     metaData,
   }) => {
     const url = `${API_URL}${resource}`;
-    console.log(filters);
+    let paramFilter;
+
+    if (filters) {
+      paramFilter = Object.fromEntries(
+        //@ts-ignore
+        filters.map((item) => [item.field, item.value])
+      );
+    }
+
+    console.log("PARAMS ", paramFilter);
 
     const { data, headers } = await axiosInstance.get(url, {
-      params: { perPage: pagination?.pageSize },
+      params: {
+        perPage: pagination?.pageSize,
+        page: pagination?.current,
+        ...paramFilter,
+      },
     });
 
     return { data: data.data, total: data.total };

@@ -57,6 +57,14 @@ export interface IApplication {
   isProcessed: boolean;
 }
 
+export interface IFilterApplication {
+  createdAt: Date;
+
+  phone: string;
+
+  isProcessed: boolean;
+}
+
 export interface IUser {
   id: number;
   firstName: string;

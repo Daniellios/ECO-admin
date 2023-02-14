@@ -21,14 +21,20 @@ import {
   Button,
   DeleteButton,
   Breadcrumb,
+  SaveButton,
+  DatePicker,
+  DatePickerProps,
+  Title,
+  Divider,
 } from "@pankod/refine-antd";
 import React from "react";
 import { BooleanField, EmailField, List, Table } from "@pankod/refine-antd";
-import { IApplication } from "../../interfaces";
+import { IApplication, IFilterApplication } from "../../interfaces";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import MySaveButton from "../../components/buttons/MySaveButton";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
+import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 
 // TODO  MAKE NEW DATA PROVIDER FOR
 
@@ -38,16 +44,41 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
     resourceNameOrRouteName: "applications",
   });
 
-  const { tableProps, filters, tableQueryResult } = useTable<
-    IApplication,
-    HttpError
-  >({
+  const {
+    tableProps,
+    filters,
+    tableQueryResult,
+    searchFormProps,
+    setPageSize,
+  } = useTable<IApplication, HttpError, IFilterApplication>({
     syncWithLocation: false,
     initialPageSize: 15,
     resource: resource.name,
     dataProviderName: resource.name,
-    defaultSetFilterBehavior: "replace",
+    onSearch: (values: IFilterApplication) => {
+      return [
+        {
+          field: "phone",
+          operator: "contains",
+          value: values.phone,
+        },
+        {
+          field: "createdAt",
+          operator: "eq",
+          value: values.createdAt,
+        },
+        {
+          field: "isProcessed",
+          operator: "eq",
+          value: values.isProcessed,
+        },
+      ];
+    },
   });
+
+  const onDatePick: DatePickerProps["onChange"] = (date, dateString) => {
+    return date?.get("d");
+  };
 
   const {
     modalProps: editModalProps,
@@ -61,11 +92,63 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <>
-      <List title="Заявки на консультацию">
+      <List
+        title="Заявки на консультацию"
+        headerButtons={() => (
+          <>
+            <MyRefreshButton resource={resource.name}></MyRefreshButton>
+          </>
+        )}
+      >
+        <Form
+          {...searchFormProps}
+          layout="inline"
+          autoComplete="on"
+          size="middle"
+        >
+          <Form.Item name="phone">
+            <Input placeholder="Телефон" />
+          </Form.Item>
+          <Form.Item name="createdAt">
+            <DatePicker
+              onChange={onDatePick}
+              placeholder="Дата заявки"
+            ></DatePicker>
+          </Form.Item>
+          <Form.Item name="isProcessed">
+            <Select
+              dropdownMatchSelectWidth={false}
+              placeholder="Cтатус"
+              options={[
+                {
+                  label: "Не обработана",
+                  value: false,
+                },
+                {
+                  label: "Обработана",
+                  value: true,
+                },
+              ]}
+            />
+          </Form.Item>
+          <MySaveButton
+            onClick={searchFormProps.form?.submit}
+            icon={null}
+            title="Применить"
+          />
+        </Form>
+
+        <Divider></Divider>
+
         <Table
           {...tableProps}
           rowKey="id"
           bordered={true}
+          pagination={{
+            ...tableProps.pagination,
+            pageSizeOptions: [10, 15, 25],
+            showSizeChanger: true,
+          }}
           loading={tableQueryResult.isLoading}
         >
           <Table.Column dataIndex="applicantName" title="Имя" align="left" />

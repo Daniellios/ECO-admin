@@ -1,5 +1,5 @@
 import { HttpError } from "@pankod/refine-core";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from "axios";
 
 export const API_URL = "http://localhost:5000/api/";
 
@@ -7,7 +7,7 @@ export const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
   const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInJvbGVzIjoiTUFOQUdFUiIsImlzRW1haWxDb25maXJtZWQiOnRydWUsImlhdCI6MTY3NjI2NzY3NSwiZXhwIjoxNjc2MzU0MDc1fQ.afS2gmuaNtNeNbJg5LNOY17sC-XsL4tWL7A6Oc8NyQM";
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInJvbGVzIjoiTUFOQUdFUiIsImlzRW1haWxDb25maXJtZWQiOnRydWUsImlhdCI6MTY3NjM1MjU2MCwiZXhwIjoxNjc2NDM4OTYwfQ.1ZiMX9iP-ITUJgn_EVjQ_WVlbnwiLiWTHmF4Juy9m6E";
   if (token) {
     if (request.headers) {
       request.headers["Authorization"] = `${token}`;
