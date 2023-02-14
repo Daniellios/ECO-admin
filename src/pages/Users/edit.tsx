@@ -1,5 +1,9 @@
 import React from "react";
-import { IResourceComponentsProps } from "@pankod/refine-core";
+import {
+  HttpError,
+  IResourceComponentsProps,
+  useResource,
+} from "@pankod/refine-core";
 
 import {
   Col,
@@ -13,16 +17,28 @@ import {
 
 import { useForm, useSelect } from "@pankod/refine-antd";
 
-import { IUpdateUser, IUser, UserStatus } from "../../interfaces";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MySaveButton from "../../components/buttons/MySaveButton";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
+import { IUpdateUser, UserStatus } from "../../interfaces";
+import { removeEmptyValues } from "../../helpers/removeEmptyValues";
 
 export const UserEdit: React.FC<IResourceComponentsProps> = () => {
-  const { formProps, saveButtonProps, queryResult, formLoading } =
-    useForm<IUpdateUser>({
-      warnWhenUnsavedChanges: true,
-    });
+  const {
+    formProps,
+    saveButtonProps,
+    queryResult,
+    formLoading,
+    form,
+
+    onFinish,
+  } = useForm<IUpdateUser, HttpError>({
+    warnWhenUnsavedChanges: false,
+  });
+
+  const { resource } = useResource({
+    resourceNameOrRouteName: "users",
+  });
 
   const userData = queryResult?.data?.data;
   // const { selectProps: categorySelectProps } = useSelect<ICategory>({
@@ -30,14 +46,23 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
   //     defaultValue: postData?.category.id,
   // });
 
+  const onHandleSubmit = () => {
+    const values = form.getFieldsValue();
+    const updated = removeEmptyValues(values);
+    onFinish(updated);
+  };
+
   return (
     <Edit
-      title={"Редактировать"}
+      title={"Редактирование"}
       isLoading={formLoading}
       footerButtons={() => (
         <>
-          <MyDeleteButton></MyDeleteButton>
-          <MySaveButton></MySaveButton>
+          <MyDeleteButton resource={resource.name}></MyDeleteButton>
+          <MySaveButton
+            resource={resource.name}
+            onClick={onHandleSubmit}
+          ></MySaveButton>
         </>
       )}
       headerButtons={() => (
@@ -46,98 +71,96 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
         </>
       )}
     >
-      <Form {...formProps} layout="vertical">
-        <>
-          <Row align="middle" justify="start">
-            <Col span={3}>
-              <Form.Item
-                label="Имя"
-                name="firstName"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
+      <Form {...formProps} layout="vertical" size="small">
+        <Row align="middle" justify="start">
+          <Col span={4}>
+            <Form.Item
+              label="Имя"
+              name="firstName"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
 
-            <Col span={3} push={1}>
-              <Form.Item
-                label="Фамилия"
-                name="secondName"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
+          <Col span={4} push={1}>
+            <Form.Item
+              label="Фамилия"
+              name="secondName"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
 
-            <Col span={3} push={2}>
-              <Form.Item
-                label="Отчество"
-                name="thirdName"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
+          <Col span={4} push={2}>
+            <Form.Item
+              label="Отчество"
+              name="thirdName"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
 
-          <Row align="middle" justify="start">
-            <Col span={3}>
-              <Form.Item
-                label="Телефон"
-                name="phone"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
+        <Row align="middle" justify="start">
+          <Col span={4}>
+            <Form.Item
+              label="Телефон"
+              name="phone"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
 
-            <Col span={3} push={1}>
-              <Form.Item
-                label="Статус"
-                name="status"
-                rules={[
+          <Col span={4} push={1}>
+            <Form.Item
+              label="Статус"
+              name="status"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Select
+                dropdownMatchSelectWidth={false}
+                options={[
                   {
-                    type: "enum",
-                    required: false,
+                    label: "Подтвержден",
+                    value: "CONFIRMED",
+                  },
+                  {
+                    label: "В проверке",
+                    value: "IN_CHECK",
+                  },
+                  {
+                    label: "Забанен",
+                    value: "BANNED",
                   },
                 ]}
-              >
-                <Select
-                  options={[
-                    {
-                      label: "Подтвержден",
-                      value: "CONFIRMED",
-                    },
-                    {
-                      label: "В проверке",
-                      value: "IN_CHECK",
-                    },
-                    {
-                      label: "Забанен",
-                      value: "BANNED",
-                    },
-                  ]}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-        </>
+              />
+            </Form.Item>
+          </Col>
+        </Row>
       </Form>
     </Edit>
   );

@@ -1,30 +1,20 @@
 import {
   HttpError,
   IResourceComponentsProps,
-  useList,
-  useNotification,
   useResource,
 } from "@pankod/refine-core";
 import {
   useTable,
-  useSelect,
   DateField,
   TextField,
   useModalForm,
   Space,
-  Tooltip,
-  EditButton,
   Modal,
   Form,
   Input,
   Select,
-  Button,
-  DeleteButton,
-  Breadcrumb,
-  SaveButton,
   DatePicker,
   DatePickerProps,
-  Title,
   Divider,
 } from "@pankod/refine-antd";
 import React from "react";
@@ -44,13 +34,11 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
     resourceNameOrRouteName: "applications",
   });
 
-  const {
-    tableProps,
-    filters,
-    tableQueryResult,
-    searchFormProps,
-    setPageSize,
-  } = useTable<IApplication, HttpError, IFilterApplication>({
+  const { tableProps, tableQueryResult, searchFormProps } = useTable<
+    IApplication,
+    HttpError,
+    IFilterApplication
+  >({
     syncWithLocation: false,
     initialPageSize: 15,
     resource: resource.name,
@@ -76,7 +64,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
     },
   });
 
-  const onDatePick: DatePickerProps["onChange"] = (date, dateString) => {
+  const handleDatePick: DatePickerProps["onChange"] = (date) => {
     return date?.get("d");
   };
 
@@ -111,7 +99,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
           </Form.Item>
           <Form.Item name="createdAt">
             <DatePicker
-              onChange={onDatePick}
+              onChange={handleDatePick}
               placeholder="Дата заявки"
             ></DatePicker>
           </Form.Item>

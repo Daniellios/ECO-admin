@@ -4,6 +4,7 @@ import {
   getDefaultFilter,
   CrudFilters,
   HttpError,
+  useResource,
 } from "@pankod/refine-core";
 
 import {
@@ -40,10 +41,15 @@ import {
 import { useMemo } from "react";
 
 export const UsersList: React.FC<IResourceComponentsProps> = () => {
+  const { resource } = useResource({
+    resourceNameOrRouteName: "users",
+  });
+
   const { tableProps, filters, tableQueryResult, searchFormProps, setFilters } =
     useTable<IUser, HttpError>({
-      resource: "users",
-      syncWithLocation: true,
+      initialPageSize: 10,
+      resource: resource.name,
+      syncWithLocation: false,
       queryOptions: {},
     });
 
@@ -77,6 +83,11 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
         rowKey="id"
         bordered={true}
         loading={tableQueryResult.isLoading}
+        pagination={{
+          ...tableProps.pagination,
+          pageSizeOptions: [10, 15, 25],
+          showSizeChanger: true,
+        }}
       >
         <Table.Column dataIndex="id" title="ID" align="left" />
         <Table.Column<IUser>

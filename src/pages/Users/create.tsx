@@ -34,17 +34,6 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
           <Input />
         </Form.Item>
         <Form.Item
-          label="Category"
-          name={["category", "id"]}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select {...categorySelectProps} />
-        </Form.Item>
-        <Form.Item
           label="Status"
           name="status"
           rules={[

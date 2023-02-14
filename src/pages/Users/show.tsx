@@ -47,7 +47,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
       headerButtons={() => (
         <>
           <MyRefreshButton></MyRefreshButton>
-          <MyDeleteButton></MyDeleteButton>
+          <MyDeleteButton resource="users"></MyDeleteButton>
         </>
       )}
     >

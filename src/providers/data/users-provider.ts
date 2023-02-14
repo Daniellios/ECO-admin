@@ -5,10 +5,15 @@ import { API_URL, axiosInstance } from "../config";
 
 export const usersDataProvider = (apiUrl: string): DataProvider => ({
   ...restDataProvider(apiUrl),
-  getList: async ({ resource, hasPagination, filters }) => {
+  getList: async ({ resource, hasPagination, filters, pagination }) => {
     const url = `${API_URL}${resource}`;
 
-    const { data, headers } = await axiosInstance.get(url);
+    const { data, headers } = await axiosInstance.get(url, {
+      params: {
+        perPage: pagination?.pageSize,
+        page: pagination?.current,
+      },
+    });
     const total = +headers["x-total-count"];
 
     return { data, total };
