@@ -1,5 +1,5 @@
 import React from "react";
-import { IResourceComponentsProps } from "@pankod/refine-core";
+import { HttpError, IResourceComponentsProps } from "@pankod/refine-core";
 
 import {
   Create,
@@ -15,16 +15,16 @@ import MDEditor from "@uiw/react-md-editor";
 import { IUser } from "../../interfaces";
 
 export const UserCreate: React.FC<IResourceComponentsProps> = () => {
-  const { formProps, saveButtonProps } = useForm<IUser>({
+  const { formProps } = useForm<IUser, HttpError>({
     // warnWhenUnsavedChanges: true,
   });
 
   return (
-    <Create saveButtonProps={saveButtonProps}>
+    <Create title="Создание нового экогола">
       <Form {...formProps} layout="vertical">
         <Form.Item
-          label="Title"
-          name="title"
+          label="Почта"
+          name="email"
           rules={[
             {
               required: true,
@@ -32,35 +32,6 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
           ]}
         >
           <Input />
-        </Form.Item>
-        <Form.Item
-          label="Status"
-          name="status"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Select
-            options={[
-              {
-                label: "Confirmed",
-                value: "CONFIRMED",
-              },
-            ]}
-          />
-        </Form.Item>
-        <Form.Item
-          label="Content"
-          name="content"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <MDEditor data-color-mode="light" />
         </Form.Item>
       </Form>
     </Create>

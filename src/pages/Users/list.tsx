@@ -39,6 +39,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { useMemo } from "react";
+import MyCreateButton from "../../components/buttons/MyCreateButton";
 
 export const UsersList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
@@ -50,7 +51,6 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
       initialPageSize: 10,
       resource: resource.name,
       syncWithLocation: false,
-      queryOptions: {},
     });
 
   // const currentFilterValues = useMemo(() => {
@@ -77,7 +77,10 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
   //   });
 
   return (
-    <List title="Список экологов">
+    <List
+      title="Список экологов"
+      headerButtons={<MyCreateButton resource={resource.name}></MyCreateButton>}
+    >
       <Table
         {...tableProps}
         rowKey="id"
