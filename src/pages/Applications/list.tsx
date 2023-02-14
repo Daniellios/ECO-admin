@@ -27,7 +27,7 @@ import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 
-// TODO  MAKE NEW DATA PROVIDER FOR
+// TODO  DO not populate data if error
 
 //https://refine.dev/docs/api-reference/antd/hooks/form/useModalForm/
 export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
@@ -35,11 +35,11 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
     resourceNameOrRouteName: "applications",
   });
 
-  const { tableProps, tableQueryResult, searchFormProps } = useTable<
-    IApplication,
-    HttpError,
-    IFilterApplication
-  >({
+  const {
+    tableProps,
+    tableQueryResult,
+    searchFormProps: { form, ...searchFormProps },
+  } = useTable<IApplication, HttpError, IFilterApplication>({
     syncWithLocation: false,
     initialPageSize: 15,
     resource: resource.name,
@@ -70,7 +70,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
   };
 
   const handleFormClear = () => {
-    searchFormProps.form?.resetFields();
+    form?.resetFields();
   };
 
   const {
@@ -128,7 +128,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
           </Form.Item>
           <Space>
             <MySaveButton
-              onClick={searchFormProps.form?.submit}
+              onClick={form?.submit}
               icon={null}
               title="Применить"
             />
