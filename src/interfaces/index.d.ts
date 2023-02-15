@@ -13,21 +13,13 @@ export enum Role {
 
 export interface IFilterUserProps {
   id: number;
-
   firstName: string;
-
   secondName: string;
-
   thirdName: string;
-
   isEmailConfirmed: boolean;
-
   phone: string;
-
   status: UserStatus;
-
   workLoad: number;
-
   workLoadLimit: number;
 }
 

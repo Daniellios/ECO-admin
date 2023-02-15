@@ -18,7 +18,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
   });
 
   return (
-    <Create title="Создание нового экогола">
+    <Create title="Создание аккаунта экогола">
       <Form {...formProps} layout="vertical">
         <Form.Item
           label="Почта"

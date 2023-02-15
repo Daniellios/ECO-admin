@@ -8,10 +8,20 @@ export const usersDataProvider = (apiUrl: string): DataProvider => ({
   getList: async ({ resource, hasPagination, filters, pagination }) => {
     const url = `${API_URL}${resource}`;
 
+    let paramFilter;
+
+    if (filters) {
+      paramFilter = Object.fromEntries(
+        //@ts-ignore
+        filters.map((item) => [item.field, item.value])
+      );
+    }
+
     const { data, headers } = await axiosInstance.get(url, {
       params: {
         perPage: pagination?.pageSize,
         page: pagination?.current,
+        ...paramFilter,
       },
     });
     const total = +headers["x-total-count"];

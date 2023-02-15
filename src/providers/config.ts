@@ -7,7 +7,7 @@ export const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
   const token =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInJvbGVzIjoiTUFOQUdFUiIsImlzRW1haWxDb25maXJtZWQiOnRydWUsImlhdCI6MTY3NjM1MjU2MCwiZXhwIjoxNjc2NDM4OTYwfQ.1ZiMX9iP-ITUJgn_EVjQ_WVlbnwiLiWTHmF4Juy9m6E";
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjYsInJvbGVzIjoiTUFOQUdFUiIsImlzRW1haWxDb25maXJtZWQiOnRydWUsImlhdCI6MTY3NjQzOTA5NywiZXhwIjoxNjc2NTI1NDk3fQ.Cykz0wUd1lWqM4wLOVZR3EQcIfk_BI2nID3rbI-9b-k";
   if (token) {
     if (request.headers) {
       request.headers["Authorization"] = `${token}`;

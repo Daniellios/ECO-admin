@@ -27,6 +27,8 @@ import {
   Button,
   Card,
   Breadcrumb,
+  Divider,
+  InputNumber,
 } from "@pankod/refine-antd";
 
 import { useTable, useSelect } from "@pankod/refine-antd";
@@ -40,6 +42,8 @@ import {
 } from "@ant-design/icons";
 import { useMemo } from "react";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
+import MySaveButton from "../../components/buttons/MySaveButton";
+import TableFilterForm from "../../components/forms/TableFilter";
 
 export const UsersList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
@@ -47,10 +51,35 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
   });
 
   const { tableProps, filters, tableQueryResult, searchFormProps, setFilters } =
-    useTable<IUser, HttpError>({
+    useTable<IUser, HttpError, IFilterUserProps>({
       initialPageSize: 10,
       resource: resource.name,
       syncWithLocation: false,
+
+      onSearch: (values: IFilterUserProps) => {
+        return [
+          {
+            field: "status",
+            operator: "eq",
+            value: values.status,
+          },
+          {
+            field: "phone",
+            operator: "eq",
+            value: values.phone,
+          },
+          {
+            field: "isEmailConfirmed",
+            operator: "eq",
+            value: values.isEmailConfirmed,
+          },
+          {
+            field: "workLoad",
+            operator: "eq",
+            value: values.workLoad,
+          },
+        ];
+      },
     });
 
   // const currentFilterValues = useMemo(() => {
@@ -81,6 +110,57 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
       title="Список экологов"
       headerButtons={<MyCreateButton resource={resource.name}></MyCreateButton>}
     >
+      <TableFilterForm
+        formTitle="Фильтр по экологам"
+        formProps={searchFormProps}
+      >
+        <Form.Item name="phone">
+          <Input placeholder="Телефон" />
+        </Form.Item>
+
+        <Form.Item name="status">
+          <Select
+            dropdownMatchSelectWidth={false}
+            placeholder="Cтатус аккаунта"
+            options={[
+              {
+                label: "Подтвержден",
+                value: "CONFIRMED",
+              },
+              {
+                label: "В проверке",
+                value: "IN_CHECK",
+              },
+              {
+                label: "Забанен",
+                value: "BANNED",
+              },
+            ]}
+          />
+        </Form.Item>
+
+        <Form.Item name="isEmailConfirmed">
+          <Select
+            dropdownMatchSelectWidth={false}
+            placeholder="Статус почты"
+            options={[
+              {
+                label: "Подтвержденa",
+                value: true,
+              },
+              {
+                label: "Не подтверждена",
+                value: false,
+              },
+            ]}
+          />
+        </Form.Item>
+
+        <Form.Item name="workLoad">
+          <InputNumber placeholder="Нагрузка" />
+        </Form.Item>
+      </TableFilterForm>
+
       <Table
         {...tableProps}
         rowKey="id"

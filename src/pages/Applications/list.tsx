@@ -17,8 +17,10 @@ import {
   DatePickerProps,
   Divider,
   Button,
+  Row,
+  Col,
 } from "@pankod/refine-antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { BooleanField, EmailField, List, Table } from "@pankod/refine-antd";
 import { IApplication, IFilterApplication } from "../../interfaces";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
@@ -26,6 +28,7 @@ import MySaveButton from "../../components/buttons/MySaveButton";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
+import TableFilterForm from "../../components/forms/TableFilter";
 
 // TODO  DO not populate data if error
 
@@ -35,14 +38,15 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
     resourceNameOrRouteName: "applications",
   });
 
-  const {
-    tableProps,
-    tableQueryResult,
-    searchFormProps: { form, ...searchFormProps },
-  } = useTable<IApplication, HttpError, IFilterApplication>({
+  const { tableProps, tableQueryResult, searchFormProps } = useTable<
+    IApplication,
+    HttpError,
+    IFilterApplication
+  >({
     syncWithLocation: false,
     initialPageSize: 15,
     resource: resource.name,
+    queryOptions: { keepPreviousData: true },
     dataProviderName: resource.name,
     onSearch: (values: IFilterApplication) => {
       return [
@@ -69,10 +73,6 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
     return date?.get("d");
   };
 
-  const handleFormClear = () => {
-    form?.resetFields();
-  };
-
   const {
     modalProps: editModalProps,
     formProps: editFormProps,
@@ -93,14 +93,10 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
         //   </>
         // )}
       >
-        <Form
-          {...searchFormProps}
-          layout="inline"
-          autoComplete="on"
-          size="middle"
+        <TableFilterForm
+          formTitle="Фильтр по заявкам"
+          formProps={searchFormProps}
         >
-          <h3>Фильтр по заявкам</h3>
-          <Divider type="vertical"></Divider>
           <Form.Item name="phone">
             <Input placeholder="Телефон" />
           </Form.Item>
@@ -126,17 +122,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
               ]}
             />
           </Form.Item>
-          <Space>
-            <MySaveButton
-              onClick={form?.submit}
-              icon={null}
-              title="Применить"
-            />
-            <Button onClick={handleFormClear}>Очистить фильтр </Button>
-          </Space>
-        </Form>
-
-        <Divider></Divider>
+        </TableFilterForm>
 
         <Table
           {...tableProps}
