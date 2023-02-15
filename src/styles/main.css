@@ -1,0 +1,16 @@
+:root {
+  --green: #52c41a;
+  --white: #ffffff;
+}
+
+.greenBg {
+  color: var(--white);
+  background-color: var(--green);
+}
+
+.greenBg:hover {
+  outline: var(--green);
+  color: var(--green);
+  border-color: var(--green);
+  background-color: var(--white);
+}

@@ -157,7 +157,7 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
         </Form.Item>
 
         <Form.Item name="workLoad">
-          <InputNumber placeholder="Нагрузка" />
+          <InputNumber min={0} max={10} placeholder="Нагрузка" />
         </Form.Item>
       </TableFilterForm>
 
