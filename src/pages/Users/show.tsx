@@ -3,6 +3,7 @@ import {
   IResourceComponentsProps,
   useOne,
   useDelete,
+  useResource,
 } from "@pankod/refine-core";
 
 import {
@@ -24,6 +25,7 @@ import {
 import { IUser } from "../../interfaces";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
+import CustomBreadCrumb from "../../components/shared/CustomBreadCrumb";
 
 const { Title, Text } = Typography;
 
@@ -35,6 +37,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
 
   const { data: categoryData, isLoading: categoryIsLoading } = useOne<IUser>({
     resource: "users",
+
     id: record?.id || "",
   });
 
@@ -43,7 +46,8 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
   return (
     <Show
       isLoading={isLoading}
-      title={"Эколог"}
+      title={"Просмотр"}
+      // breadcrumb={<CustomBreadCrumb />}
       headerButtons={() => (
         <>
           <MyRefreshButton></MyRefreshButton>

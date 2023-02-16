@@ -8,7 +8,6 @@ export const applicationsDataProvider = (apiUrl: string): DataProvider => ({
   getList: async ({
     resource,
     hasPagination,
-
     filters,
     pagination,
     metaData,

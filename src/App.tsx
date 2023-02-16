@@ -19,7 +19,6 @@ import { API_URL } from "./providers/config";
 import { applicationsDataProvider } from "./providers/data/applications-provider";
 import { LoginPage } from "./pages/auth/loginPage";
 import CustomSider from "./components/CustomSider";
-import { render } from "react-dom";
 
 const App: React.FC = () => {
   return (

@@ -5,9 +5,9 @@ const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     const user = await axios.post(
       "http://localhost:5000/api/auth/staff/login",
+      { email, password },
       {
-        email,
-        password,
+        withCredentials: true,
       }
     );
 
@@ -23,7 +23,7 @@ const authProvider: AuthProvider = {
     return Promise.reject();
   },
   checkAuth: () => {
-    // return Promise.resolve();
+    return Promise.resolve();
 
     const user = localStorage.getItem("username");
     if (user) {

@@ -24,9 +24,8 @@ export const usersDataProvider = (apiUrl: string): DataProvider => ({
         ...paramFilter,
       },
     });
-    const total = +headers["x-total-count"];
 
-    return { data, total };
+    return { data: data.data, total: data.total };
   },
   getOne: async ({ resource, id }) => {
     const url = `${API_URL}${resource}/${id}`;

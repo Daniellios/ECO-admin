@@ -44,6 +44,7 @@ import { useMemo } from "react";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
 import MySaveButton from "../../components/buttons/MySaveButton";
 import TableFilterForm from "../../components/forms/TableFilter";
+import { UserStatusTag } from "../../components/UserStatus";
 
 export const UsersList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
@@ -52,10 +53,9 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
 
   const { tableProps, filters, tableQueryResult, searchFormProps, setFilters } =
     useTable<IUser, HttpError, IFilterUserProps>({
+      syncWithLocation: false,
       initialPageSize: 10,
       resource: resource.name,
-      syncWithLocation: false,
-
       onSearch: (values: IFilterUserProps) => {
         return [
           {
@@ -67,6 +67,11 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
             field: "phone",
             operator: "eq",
             value: values.phone,
+          },
+          {
+            field: "email",
+            operator: "eq",
+            value: values.email,
           },
           {
             field: "isEmailConfirmed",
@@ -116,6 +121,10 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
       >
         <Form.Item name="phone">
           <Input placeholder="Телефон" />
+        </Form.Item>
+
+        <Form.Item name="email">
+          <Input placeholder="Почта" />
         </Form.Item>
 
         <Form.Item name="status">
@@ -274,7 +283,9 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex="status"
           title="Статус"
-          render={(value: UserStatus) => <TagField value={value} />}
+          render={(value) => {
+            return <UserStatusTag status={value} />;
+          }}
           filterDropdown={(props) => (
             <FilterDropdown {...props}>
               <Radio.Group>
@@ -296,7 +307,7 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
           align="center"
           render={(_, record) => (
             <Space>
-              <Tooltip title="Изменить">
+              <Tooltip title="Редактировать">
                 <EditButton hideText size="small" recordItemId={record.id} />
               </Tooltip>
               <Tooltip title="Просмотреть">

@@ -16,6 +16,7 @@ export interface IFilterUserProps {
   firstName: string;
   secondName: string;
   thirdName: string;
+  email: string;
   isEmailConfirmed: boolean;
   phone: string;
   status: UserStatus;
