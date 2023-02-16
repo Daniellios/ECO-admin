@@ -200,28 +200,28 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex="phone"
           title="Телефон"
-          filterDropdown={(props) => {
-            return (
-              <FilterDropdown {...props}>
-                <Input
-                  placeholder="Телефон"
-                  prefix={<SearchOutlined />}
-                  // value={currentFilterValues.phone}
-                  onChange={(e) => {
-                    setFilters([
-                      {
-                        field: "phone",
-                        operator: "contains",
-                        value: !!e.currentTarget.value
-                          ? e.currentTarget.value
-                          : undefined,
-                      },
-                    ]);
-                  }}
-                />
-              </FilterDropdown>
-            );
-          }}
+          // filterDropdown={(props) => {
+          //   return (
+          //     <FilterDropdown {...props}>
+          //       <Input
+          //         placeholder="Телефон"
+          //         // prefix={<SearchOutlined />}
+          //         // value={currentFilterValues.phone}
+          //         // onChange={(e) => {
+          //         //   setFilters([
+          //         //     {
+          //         //       field: "phone",
+          //         //       operator: "contains",
+          //         //       value: !!e.currentTarget.value
+          //         //         ? e.currentTarget.value
+          //         //         : undefined,
+          //         //     },
+          //         //   ]);
+          //         // }}
+          //       />
+          //     </FilterDropdown>
+          //   );
+          // }}
         />
         <Table.Column dataIndex="email" title="Почта" />
         <Table.Column dataIndex="roles" title="Роль" />
@@ -283,18 +283,19 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column
           dataIndex="status"
           title="Статус"
+          align="center"
           render={(value) => {
             return <UserStatusTag status={value} />;
           }}
-          filterDropdown={(props) => (
-            <FilterDropdown {...props}>
-              <Radio.Group>
-                <Radio value="CONFIRMED">Подтвержден</Radio>
-                <Radio value="IN_CHECK">В проверке</Radio>
-                <Radio value="BANNED">Забанен</Radio>
-              </Radio.Group>
-            </FilterDropdown>
-          )}
+          // filterDropdown={(props) => (
+          //   <FilterDropdown {...props}   >
+          //     <Radio.Group >
+          //       <Radio value="CONFIRMED">Подтвержден</Radio>
+          //       <Radio value="IN_CHECK">В проверке</Radio>
+          //       <Radio value="BANNED">Забанен</Radio>
+          //     </Radio.Group>
+          //   </FilterDropdown>
+          // )}
         />
         <Table.Column<IUser>
           dataIndex="skillForm"

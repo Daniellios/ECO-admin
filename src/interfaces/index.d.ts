@@ -52,10 +52,24 @@ export interface IApplication {
 
 export interface IFilterApplication {
   createdAt: Date;
+  phone: string;
+  isProcessed: boolean;
+}
+
+export interface IStaffMember {
+  id: number;
+
+  firstName: string;
+
+  secondName: string;
+
+  email: string;
+
+  password: string;
 
   phone: string;
 
-  isProcessed: boolean;
+  roles: Role;
 }
 
 export interface IUser {

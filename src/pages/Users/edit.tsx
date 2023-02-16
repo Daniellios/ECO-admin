@@ -30,7 +30,6 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
     queryResult,
     formLoading,
     form,
-
     onFinish,
   } = useForm<IUpdateUser, HttpError>({
     warnWhenUnsavedChanges: false,

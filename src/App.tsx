@@ -19,6 +19,7 @@ import { API_URL } from "./providers/config";
 import { applicationsDataProvider } from "./providers/data/applications-provider";
 import { LoginPage } from "./pages/auth/loginPage";
 import CustomSider from "./components/CustomSider";
+import { StaffList } from "./pages/staff";
 
 const App: React.FC = () => {
   return (
@@ -55,6 +56,8 @@ const App: React.FC = () => {
           list: ApplicationsList,
           icon: <BookOutlined />,
         },
+
+        { name: "cmp", options: { label: "Сотрудники" }, list: StaffList },
       ]}
     />
   );
