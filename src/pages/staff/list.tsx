@@ -1,4 +1,4 @@
-import { List, Table } from "@pankod/refine-antd";
+import { Form, Input, List, Table, TextField } from "@pankod/refine-antd";
 import {
   HttpError,
   IResourceComponentsProps,
@@ -7,13 +7,17 @@ import {
 import { IStaffMember } from "../../interfaces";
 
 import { useTable } from "@pankod/refine-antd";
+import TableFilterForm from "../../components/forms/TableFilter";
 
 export const StaffList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
-    resourceNameOrRouteName: "staff",
+    resourceNameOrRouteName: "cmp",
   });
 
-  const { tableProps } = useTable<IStaffMember, HttpError>({
+  const { tableProps, tableQueryResult, searchFormProps } = useTable<
+    IStaffMember,
+    HttpError
+  >({
     syncWithLocation: false,
     initialPageSize: 10,
     resource: resource.name,
@@ -21,7 +25,50 @@ export const StaffList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <List title="Сотрудники">
-      <Table {...tableProps}></Table>
+      <TableFilterForm
+        formTitle="Фильтр по сотрудникам"
+        formProps={searchFormProps}
+      >
+        <Form.Item name="phone">
+          <Input placeholder="Телефон" />
+        </Form.Item>
+
+        <Form.Item name="email">
+          <Input placeholder="Почта" />
+        </Form.Item>
+      </TableFilterForm>
+
+      <Table
+        {...tableProps}
+        rowKey="id"
+        bordered={true}
+        loading={tableQueryResult.isLoading}
+        pagination={{
+          ...tableProps.pagination,
+          pageSizeOptions: [10, 15, 25],
+          showSizeChanger: true,
+        }}
+      >
+        <Table.Column dataIndex="id" title="ID" align="left" />
+        <Table.Column<IStaffMember>
+          dataIndex={["firstName", "secondName"]}
+          title="Ф.И.О"
+          ellipsis
+          align="center"
+          width={"160px"}
+          render={(value, record) => {
+            return (
+              <TextField
+                ellipsis
+                value={`${record.firstName} ${record.secondName} `}
+              ></TextField>
+            );
+          }}
+        />
+        <Table.Column dataIndex="phone" align="center" title="Телефон" />
+        <Table.Column dataIndex="email" align="center" title="Почта" />
+        <Table.Column dataIndex="roles" align="center" title="Роль" />
+      </Table>
     </List>
   );
 };
