@@ -1,37 +1,22 @@
-import React from "react";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { Create, Form, Input, useForm } from "@pankod/refine-antd";
 import {
   HttpError,
   IResourceComponentsProps,
   useResource,
 } from "@pankod/refine-core";
-
-import {
-  Create,
-  Form,
-  Input,
-  Select,
-  useForm,
-  useSelect,
-} from "@pankod/refine-antd";
-
-import { IUser } from "../../interfaces";
 import MySaveButton from "../../components/buttons/MySaveButton";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { IStaffMember } from "../../interfaces";
 
-//TODO - need to use REACT HOOK FORM FOR VALIDATION ?
-export const UserCreate: React.FC<IResourceComponentsProps> = () => {
+export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource();
 
-  const {
-    formProps,
-    saveButtonProps,
-    queryResult,
-    formLoading,
-    form,
-    onFinish,
-  } = useForm<IUser, HttpError>({
+  const { formProps, form, onFinish } = useForm<IStaffMember, HttpError>({
     submitOnEnter: true,
-    successNotification: { message: "Эколог успешно создан", type: "success" },
+    successNotification: {
+      message: "Содтрудник успешно создан",
+      type: "success",
+    },
   });
 
   const onHandleSubmit = () => {
@@ -42,7 +27,7 @@ export const UserCreate: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <Create
-      title="Создание аккаунта экогола"
+      title="Создание нового сотрудника"
       footerButtons={
         <MySaveButton
           resource={resource.name}

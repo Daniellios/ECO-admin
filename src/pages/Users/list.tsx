@@ -1,8 +1,5 @@
 import {
   IResourceComponentsProps,
-  useMany,
-  getDefaultFilter,
-  CrudFilters,
   HttpError,
   useResource,
 } from "@pankod/refine-core";
@@ -14,35 +11,20 @@ import {
   Space,
   EditButton,
   ShowButton,
-  FilterDropdown,
   Select,
-  Radio,
-  TagField,
   BooleanField,
   Tooltip,
   Input,
   Form,
-  Col,
-  Row,
-  Button,
-  Card,
-  Breadcrumb,
-  Divider,
   InputNumber,
 } from "@pankod/refine-antd";
 
-import { useTable, useSelect } from "@pankod/refine-antd";
+import { useTable } from "@pankod/refine-antd";
 
 import { IFilterUserProps, IUser, UserStatus } from "../../interfaces";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
-import {
-  CheckOutlined,
-  CloseOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import { useMemo } from "react";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
-import MySaveButton from "../../components/buttons/MySaveButton";
 import TableFilterForm from "../../components/forms/TableFilter";
 import { UserStatusTag } from "../../components/UserStatus";
 

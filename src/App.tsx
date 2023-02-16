@@ -13,13 +13,14 @@ import { UsersList, UserCreate, UserEdit, UserShow } from "./pages/users";
 import { usersDataProvider } from "./providers/data/users-provider";
 import authProvider from "./providers/authProvider";
 
-import { BookOutlined, UserOutlined } from "@ant-design/icons";
+import { BookOutlined, CrownOutlined, UserOutlined } from "@ant-design/icons";
 import { ApplicationsList } from "./pages/applications";
 import { API_URL } from "./providers/config";
 import { applicationsDataProvider } from "./providers/data/applications-provider";
 import { LoginPage } from "./pages/auth/loginPage";
 import CustomSider from "./components/CustomSider";
 import { StaffList } from "./pages/staff";
+import { StaffCreate } from "./pages/staff/create";
 
 const App: React.FC = () => {
   return (
@@ -52,12 +53,19 @@ const App: React.FC = () => {
         },
         {
           name: "applications",
-          options: { label: "Заявки", dataProviderName: "applications" },
+          options: { label: "Заявки" },
           list: ApplicationsList,
           icon: <BookOutlined />,
         },
 
-        { name: "cmp", options: { label: "Сотрудники" }, list: StaffList },
+        {
+          name: "cmp",
+          options: { label: "Сотрудники" },
+          list: StaffList,
+          create: StaffCreate,
+          canDelete: true,
+          icon: <CrownOutlined />,
+        },
       ]}
     />
   );

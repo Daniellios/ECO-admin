@@ -8,6 +8,7 @@ import { IStaffMember } from "../../interfaces";
 
 import { useTable } from "@pankod/refine-antd";
 import TableFilterForm from "../../components/forms/TableFilter";
+import MyCreateButton from "../../components/buttons/MyCreateButton";
 
 export const StaffList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
@@ -24,7 +25,10 @@ export const StaffList: React.FC<IResourceComponentsProps> = () => {
   });
 
   return (
-    <List title="Сотрудники">
+    <List
+      title="Сотрудники"
+      headerButtons={<MyCreateButton resource={resource.name}></MyCreateButton>}
+    >
       <TableFilterForm
         formTitle="Фильтр по сотрудникам"
         formProps={searchFormProps}
