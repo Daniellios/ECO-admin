@@ -36,6 +36,7 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
   const { tableProps, filters, tableQueryResult, searchFormProps, setFilters } =
     useTable<IUser, HttpError, IFilterUserProps>({
       syncWithLocation: false,
+      queryOptions: { refetchInterval: 30000 },
       initialPageSize: 10,
       resource: resource.name,
       onSearch: (values: IFilterUserProps) => {

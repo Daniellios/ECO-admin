@@ -33,6 +33,15 @@ export const usersDataProvider = (apiUrl: string): DataProvider => ({
 
     return { data };
   },
+
+  create: async ({ resource, variables }) => {
+    const url = `${API_URL}${resource}`;
+
+    const { data } = await axiosInstance.post(url, variables);
+
+    return { data };
+  },
+
   update: async ({ resource, id, variables }) => {
     const url = `${API_URL}${resource}/${id}`;
 

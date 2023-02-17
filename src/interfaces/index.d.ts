@@ -11,6 +11,10 @@ export enum Role {
   COMPANY = "COMPANY",
 }
 
+export interface IRole {
+  role: Role;
+}
+
 export interface IFilterUserProps {
   id: number;
   firstName: string;
