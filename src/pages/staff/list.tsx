@@ -1,4 +1,15 @@
-import { Form, Input, List, Table, TextField } from "@pankod/refine-antd";
+import {
+  Form,
+  Input,
+  List,
+  Modal,
+  Select,
+  ShowButton,
+  Space,
+  Table,
+  TextField,
+  Tooltip,
+} from "@pankod/refine-antd";
 import {
   HttpError,
   IResourceComponentsProps,
@@ -9,6 +20,7 @@ import { IStaffMember } from "../../interfaces";
 import { useTable } from "@pankod/refine-antd";
 import TableFilterForm from "../../components/forms/TableFilter";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
+import MyEditButton from "../../components/buttons/MyEditButton";
 
 export const StaffList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
@@ -72,6 +84,18 @@ export const StaffList: React.FC<IResourceComponentsProps> = () => {
         <Table.Column dataIndex="phone" align="center" title="Телефон" />
         <Table.Column dataIndex="email" align="center" title="Почта" />
         <Table.Column dataIndex="roles" align="center" title="Роль" />
+
+        <Table.Column<IStaffMember>
+          title="Действия"
+          align="center"
+          render={(_, record) => (
+            <Space>
+              <Tooltip title="Просмотреть">
+                <ShowButton hideText size="small" recordItemId={record.id} />
+              </Tooltip>
+            </Space>
+          )}
+        />
       </Table>
     </List>
   );

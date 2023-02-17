@@ -30,6 +30,13 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
       message: "Содтрудник успешно создан",
       type: "success",
     },
+    errorNotification: (error?, values?, resource?) => {
+      return {
+        message: `error`,
+        description: `${error}`,
+        type: "error",
+      };
+    },
   });
 
   const onHandleSubmit = async () => {
@@ -56,11 +63,15 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
         ></MySaveButton>
       }
     >
-      <Form {...formProps} layout="vertical">
+      <Form
+        {...formProps}
+        layout="vertical"
+        labelCol={{ span: 1 }}
+        wrapperCol={{ span: 10 }}
+      >
         <Form.Item
           label="Имя"
           name="firstName"
-          validateFirst={true}
           rules={[
             {
               type: "string",

@@ -21,6 +21,7 @@ import { LoginPage } from "./pages/auth/loginPage";
 import CustomSider from "./components/CustomSider";
 import { StaffList } from "./pages/staff";
 import { StaffCreate } from "./pages/staff/create";
+import { StaffShow } from "./pages/staff/show";
 
 const App: React.FC = () => {
   return (
@@ -57,12 +58,12 @@ const App: React.FC = () => {
           list: ApplicationsList,
           icon: <BookOutlined />,
         },
-
         {
           name: "cmp",
           options: { label: "Сотрудники" },
           list: StaffList,
           create: StaffCreate,
+          show: StaffShow,
           canDelete: true,
           icon: <CrownOutlined />,
         },
