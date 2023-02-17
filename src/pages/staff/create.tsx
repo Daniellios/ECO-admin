@@ -68,6 +68,10 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
               required: true,
             },
             {
+              message: "Только кирилица",
+              pattern: /[\u0401\u0451\u0410-\u044f]/,
+            },
+            {
               min: 2,
               message: "Более 2 символов",
             },
@@ -88,6 +92,10 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
               type: "string",
               message: "Поле не должно быть пустым",
               required: true,
+            },
+            {
+              message: "Только кирилица",
+              pattern: /[\u0401\u0451\u0410-\u044f]/,
             },
             {
               min: 2,
@@ -111,6 +119,7 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
               message: "Это обязательное поле",
               required: true,
             },
+
             {
               message: "Неверный формат почты",
               type: "email",
