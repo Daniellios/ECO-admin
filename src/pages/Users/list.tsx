@@ -270,15 +270,6 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
           render={(value) => {
             return <UserStatusTag status={value} />;
           }}
-          // filterDropdown={(props) => (
-          //   <FilterDropdown {...props}   >
-          //     <Radio.Group >
-          //       <Radio value="CONFIRMED">Подтвержден</Radio>
-          //       <Radio value="IN_CHECK">В проверке</Radio>
-          //       <Radio value="BANNED">Забанен</Radio>
-          //     </Radio.Group>
-          //   </FilterDropdown>
-          // )}
         />
         <Table.Column<IUser>
           dataIndex="skillForm"

@@ -1,7 +1,7 @@
 import { DataProvider, HttpError } from "@pankod/refine-core";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import restDataProvider from "@pankod/refine-simple-rest";
-import { API_URL, axiosInstance } from "../config";
+import { axiosInstance } from "../config";
 
 export const applicationsDataProvider = (apiUrl: string): DataProvider => ({
   ...restDataProvider(apiUrl),
@@ -12,7 +12,7 @@ export const applicationsDataProvider = (apiUrl: string): DataProvider => ({
     pagination,
     metaData,
   }) => {
-    const url = `${API_URL}${resource}`;
+    const url = `${resource}`;
     let paramFilter;
 
     if (filters) {
@@ -35,7 +35,7 @@ export const applicationsDataProvider = (apiUrl: string): DataProvider => ({
     return { data: data.data, total: data.total };
   },
   getOne: async ({ resource, id }) => {
-    const url = `${API_URL}${resource}/${id}`;
+    const url = `${resource}/${id}`;
 
     const { data } = await axiosInstance.get(url);
 
@@ -44,14 +44,14 @@ export const applicationsDataProvider = (apiUrl: string): DataProvider => ({
   update: async ({ resource, id, variables }) => {
     console.log(id);
 
-    const url = `${API_URL}${resource}/${id}`;
+    const url = `${resource}/${id}`;
 
     const { data } = await axiosInstance.patch(url, variables);
 
     return { data };
   },
   deleteOne: async ({ resource, id }) => {
-    const url = `${API_URL}${resource}/${id}`;
+    const url = `${resource}/${id}`;
 
     const { data } = await axiosInstance.delete(url);
 

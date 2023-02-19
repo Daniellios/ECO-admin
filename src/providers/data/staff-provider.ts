@@ -1,11 +1,11 @@
 import { DataProvider } from "@pankod/refine-core";
 import restDataProvider from "@pankod/refine-simple-rest";
-import { API_URL, axiosInstance } from "../config";
+import { axiosInstance } from "../config";
 
 export const usersDataProvider = (apiUrl: string): DataProvider => ({
   ...restDataProvider(apiUrl),
   getList: async ({ resource, hasPagination, filters, pagination }) => {
-    const url = `${API_URL}${resource}`;
+    const url = `${resource}`;
 
     let paramFilter;
 
@@ -27,7 +27,7 @@ export const usersDataProvider = (apiUrl: string): DataProvider => ({
     return { data: data.data, total: data.total };
   },
   getOne: async ({ resource, id }) => {
-    const url = `${API_URL}${resource}/${id}`;
+    const url = `${resource}/${id}`;
 
     const { data } = await axiosInstance.get(url);
 
@@ -35,7 +35,7 @@ export const usersDataProvider = (apiUrl: string): DataProvider => ({
   },
 
   create: async ({ resource, variables }) => {
-    const url = `${API_URL}${resource}`;
+    const url = `${resource}`;
 
     const { data } = await axiosInstance.post(url, variables);
 
@@ -43,14 +43,14 @@ export const usersDataProvider = (apiUrl: string): DataProvider => ({
   },
 
   update: async ({ resource, id, variables }) => {
-    const url = `${API_URL}${resource}/${id}`;
+    const url = `${resource}/${id}`;
 
     const { data } = await axiosInstance.patch(url, variables);
 
     return { data };
   },
   deleteOne: async ({ resource, id }) => {
-    const url = `${API_URL}${resource}/${id}`;
+    const url = `${resource}/${id}`;
 
     const { data } = await axiosInstance.delete(url);
 

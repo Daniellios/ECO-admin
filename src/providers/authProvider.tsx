@@ -1,5 +1,6 @@
 import { AuthProvider } from "@pankod/refine-core";
 import axios from "axios";
+import { axiosInstance, cookies } from "./config";
 
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
@@ -15,6 +16,22 @@ const authProvider: AuthProvider = {
 
     if (user.statusText === "OK") {
       localStorage.setItem("username", user.data.access_token);
+      axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
+        const token = `Bearer ${user.data.access_token}`;
+
+        if (token) {
+          if (request.headers) {
+            request.headers["Authorization"] = `${token}`;
+          } else {
+            request.headers = {
+              Authorization: `${token}`,
+            };
+          }
+        }
+        return request;
+      });
+
+      // localStorage.setItem("username", user.data.access_token);
       console.log("OK");
 
       return Promise.resolve();
@@ -22,8 +39,10 @@ const authProvider: AuthProvider = {
 
     return Promise.reject();
   },
-  checkAuth: () => {
-    return Promise.resolve();
+  checkAuth: async () => {
+    // return Promise.resolve();
+    const checkCook = cookies.get("allw");
+    console.log(checkCook);
 
     const user = localStorage.getItem("username");
     if (user) {
