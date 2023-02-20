@@ -1,65 +1,64 @@
 import { AuthProvider } from "@pankod/refine-core";
-import axios from "axios";
-import { axiosInstance, cookies } from "./config";
+import { API_URL, axiosInstance } from "./config";
+import inMemoryJWT from "./inMemoryJWT";
 
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
-    const user = await axios.post(
-      "http://localhost:5000/api/auth/staff/login",
-      { email, password },
-      {
-        withCredentials: true,
-      }
-    );
+    const user = await axiosInstance.post("/auth/staff/login", {
+      email,
+      password,
+    });
+    const delay = 1000 * 15 * 60;
+    console.log(inMemoryJWT);
 
-    console.log(user);
+    inMemoryJWT.setRefreshTokenEndpoint(`${API_URL}auth/refresh`);
 
-    if (user.statusText === "OK") {
-      localStorage.setItem("username", user.data.access_token);
-      axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
-        const token = `Bearer ${user.data.access_token}`;
-
-        if (token) {
-          if (request.headers) {
-            request.headers["Authorization"] = `${token}`;
-          } else {
-            request.headers = {
-              Authorization: `${token}`,
-            };
-          }
-        }
-        return request;
-      });
-
-      // localStorage.setItem("username", user.data.access_token);
-      console.log("OK");
-
-      return Promise.resolve();
+    if (user.status < 200 || user.status >= 300) {
+      throw new Error(user.statusText);
     }
 
-    return Promise.reject();
+    inMemoryJWT.setToken(user.data.access_token, delay);
+
+    console.log("OK");
+
+    return Promise.resolve("/");
   },
   checkAuth: async () => {
-    // return Promise.resolve();
-    const checkCook = cookies.get("allw");
-    console.log(checkCook);
+    console.log("CHECK AUTH");
 
-    const user = localStorage.getItem("username");
-    if (user) {
-      return Promise.resolve();
+    // return Promise.resolve();
+    console.log("checkAuth");
+    if (!inMemoryJWT.getToken()) {
+      inMemoryJWT.setRefreshTokenEndpoint("auth/refresh");
+      return inMemoryJWT.getRefreshedToken().then((tokenHasBeenRefreshed) => {
+        return tokenHasBeenRefreshed ? Promise.resolve() : Promise.reject();
+      });
+    } else {
+      return Promise.resolve("/");
     }
-    return Promise.reject("/login");
+    return inMemoryJWT.getToken()
+      ? await Promise.resolve()
+      : await Promise.reject();
   },
-  logout: () => {
-    localStorage.removeItem("username");
+  logout: async () => {
+    await axiosInstance.post("/auth/staff/logout");
+    inMemoryJWT.ereaseToken();
+
     return Promise.resolve();
   },
   checkError: (error) => {
-    if (error.status === 401 || error.status === 403) {
+    console.log("CHECK ERRR");
+
+    const status = error.status;
+    if (status === 401 || status === 403) {
+      inMemoryJWT.ereaseToken();
       return Promise.reject();
     }
 
     return Promise.resolve();
+  },
+  getPermissions: () => {
+    return inMemoryJWT.getToken() ? Promise.resolve() : Promise.reject();
   },
 };
 
