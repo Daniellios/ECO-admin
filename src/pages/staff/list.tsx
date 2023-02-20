@@ -13,6 +13,7 @@ import {
 import {
   HttpError,
   IResourceComponentsProps,
+  usePermissions,
   useResource,
 } from "@pankod/refine-core";
 import { IStaffMember } from "../../interfaces";
@@ -22,7 +23,11 @@ import TableFilterForm from "../../components/forms/TableFilter";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 
+//TODO - make more
 export const StaffList: React.FC<IResourceComponentsProps> = () => {
+  const { data } = usePermissions({});
+  console.log(data);
+
   const { resource } = useResource({
     resourceNameOrRouteName: "cmp",
   });
@@ -65,7 +70,10 @@ export const StaffList: React.FC<IResourceComponentsProps> = () => {
           showSizeChanger: true,
         }}
       >
-        <Table.Column dataIndex="id" title="ID" align="left" />
+        {data.roles === "ADMIN" && (
+          <Table.Column dataIndex="id" title="ID" align="left" />
+        )}
+
         <Table.Column<IStaffMember>
           dataIndex={["firstName", "secondName"]}
           title="Ф.И.О"

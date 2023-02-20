@@ -22,7 +22,7 @@ export const applicationsDataProvider = (apiUrl: string): DataProvider => ({
       );
     }
 
-    console.log("PARAMS ", paramFilter);
+    // console.log("PARAMS ", paramFilter);
 
     const { data, headers } = await axiosInstance.get(url, {
       params: {

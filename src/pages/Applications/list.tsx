@@ -1,6 +1,7 @@
 import {
   HttpError,
   IResourceComponentsProps,
+  usePermissions,
   useResource,
 } from "@pankod/refine-core";
 import {

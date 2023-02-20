@@ -11,6 +11,19 @@ export enum Role {
   COMPANY = "COMPANY",
 }
 
+export interface IDecodedIdentity {
+  id: number;
+  roles: Role;
+}
+
+export interface IDecodedJwt {
+  sub: number;
+  roles: Role;
+  isEmailConfirmed: boolean;
+  iat: number;
+  exp: number;
+}
+
 export interface IFilterUserProps {
   id: number;
   firstName: string;

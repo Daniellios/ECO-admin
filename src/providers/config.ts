@@ -21,6 +21,22 @@ axiosInstance.interceptors.request.use((request: AxiosRequestConfig) => {
       };
     }
     return request;
+  } else {
+    // console.log("ACI CONFIG");
+    // inMemoryJWT.setRefreshTokenEndpoint("refresh");
+    // return inMemoryJWT.getRefreshedToken().then((gotFreshToken) => {
+    //   console.log("GOT REFRESH TOKEN", gotFreshToken);
+    //   if (gotFreshToken) {
+    //     if (request.headers) {
+    //       request.headers["Authorization"] = `Bearer ${inMemoryJWT.getToken()}`;
+    //     } else {
+    //       request.headers = {
+    //         Authorization: `Bearer ${inMemoryJWT.getToken()}`,
+    //       };
+    //     }
+    //   }
+    //   return request;
+    // });
   }
   return request;
 });

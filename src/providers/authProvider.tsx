@@ -1,6 +1,8 @@
 import { AuthProvider } from "@pankod/refine-core";
 import { API_URL, axiosInstance } from "./config";
 import inMemoryJWT from "./inMemoryJWT";
+import jwt_decode from "jwt-decode";
+import { IDecodedIdentity, IDecodedJwt } from "../interfaces";
 
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
@@ -17,6 +19,8 @@ const authProvider: AuthProvider = {
       throw new Error(user.statusText);
     }
 
+    console.log(user);
+
     inMemoryJWT.setToken(user.data.access_token, delay);
 
     console.log("OK");
@@ -27,7 +31,6 @@ const authProvider: AuthProvider = {
     console.log("CHECK AUTH");
 
     // return Promise.resolve();
-    console.log("checkAuth");
     if (!inMemoryJWT.getToken()) {
       inMemoryJWT.setRefreshTokenEndpoint("auth/refresh");
       return inMemoryJWT.getRefreshedToken().then((tokenHasBeenRefreshed) => {
@@ -36,18 +39,18 @@ const authProvider: AuthProvider = {
     } else {
       return Promise.resolve("/");
     }
-    return inMemoryJWT.getToken()
-      ? await Promise.resolve()
-      : await Promise.reject();
+    // return inMemoryJWT.getToken()
+    //   ? await Promise.resolve()
+    //   : await Promise.reject();
   },
   logout: async () => {
     await axiosInstance.post("/auth/staff/logout");
-    inMemoryJWT.ereaseToken();
 
-    return Promise.resolve();
+    inMemoryJWT.ereaseToken();
+    return Promise.resolve("");
   },
   checkError: (error) => {
-    console.log("CHECK ERRR");
+    console.log(error);
 
     const status = error.status;
     if (status === 401 || status === 403) {
@@ -58,7 +61,19 @@ const authProvider: AuthProvider = {
     return Promise.resolve();
   },
   getPermissions: () => {
-    return inMemoryJWT.getToken() ? Promise.resolve() : Promise.reject();
+    console.log("CHECK PERMISSONS");
+    const token = inMemoryJWT.getToken();
+
+    if (!token) return Promise.reject();
+
+    const decodedToken: IDecodedJwt = jwt_decode(token, { header: false });
+    const userIDentity: IDecodedIdentity = {
+      id: decodedToken.sub,
+      roles: decodedToken.roles,
+    };
+
+    return Promise.resolve(userIDentity);
+    // return inMemoryJWT.getToken() ? Promise.resolve() : Promise.reject();
   },
 };
 
