@@ -8,7 +8,6 @@ import {
   Show,
   useModalForm,
   Divider,
-  Card,
 } from "@pankod/refine-antd";
 import {
   IResourceComponentsProps,
