@@ -3,6 +3,7 @@ import { Create, Form, Input, Select, useForm } from "@pankod/refine-antd";
 import {
   HttpError,
   IResourceComponentsProps,
+  usePermissions,
   useResource,
 } from "@pankod/refine-core";
 import MySaveButton from "../../components/buttons/MySaveButton";
@@ -18,6 +19,8 @@ enum Role {
 
 export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource();
+
+  const { data: identity } = usePermissions({});
 
   const { formProps, form, onFinish, queryResult } = useForm<
     IStaffMember,
@@ -191,16 +194,26 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
         >
           <Select
             dropdownMatchSelectWidth={false}
-            options={[
-              {
-                label: "Админ",
-                value: "ADMIN",
-              },
-              {
-                label: "Менеджер",
-                value: "MANAGER",
-              },
-            ]}
+            defaultValue={"MANAGER"}
+            options={
+              identity?.roles === "ADMIN"
+                ? [
+                    {
+                      label: "Админ",
+                      value: "ADMIN",
+                    },
+                    {
+                      label: "Менеджер",
+                      value: "MANAGER",
+                    },
+                  ]
+                : [
+                    {
+                      label: "Менеджер",
+                      value: "MANAGER",
+                    },
+                  ]
+            }
           />
         </Form.Item>
       </Form>

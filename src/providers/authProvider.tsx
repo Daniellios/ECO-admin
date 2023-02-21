@@ -60,7 +60,7 @@ const authProvider: AuthProvider = {
 
     return Promise.resolve();
   },
-  getPermissions: () => {
+  getPermissions: async () => {
     console.log("CHECK PERMISSONS");
     const token = inMemoryJWT.getToken();
 

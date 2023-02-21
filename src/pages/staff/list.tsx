@@ -1,4 +1,5 @@
 import {
+  Button,
   Form,
   Input,
   List,
@@ -22,12 +23,10 @@ import { useTable } from "@pankod/refine-antd";
 import TableFilterForm from "../../components/forms/TableFilter";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
+import RefetchListButton from "../../components/buttons/RefetchListButton";
 
 //TODO - make more
 export const StaffList: React.FC<IResourceComponentsProps> = () => {
-  const { data } = usePermissions({});
-  console.log(data);
-
   const { resource } = useResource({
     resourceNameOrRouteName: "cmp",
   });
@@ -44,7 +43,12 @@ export const StaffList: React.FC<IResourceComponentsProps> = () => {
   return (
     <List
       title="Сотрудники"
-      headerButtons={<MyCreateButton resource={resource.name}></MyCreateButton>}
+      headerButtons={
+        <>
+          <RefetchListButton query={tableQueryResult}></RefetchListButton>
+          <MyCreateButton resource={resource.name}></MyCreateButton>
+        </>
+      }
     >
       <TableFilterForm
         formTitle="Фильтр по сотрудникам"
@@ -70,9 +74,7 @@ export const StaffList: React.FC<IResourceComponentsProps> = () => {
           showSizeChanger: true,
         }}
       >
-        {data.roles === "ADMIN" && (
-          <Table.Column dataIndex="id" title="ID" align="left" />
-        )}
+        <Table.Column dataIndex="id" title="ID" align="left" />
 
         <Table.Column<IStaffMember>
           dataIndex={["firstName", "secondName"]}
@@ -91,7 +93,14 @@ export const StaffList: React.FC<IResourceComponentsProps> = () => {
         />
         <Table.Column dataIndex="phone" align="center" title="Телефон" />
         <Table.Column dataIndex="email" align="center" title="Почта" />
-        <Table.Column dataIndex="roles" align="center" title="Роль" />
+        <Table.Column
+          dataIndex="roles"
+          align="center"
+          title="Роль"
+          render={(value) => {
+            return value === "ADMIN" ? "Админ" : "Менеджер";
+          }}
+        />
 
         <Table.Column<IStaffMember>
           title="Действия"

@@ -11,6 +11,7 @@ import {
 } from "@pankod/refine-antd";
 import {
   IResourceComponentsProps,
+  usePermissions,
   useResource,
   useShow,
 } from "@pankod/refine-core";
@@ -21,6 +22,8 @@ import { IStaffMember } from "../../interfaces";
 
 //TODO Make form compnent for creating and updating
 export const StaffShow: React.FC<IResourceComponentsProps> = () => {
+  const { data: identity } = usePermissions({});
+
   const { queryResult } = useShow<IStaffMember>();
 
   const { resource } = useResource({
@@ -115,16 +118,26 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
             ]}
           >
             <Select
-              options={[
-                {
-                  label: "АДМИН",
-                  value: "ADMIN",
-                },
-                {
-                  label: "МЕНЕДЖЕР",
-                  value: "MANAGER",
-                },
-              ]}
+              defaultValue={"MANAGER"}
+              options={
+                identity?.roles === "ADMIN"
+                  ? [
+                      {
+                        label: "Админ",
+                        value: "ADMIN",
+                      },
+                      {
+                        label: "Менеджер",
+                        value: "MANAGER",
+                      },
+                    ]
+                  : [
+                      {
+                        label: "Менеджер",
+                        value: "MANAGER",
+                      },
+                    ]
+              }
             />
           </Form.Item>
         </Form>
