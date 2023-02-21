@@ -35,6 +35,7 @@ import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import CustomBreadCrumb from "../../components/shared/CustomBreadCrumb";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import MyEditButton from "../../components/buttons/MyEditButton";
+import EditModal from "../../components/modals/EditModal";
 
 const { Title, Text } = Typography;
 
@@ -183,7 +184,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
           <Col span={12}>
             <Title level={5}>Проверена</Title>
             <BooleanField
-              value={record?.skillForm.isApproved}
+              value={record?.skillForm?.isApproved ? true : false}
               trueIcon={<CheckOutlined style={{ color: "#52c41a" }} />}
               falseIcon={<CloseOutlined style={{ color: "#ff4d4f" }} />}
             ></BooleanField>
@@ -191,7 +192,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
           <Col span={12}>
             <Title level={5}>Заполнена</Title>
             <BooleanField
-              value={record?.skillForm.isCompleted}
+              value={record?.skillForm?.isCompleted ? true : false}
               trueIcon={<CheckOutlined style={{ color: "#52c41a" }} />}
               falseIcon={<CloseOutlined style={{ color: "#ff4d4f" }} />}
             ></BooleanField>
@@ -202,114 +203,122 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
         <Row align={"middle"} justify="center">
           <Col span={12}>
             <Title level={5}>Дата создания анкеты</Title>
-            <DateField value={record?.skillForm.createdAt}></DateField>
+            <DateField
+              value={
+                record?.skillForm?.createdAt ? record.skillForm.createdAt : ""
+              }
+            ></DateField>
           </Col>
           <Col span={12}>
             <Title level={5}>Дата заполнения анкеты</Title>
-            <DateField value={record?.skillForm.updatedAt}></DateField>
+
+            {/* TODO make custmoa DAATE FIELD */}
+            <DateField
+              value={
+                record?.skillForm?.updatedAt ? record.skillForm.createdAt : ""
+              }
+            ></DateField>
           </Col>
         </Row>
       </>
 
-      <Modal
-        {...editModalProps}
-        title="Редактировать аккаунт эколога "
-        closable={true}
-        cancelText="Отмена"
-        okText="Сохранить"
+      <EditModal
+        modalProps={{
+          ...editModalProps,
+          title: "Редактировать аккаунт эколога ",
+        }}
+        formProps={editFormProps}
       >
-        <Form {...editFormProps} layout="vertical" size="small">
-          <Row align="middle" justify="start">
-            <Col span={4}>
-              <Form.Item
-                label="Имя"
-                name="firstName"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
+        <Row align="middle" justify="start">
+          <Col span={4}>
+            <Form.Item
+              label="Имя"
+              name="firstName"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
 
-            <Col span={4} push={1}>
-              <Form.Item
-                label="Фамилия"
-                name="secondName"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
+          <Col span={4} push={1}>
+            <Form.Item
+              label="Фамилия"
+              name="secondName"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
 
-            <Col span={4} push={2}>
-              <Form.Item
-                label="Отчество"
-                name="thirdName"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
+          <Col span={4} push={2}>
+            <Form.Item
+              label="Отчество"
+              name="thirdName"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
 
-          <Row align="middle" justify="start">
-            <Col span={4}>
-              <Form.Item
-                label="Телефон"
-                name="phone"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
+        <Row align="middle" justify="start">
+          <Col span={4}>
+            <Form.Item
+              label="Телефон"
+              name="phone"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
 
-            <Col span={4} push={1}>
-              <Form.Item
-                label="Статус"
-                name="status"
-                rules={[
+          <Col span={4} push={1}>
+            <Form.Item
+              label="Статус"
+              name="status"
+              rules={[
+                {
+                  required: false,
+                },
+              ]}
+            >
+              <Select
+                dropdownMatchSelectWidth={false}
+                options={[
                   {
-                    required: false,
+                    label: "Подтвержден",
+                    value: "CONFIRMED",
+                  },
+                  {
+                    label: "В проверке",
+                    value: "IN_CHECK",
+                  },
+                  {
+                    label: "Забанен",
+                    value: "BANNED",
                   },
                 ]}
-              >
-                <Select
-                  dropdownMatchSelectWidth={false}
-                  options={[
-                    {
-                      label: "Подтвержден",
-                      value: "CONFIRMED",
-                    },
-                    {
-                      label: "В проверке",
-                      value: "IN_CHECK",
-                    },
-                    {
-                      label: "Забанен",
-                      value: "BANNED",
-                    },
-                  ]}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </Modal>
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+      </EditModal>
     </Show>
   );
 };

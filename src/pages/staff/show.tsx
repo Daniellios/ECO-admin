@@ -8,6 +8,7 @@ import {
   Show,
   useModalForm,
   Divider,
+  Card,
 } from "@pankod/refine-antd";
 import {
   IResourceComponentsProps,
@@ -18,6 +19,7 @@ import {
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
+import EditModal from "../../components/modals/EditModal";
 import { IStaffMember } from "../../interfaces";
 
 //TODO Make form compnent for creating and updating
@@ -101,49 +103,46 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
         </Row>
       </>
 
-      <Modal
-        {...editModalProps}
-        title="Редактировать аккаунт сотрудника "
-        width={"600px"}
-        closable={true}
-        cancelText="Отмена"
-        okText="Сохранить"
+      <EditModal
+        modalProps={{
+          ...editModalProps,
+          title: "Редактировать аккаунт сотрудника",
+        }}
+        formProps={editFormProps}
       >
-        <Form {...editFormProps} layout="vertical">
-          <Form.Item
-            label="Роль"
-            name="roles"
-            rules={[
-              {
-                required: false,
-              },
-            ]}
-          >
-            <Select
-              defaultValue={"MANAGER"}
-              options={
-                isAdmin
-                  ? [
-                      {
-                        label: "Админ",
-                        value: "ADMIN",
-                      },
-                      {
-                        label: "Менеджер",
-                        value: "MANAGER",
-                      },
-                    ]
-                  : [
-                      {
-                        label: "Менеджер",
-                        value: "MANAGER",
-                      },
-                    ]
-              }
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
+        <Form.Item
+          label="Роль"
+          name="roles"
+          rules={[
+            {
+              required: false,
+            },
+          ]}
+        >
+          <Select
+            defaultValue={"MANAGER"}
+            options={
+              isAdmin
+                ? [
+                    {
+                      label: "Админ",
+                      value: "ADMIN",
+                    },
+                    {
+                      label: "Менеджер",
+                      value: "MANAGER",
+                    },
+                  ]
+                : [
+                    {
+                      label: "Менеджер",
+                      value: "MANAGER",
+                    },
+                  ]
+            }
+          />
+        </Form.Item>
+      </EditModal>
     </Show>
   );
 };

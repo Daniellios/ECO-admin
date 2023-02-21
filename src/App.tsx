@@ -15,6 +15,7 @@ import { usersDataProvider } from "./providers/data/users-provider";
 import authProvider from "./providers/authProvider";
 
 import {
+  AuditOutlined,
   BookOutlined,
   CrownOutlined,
   InboxOutlined,
@@ -25,9 +26,9 @@ import { API_URL } from "./providers/config";
 import { applicationsDataProvider } from "./providers/data/applications-provider";
 import { LoginPage } from "./pages/auth/loginPage";
 import CustomSider from "./components/CustomSider";
-import { StaffList } from "./pages/staff";
-import { StaffCreate } from "./pages/staff/create";
-import { StaffShow } from "./pages/staff/show";
+import { StaffCreate, StaffList, StaffShow } from "./pages/staff";
+import { contractsDataProvider } from "./providers/data/contracts-provider";
+import ContractsList from "./pages/contracts/list";
 
 const App: React.FC = () => {
   return (
@@ -44,6 +45,7 @@ const App: React.FC = () => {
         dataProvider={{
           default: usersDataProvider(API_URL),
           applications: applicationsDataProvider(API_URL),
+          contracts: contractsDataProvider(API_URL),
         }}
         notificationProvider={notificationProvider}
         Layout={Layout}
@@ -63,6 +65,12 @@ const App: React.FC = () => {
             show: UserShow,
             canDelete: true,
             icon: <UserOutlined />,
+          },
+          {
+            name: "contracts",
+            options: { label: "Заказы" },
+            list: ContractsList,
+            icon: <AuditOutlined />,
           },
           {
             name: "applications",
