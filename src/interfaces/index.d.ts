@@ -104,9 +104,23 @@ export interface IUser {
 
   updatedAt: Date;
 
-  skillForm: any;
+  skillForm: IUserSkillForm;
 
   manager: any;
 
   contracts: any;
+}
+
+export interface IUserSkillForm {
+  id: number;
+
+  createdAt: Date;
+
+  updatedAt: Date;
+
+  hasDegree: boolean;
+
+  isApproved: boolean;
+
+  isCompleted: boolean;
 }

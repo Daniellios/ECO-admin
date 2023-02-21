@@ -31,7 +31,7 @@ import { StaffShow } from "./pages/staff/show";
 
 const App: React.FC = () => {
   return (
-    <ConfigProvider>
+    <ConfigProvider theme={{}}>
       <Refine
         routerProvider={{
           ...routerProvider,

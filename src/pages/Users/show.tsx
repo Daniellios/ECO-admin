@@ -21,12 +21,20 @@ import {
   Row,
   Col,
   AntdBreadcrumb,
+  BooleanField,
+  Modal,
+  Form,
+  useModalForm,
+  Select,
+  Input,
 } from "@pankod/refine-antd";
 
 import { IUser } from "../../interfaces";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import CustomBreadCrumb from "../../components/shared/CustomBreadCrumb";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import MyEditButton from "../../components/buttons/MyEditButton";
 
 const { Title, Text } = Typography;
 
@@ -46,15 +54,28 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
   const fullName = `${record?.firstName} ${record?.secondName} ${record?.thirdName}`;
   const isAdmin = identity?.roles === "ADMIN";
 
+  const {
+    modalProps: editModalProps,
+    formProps: editFormProps,
+    show: editModalShow,
+  } = useModalForm<IUser>({
+    autoSubmitClose: true,
+    action: "edit",
+    warnWhenUnsavedChanges: false,
+  });
+
   return (
     <Show
       isLoading={isLoading}
       title={"Просмотр"}
+      canEdit={true}
       // breadcrumb={<CustomBreadCrumb />}
       headerButtons={() => (
         <>
           <MyRefreshButton></MyRefreshButton>
-
+          <MyEditButton
+            onClick={() => editModalShow(record?.id)}
+          ></MyEditButton>
           {isAdmin && <MyDeleteButton resource="users"></MyDeleteButton>}
         </>
       )}
@@ -126,14 +147,19 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
         <Divider></Divider>
 
         <Row align={"middle"} justify="start">
-          <Col span={12}>
+          <Col span={8}>
             <Title level={5}>Текущая загруженность</Title>
             <Text>{record?.workLoad}</Text>
           </Col>
 
-          <Col span={12}>
+          <Col span={8}>
             <Title level={5}>Маскимальная загруженность</Title>
             <Text>{record?.workLoadLimit}</Text>
+          </Col>
+
+          <Col span={8}>
+            <Title level={5}>Менеджер</Title>
+            <Text>{record?.manager ? record.manager : "Не назначен"}</Text>
           </Col>
         </Row>
         <Divider></Divider>
@@ -150,23 +176,140 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
         </Row>
         <Divider></Divider>
 
-        <Row align={"middle"} justify="start">
+        <Title level={5}>Квалификационная анкета</Title>
+        <Divider></Divider>
+
+        <Row align={"middle"} justify="center">
           <Col span={12}>
-            <Title level={5}>Анкета</Title>
-            <Text type={record?.skillForm ? undefined : "danger"}>
-              {record?.skillForm
-                ? record.skillForm
-                : "Квалификационная анкета отстутсвует"}
-            </Text>
+            <Title level={5}>Проверена</Title>
+            <BooleanField
+              value={record?.skillForm.isApproved}
+              trueIcon={<CheckOutlined style={{ color: "#52c41a" }} />}
+              falseIcon={<CloseOutlined style={{ color: "#ff4d4f" }} />}
+            ></BooleanField>
           </Col>
           <Col span={12}>
-            <Title level={5}>Менеджер</Title>
-            <Text>
-              {record?.manager ? record.manager : "Менеджер не назначен"}
-            </Text>
+            <Title level={5}>Заполнена</Title>
+            <BooleanField
+              value={record?.skillForm.isCompleted}
+              trueIcon={<CheckOutlined style={{ color: "#52c41a" }} />}
+              falseIcon={<CloseOutlined style={{ color: "#ff4d4f" }} />}
+            ></BooleanField>
+          </Col>
+        </Row>
+        <Divider></Divider>
+
+        <Row align={"middle"} justify="center">
+          <Col span={12}>
+            <Title level={5}>Дата создания анкеты</Title>
+            <DateField value={record?.skillForm.createdAt}></DateField>
+          </Col>
+          <Col span={12}>
+            <Title level={5}>Дата заполнения анкеты</Title>
+            <DateField value={record?.skillForm.updatedAt}></DateField>
           </Col>
         </Row>
       </>
+
+      <Modal
+        {...editModalProps}
+        title="Редактировать аккаунт эколога "
+        closable={true}
+        cancelText="Отмена"
+        okText="Сохранить"
+      >
+        <Form {...editFormProps} layout="vertical" size="small">
+          <Row align="middle" justify="start">
+            <Col span={4}>
+              <Form.Item
+                label="Имя"
+                name="firstName"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col span={4} push={1}>
+              <Form.Item
+                label="Фамилия"
+                name="secondName"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col span={4} push={2}>
+              <Form.Item
+                label="Отчество"
+                name="thirdName"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row align="middle" justify="start">
+            <Col span={4}>
+              <Form.Item
+                label="Телефон"
+                name="phone"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+
+            <Col span={4} push={1}>
+              <Form.Item
+                label="Статус"
+                name="status"
+                rules={[
+                  {
+                    required: false,
+                  },
+                ]}
+              >
+                <Select
+                  dropdownMatchSelectWidth={false}
+                  options={[
+                    {
+                      label: "Подтвержден",
+                      value: "CONFIRMED",
+                    },
+                    {
+                      label: "В проверке",
+                      value: "IN_CHECK",
+                    },
+                    {
+                      label: "Забанен",
+                      value: "BANNED",
+                    },
+                  ]}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
     </Show>
   );
 };

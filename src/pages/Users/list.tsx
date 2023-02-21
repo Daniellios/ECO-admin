@@ -3,6 +3,7 @@ import {
   HttpError,
   useResource,
   usePermissions,
+  useOne,
 } from "@pankod/refine-core";
 
 import {
@@ -295,9 +296,9 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
           align="center"
           render={(_, record) => (
             <Space>
-              <Tooltip title="Редактировать">
+              {/* <Tooltip title="Редактировать">
                 <EditButton hideText size="small" recordItemId={record.id} />
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip title="Просмотреть">
                 <ShowButton hideText size="small" recordItemId={record.id} />
               </Tooltip>
