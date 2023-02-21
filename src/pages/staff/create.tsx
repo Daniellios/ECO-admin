@@ -22,12 +22,7 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
 
   const { data: identity } = usePermissions({});
 
-  const { formProps, form, onFinish, queryResult } = useForm<
-    IStaffMember,
-    HttpError
-  >({
-    // refineCoreProps: {}
-
+  const { formProps, form, onFinish } = useForm<IStaffMember, HttpError>({
     submitOnEnter: true,
     successNotification: {
       message: "Содтрудник успешно создан",

@@ -22,7 +22,7 @@ import { IStaffMember } from "../../interfaces";
 
 //TODO Make form compnent for creating and updating
 export const StaffShow: React.FC<IResourceComponentsProps> = () => {
-  const { data: identity } = usePermissions({});
+  const { data: identity, isFetched } = usePermissions({});
 
   const { queryResult } = useShow<IStaffMember>();
 
@@ -30,7 +30,9 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
     resourceNameOrRouteName: "cmp",
   });
 
-  const { data, isLoading, isError } = queryResult;
+  const role = isFetched && identity.roles;
+
+  const { data, isLoading } = queryResult;
   const record = data?.data;
 
   const {
@@ -120,7 +122,7 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
             <Select
               defaultValue={"MANAGER"}
               options={
-                identity?.roles === "ADMIN"
+                role === "ADMIN"
                   ? [
                       {
                         label: "Админ",
