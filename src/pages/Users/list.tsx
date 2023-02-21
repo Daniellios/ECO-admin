@@ -2,6 +2,7 @@ import {
   IResourceComponentsProps,
   HttpError,
   useResource,
+  usePermissions,
 } from "@pankod/refine-core";
 
 import {
@@ -27,16 +28,22 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
 import TableFilterForm from "../../components/forms/TableFilter";
 import { UserStatusTag } from "../../components/UserStatus";
+import RefetchListButton from "../../components/buttons/RefetchListButton";
 
 export const UsersList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
     resourceNameOrRouteName: "users",
   });
 
+  const refetchInterval = 1000 * 60;
+
+  const { data: identity, isFetched } = usePermissions({});
+  const isAdmin = identity?.roles === "ADMIN";
+
   const { tableProps, filters, tableQueryResult, searchFormProps, setFilters } =
     useTable<IUser, HttpError, IFilterUserProps>({
       syncWithLocation: false,
-      queryOptions: { refetchInterval: 30000 },
+      queryOptions: { refetchInterval: refetchInterval },
       initialPageSize: 10,
       resource: resource.name,
       onSearch: (values: IFilterUserProps) => {
@@ -96,7 +103,12 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
   return (
     <List
       title="Список экологов"
-      headerButtons={<MyCreateButton resource={resource.name}></MyCreateButton>}
+      headerButtons={
+        <>
+          <RefetchListButton query={tableQueryResult}></RefetchListButton>
+          <MyCreateButton resource={resource.name}></MyCreateButton>
+        </>
+      }
     >
       <TableFilterForm
         formTitle="Фильтр по экологам"
@@ -207,7 +219,8 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
           // }}
         />
         <Table.Column dataIndex="email" title="Почта" />
-        <Table.Column dataIndex="roles" title="Роль" />
+
+        {isAdmin && <Table.Column dataIndex="roles" title="Роль" />}
         <Table.Column<IUser>
           dataIndex="workLoad"
           title="Нагрузка"

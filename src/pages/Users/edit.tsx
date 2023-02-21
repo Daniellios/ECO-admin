@@ -2,6 +2,7 @@ import React from "react";
 import {
   HttpError,
   IResourceComponentsProps,
+  usePermissions,
   useResource,
 } from "@pankod/refine-core";
 
@@ -34,6 +35,7 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
   } = useForm<IUpdateUser, HttpError>({
     warnWhenUnsavedChanges: false,
   });
+  const { data: identity, isFetched } = usePermissions({});
 
   const { resource } = useResource({
     resourceNameOrRouteName: "users",
@@ -44,6 +46,7 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
   //     resource: "categories",
   //     defaultValue: postData?.category.id,
   // });
+  const isAdmin = identity?.roles === "ADMIN";
 
   const onHandleSubmit = () => {
     const values = form.getFieldsValue();
@@ -57,7 +60,10 @@ export const UserEdit: React.FC<IResourceComponentsProps> = () => {
       isLoading={formLoading}
       footerButtons={() => (
         <>
-          <MyDeleteButton resource={resource.name}></MyDeleteButton>
+          {isAdmin && (
+            <MyDeleteButton resource={resource.name}></MyDeleteButton>
+          )}
+
           <MySaveButton
             resource={resource.name}
             onClick={onHandleSubmit}

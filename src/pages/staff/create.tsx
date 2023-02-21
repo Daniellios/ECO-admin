@@ -21,6 +21,7 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource();
 
   const { data: identity } = usePermissions({});
+  const isAdmin = identity?.roles === "ADMIN";
 
   const { formProps, form, onFinish } = useForm<IStaffMember, HttpError>({
     submitOnEnter: true,
@@ -191,7 +192,7 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
             dropdownMatchSelectWidth={false}
             defaultValue={"MANAGER"}
             options={
-              identity?.roles === "ADMIN"
+              isAdmin
                 ? [
                     {
                       label: "Админ",

@@ -30,7 +30,7 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
     resourceNameOrRouteName: "cmp",
   });
 
-  const role = isFetched && identity.roles;
+  const isAdmin = identity?.roles === "ADMIN";
 
   const { data, isLoading } = queryResult;
   const record = data?.data;
@@ -122,7 +122,7 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
             <Select
               defaultValue={"MANAGER"}
               options={
-                role === "ADMIN"
+                isAdmin
                   ? [
                       {
                         label: "Админ",

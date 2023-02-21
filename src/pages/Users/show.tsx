@@ -4,6 +4,7 @@ import {
   useOne,
   useDelete,
   useResource,
+  usePermissions,
 } from "@pankod/refine-core";
 
 import {
@@ -31,6 +32,7 @@ const { Title, Text } = Typography;
 
 export const UserShow: React.FC<IResourceComponentsProps> = () => {
   const { queryResult } = useShow<IUser>();
+  const { data: identity, isFetched } = usePermissions({});
 
   const { data, isLoading, isError } = queryResult;
   const record = data?.data;
@@ -42,6 +44,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
   });
 
   const fullName = `${record?.firstName} ${record?.secondName} ${record?.thirdName}`;
+  const isAdmin = identity?.roles === "ADMIN";
 
   return (
     <Show
@@ -51,7 +54,8 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
       headerButtons={() => (
         <>
           <MyRefreshButton></MyRefreshButton>
-          <MyDeleteButton resource="users"></MyDeleteButton>
+
+          {isAdmin && <MyDeleteButton resource="users"></MyDeleteButton>}
         </>
       )}
     >
@@ -111,10 +115,13 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
                 : ""}
             </Text>
           </Col>
-          <Col span={12}>
-            <Title level={5}>Роль</Title>
-            <Text>{record?.roles}</Text>
-          </Col>
+
+          {isAdmin && (
+            <Col span={12}>
+              <Title level={5}>Роль</Title>
+              <Text>{record?.roles}</Text>
+            </Col>
+          )}
         </Row>
         <Divider></Divider>
 
