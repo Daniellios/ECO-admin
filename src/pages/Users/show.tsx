@@ -2,8 +2,6 @@ import {
   useShow,
   IResourceComponentsProps,
   useOne,
-  useDelete,
-  useResource,
   usePermissions,
 } from "@pankod/refine-core";
 
@@ -11,34 +9,26 @@ import {
   Show,
   Typography,
   Divider,
-  MarkdownField,
-  Grid,
-  Breadcrumb,
   DateField,
-  TextField,
   EmailField,
-  Card,
   Row,
   Col,
-  AntdBreadcrumb,
-  BooleanField,
-  Modal,
   Form,
   useModalForm,
   Select,
-  Input,
 } from "@pankod/refine-antd";
 
-import { IUser } from "../../interfaces";
+import { IUser, IUserSkillForm } from "../../interfaces";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import CustomBreadCrumb from "../../components/shared/CustomBreadCrumb";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import EditModal from "../../components/modals/EditModal";
 import NameField from "../../components/forms/fields/NameField";
 import PhoneField from "../../components/forms/fields/PhoneField";
 import UserStatusField from "../../components/forms/fields/UserStatusField";
+import BooleanCell from "../../components/tables/BooleanCell";
+import DateCell from "../../components/tables/DateCell";
 
 const { Title, Text } = Typography;
 
@@ -68,19 +58,36 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
     warnWhenUnsavedChanges: false,
   });
 
+  const {
+    modalProps: editSkillModalProps,
+    formProps: editSkillFormProps,
+    show: editSkillModalShow,
+  } = useModalForm<IUserSkillForm>({
+    resource: `users/${record?.id}/skills`,
+    autoSubmitClose: true,
+    action: "edit",
+    warnWhenUnsavedChanges: false,
+  });
+
   return (
     <Show
       isLoading={isLoading}
       title={"Просмотр"}
       canEdit={true}
+      canDelete={isAdmin}
       // breadcrumb={<CustomBreadCrumb />}
       headerButtons={() => (
         <>
           <MyRefreshButton></MyRefreshButton>
           <MyEditButton
+            title="Редактировать"
             onClick={() => editModalShow(record?.id)}
           ></MyEditButton>
-          {isAdmin && <MyDeleteButton resource="users"></MyDeleteButton>}
+          <MyEditButton
+            title="Анкета"
+            onClick={() => editSkillModalShow()}
+          ></MyEditButton>
+          <MyDeleteButton resource="users"></MyDeleteButton>
         </>
       )}
     >
@@ -178,7 +185,10 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
             <DateField value={record?.updatedAt}></DateField>
           </Col>
         </Row>
-        <Divider></Divider>
+
+        {/* АНКЕТА */}
+
+        <Divider style={{ background: "black" }}></Divider>
 
         <Title level={5}>Квалификационная анкета</Title>
         <Divider></Divider>
@@ -186,41 +196,56 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
         <Row align={"middle"} justify="center">
           <Col span={12}>
             <Title level={5}>Проверена</Title>
-            <BooleanField
-              value={record?.skillForm?.isApproved ? true : false}
-              trueIcon={<CheckOutlined style={{ color: "#52c41a" }} />}
-              falseIcon={<CloseOutlined style={{ color: "#ff4d4f" }} />}
-            ></BooleanField>
+
+            <BooleanCell value={record?.skillForm?.isApproved}></BooleanCell>
           </Col>
           <Col span={12}>
             <Title level={5}>Заполнена</Title>
-            <BooleanField
-              value={record?.skillForm?.isCompleted ? true : false}
-              trueIcon={<CheckOutlined style={{ color: "#52c41a" }} />}
-              falseIcon={<CloseOutlined style={{ color: "#ff4d4f" }} />}
-            ></BooleanField>
+            <BooleanCell value={record?.skillForm?.isCompleted}></BooleanCell>
           </Col>
         </Row>
         <Divider></Divider>
 
+        <EditModal
+          modalProps={{
+            ...editSkillModalProps,
+            title: "Редактировать анкету ",
+          }}
+          formProps={editSkillFormProps}
+        >
+          <Form.Item
+            label="Готовность"
+            name="isCompleted"
+            rules={[
+              {
+                required: false,
+              },
+            ]}
+          >
+            <Select
+              options={[
+                {
+                  label: "Заполнена",
+                  value: true,
+                },
+                {
+                  label: "Не заполнена",
+                  value: false,
+                },
+              ]}
+            ></Select>
+          </Form.Item>
+        </EditModal>
+
         <Row align={"middle"} justify="center">
           <Col span={12}>
             <Title level={5}>Дата создания анкеты</Title>
-            <DateField
-              value={
-                record?.skillForm?.createdAt ? record.skillForm.createdAt : ""
-              }
-            ></DateField>
+
+            <DateCell value={record?.skillForm?.createdAt}></DateCell>
           </Col>
           <Col span={12}>
-            <Title level={5}>Дата заполнения анкеты</Title>
-
-            {/* TODO make custmoa DAATE FIELD */}
-            <DateField
-              value={
-                record?.skillForm?.updatedAt ? record.skillForm.createdAt : ""
-              }
-            ></DateField>
+            <Title level={5}>Дата обновления анкеты</Title>
+            <DateCell value={record?.skillForm.updatedAt}></DateCell>
           </Col>
         </Row>
       </>

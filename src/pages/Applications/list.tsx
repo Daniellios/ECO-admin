@@ -10,7 +10,6 @@ import {
   TextField,
   useModalForm,
   Space,
-  Modal,
   Form,
   Input,
   Select,
@@ -21,15 +20,14 @@ import {
   Row,
   Col,
 } from "@pankod/refine-antd";
-import React, { useEffect } from "react";
-import { BooleanField, EmailField, List, Table } from "@pankod/refine-antd";
+import React from "react";
+import { List, Table } from "@pankod/refine-antd";
 import { IApplication, IFilterApplication } from "../../interfaces";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import MySaveButton from "../../components/buttons/MySaveButton";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
-import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import TableFilterForm from "../../components/forms/TableFilter";
+import BooleanCell from "../../components/tables/BooleanCell";
+import EditModal from "../../components/modals/EditModal";
 
 // TODO  DO not populate data if error
 
@@ -86,14 +84,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <>
-      <List
-        title="Заявки на консультацию"
-        // headerButtons={() => (
-        //   <>
-        //     <MyRefreshButton resource={resource.name}></MyRefreshButton>
-        //   </>
-        // )}
-      >
+      <List title="Заявки на консультацию">
         <TableFilterForm
           formTitle="Фильтр по заявкам"
           formProps={searchFormProps}
@@ -173,13 +164,11 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
             }}
             showSorterTooltip={{ title: "Отсортировать по статусу обработки" }}
             render={(value: boolean) => (
-              <BooleanField
+              <BooleanCell
                 value={value}
                 valueLabelFalse="Не обработана"
                 valueLabelTrue="Обработана"
-                trueIcon={<CheckOutlined style={{ color: "#52c41a" }} />}
-                falseIcon={<CloseOutlined style={{ color: "#ff4d4f" }} />}
-              />
+              ></BooleanCell>
             )}
           />
 
@@ -214,38 +203,33 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
         </Table>
       </List>
 
-      <Modal
-        {...editModalProps}
-        title="Заявка"
-        width={"600px"}
-        cancelText="Отмена"
-        okText="Сохранить"
+      <EditModal
+        modalProps={{ ...editModalProps, title: "Редактирование заявки" }}
+        formProps={editFormProps}
       >
-        <Form {...editFormProps} layout="vertical">
-          <Form.Item
-            label="Статус"
-            name="isProcessed"
-            rules={[
+        <Form.Item
+          label="Статус"
+          name="isProcessed"
+          rules={[
+            {
+              required: false,
+            },
+          ]}
+        >
+          <Select
+            options={[
               {
-                required: false,
+                label: "Не обработана",
+                value: false,
+              },
+              {
+                label: "Обработана",
+                value: true,
               },
             ]}
-          >
-            <Select
-              options={[
-                {
-                  label: "Не обработана",
-                  value: false,
-                },
-                {
-                  label: "Обработана",
-                  value: true,
-                },
-              ]}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
+          />
+        </Form.Item>
+      </EditModal>
     </>
   );
 };

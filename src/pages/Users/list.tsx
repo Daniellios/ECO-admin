@@ -14,7 +14,6 @@ import {
   EditButton,
   ShowButton,
   Select,
-  BooleanField,
   Tooltip,
   Input,
   Form,
@@ -23,13 +22,18 @@ import {
 
 import { useTable } from "@pankod/refine-antd";
 
-import { IFilterUserProps, IUser, UserStatus } from "../../interfaces";
+import {
+  IFilterUserProps,
+  IUser,
+  IUserSkillForm,
+  UserStatus,
+} from "../../interfaces";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
 import TableFilterForm from "../../components/forms/TableFilter";
 import { UserStatusTag } from "../../components/UserStatus";
 import RefetchListButton from "../../components/buttons/RefetchListButton";
+import BooleanCell from "../../components/tables/BooleanCell";
 
 export const UsersList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
@@ -41,42 +45,45 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
   const { data: identity, isFetched } = usePermissions({});
   const isAdmin = identity?.roles === "ADMIN";
 
-  const { tableProps, filters, tableQueryResult, searchFormProps, setFilters } =
-    useTable<IUser, HttpError, IFilterUserProps>({
-      syncWithLocation: false,
-      queryOptions: { refetchInterval: refetchInterval },
-      initialPageSize: 10,
-      resource: resource.name,
-      onSearch: (values: IFilterUserProps) => {
-        return [
-          {
-            field: "status",
-            operator: "eq",
-            value: values.status,
-          },
-          {
-            field: "phone",
-            operator: "eq",
-            value: values.phone,
-          },
-          {
-            field: "email",
-            operator: "eq",
-            value: values.email,
-          },
-          {
-            field: "isEmailConfirmed",
-            operator: "eq",
-            value: values.isEmailConfirmed,
-          },
-          {
-            field: "workLoad",
-            operator: "eq",
-            value: values.workLoad,
-          },
-        ];
-      },
-    });
+  const { tableProps, tableQueryResult, searchFormProps } = useTable<
+    IUser,
+    HttpError,
+    IFilterUserProps
+  >({
+    syncWithLocation: false,
+    queryOptions: { refetchInterval: refetchInterval },
+    initialPageSize: 10,
+    resource: resource.name,
+    onSearch: (values: IFilterUserProps) => {
+      return [
+        {
+          field: "status",
+          operator: "eq",
+          value: values.status,
+        },
+        {
+          field: "phone",
+          operator: "eq",
+          value: values.phone,
+        },
+        {
+          field: "email",
+          operator: "eq",
+          value: values.email,
+        },
+        {
+          field: "isEmailConfirmed",
+          operator: "eq",
+          value: values.isEmailConfirmed,
+        },
+        {
+          field: "workLoad",
+          operator: "eq",
+          value: values.workLoad,
+        },
+      ];
+    },
+  });
 
   // const currentFilterValues = useMemo(() => {
   //   // Filters can be a LogicalFilter or a ConditionalFilter. ConditionalFilter not have field property. So we need to filter them.
@@ -193,32 +200,7 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
             );
           }}
         />
-        <Table.Column
-          dataIndex="phone"
-          title="Телефон"
-          // filterDropdown={(props) => {
-          //   return (
-          //     <FilterDropdown {...props}>
-          //       <Input
-          //         placeholder="Телефон"
-          //         // prefix={<SearchOutlined />}
-          //         // value={currentFilterValues.phone}
-          //         // onChange={(e) => {
-          //         //   setFilters([
-          //         //     {
-          //         //       field: "phone",
-          //         //       operator: "contains",
-          //         //       value: !!e.currentTarget.value
-          //         //         ? e.currentTarget.value
-          //         //         : undefined,
-          //         //     },
-          //         //   ]);
-          //         // }}
-          //       />
-          //     </FilterDropdown>
-          //   );
-          // }}
-        />
+        <Table.Column dataIndex="phone" title="Телефон" />
         <Table.Column dataIndex="email" title="Почта" />
 
         {isAdmin && <Table.Column dataIndex="roles" title="Роль" />}
@@ -268,12 +250,10 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
           }}
           showSorterTooltip={{ title: "Отсортировать по подтверждению" }}
           render={(value: boolean) => (
-            <BooleanField
+            <BooleanCell
               value={value}
               valueLabelFalse="Не подтверждена"
               valueLabelTrue="Подтверждена"
-              trueIcon={<CheckOutlined style={{ color: "#52c41a" }} />}
-              falseIcon={<CloseOutlined style={{ color: "#ff4d4f" }} />}
             />
           )}
         />
@@ -281,15 +261,17 @@ export const UsersList: React.FC<IResourceComponentsProps> = () => {
           dataIndex="status"
           title="Статус"
           align="center"
-          render={(value) => {
-            return <UserStatusTag status={value} />;
-          }}
+          render={(value) => <UserStatusTag status={value} />}
         />
-        <Table.Column<IUser>
+        {/* <Table.Column<IUserSkillForm>
           dataIndex="skillForm"
           title="Анкета"
-          render={(value: null) => (Boolean(value) ? "Анкета " : "Нет")}
-        />
+          render={(value: IUserSkillForm) => {
+            if (value !== null) {
+              return value.createdAt ? "Анкета" : "Нет";
+            }
+          }}
+        /> */}
 
         <Table.Column<IUser>
           title="Действия"

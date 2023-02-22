@@ -1,5 +1,5 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Create, Form, Input, Select, useForm } from "@pankod/refine-antd";
+import { Create, Form, useForm } from "@pankod/refine-antd";
 import {
   HttpError,
   IResourceComponentsProps,
