@@ -19,7 +19,7 @@ import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import StaffField from "../../components/forms/fields/StaffField";
-import EditModal from "../../components/modals/EditModal";
+import ModalActionForm from "../../components/modals/ModalActionForm";
 import { IStaffMember } from "../../interfaces";
 
 //TODO Make form compnent for creating and updating
@@ -56,6 +56,7 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
       isLoading={isLoading}
       title={"Просмотр"}
       canEdit={true}
+      canDelete={isAdmin}
       headerButtons={
         <>
           <MyEditButton
@@ -103,7 +104,7 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
         </Row>
       </>
 
-      <EditModal
+      <ModalActionForm
         modalProps={{
           ...editModalProps,
           title: "Редактировать аккаунт сотрудника",
@@ -111,7 +112,7 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
         formProps={editFormProps}
       >
         <StaffField role={isAdmin}></StaffField>
-      </EditModal>
+      </ModalActionForm>
     </Show>
   );
 };

@@ -27,7 +27,7 @@ import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import TableFilterForm from "../../components/forms/TableFilter";
 import BooleanCell from "../../components/tables/BooleanCell";
-import EditModal from "../../components/modals/EditModal";
+import ModalActionForm from "../../components/modals/ModalActionForm";
 
 // TODO  DO not populate data if error
 
@@ -203,7 +203,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
         </Table>
       </List>
 
-      <EditModal
+      <ModalActionForm
         modalProps={{ ...editModalProps, title: "Редактирование заявки" }}
         formProps={editFormProps}
       >
@@ -229,7 +229,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
             ]}
           />
         </Form.Item>
-      </EditModal>
+      </ModalActionForm>
     </>
   );
 };

@@ -1,13 +1,13 @@
 import { Form, FormProps, Modal, ModalProps } from "@pankod/refine-antd";
 import React from "react";
 
-interface EditModalProps {
+interface ModalActionFormProps {
   modalProps: ModalProps;
   formProps: FormProps;
   children: React.ReactNode;
 }
 
-const EditModal: React.FC<EditModalProps> = ({
+const ModalActionForm: React.FC<ModalActionFormProps> = ({
   children,
   modalProps,
   formProps,
@@ -26,4 +26,4 @@ const EditModal: React.FC<EditModalProps> = ({
   );
 };
 
-export default EditModal;
+export default ModalActionForm;
