@@ -36,6 +36,9 @@ import CustomBreadCrumb from "../../components/shared/CustomBreadCrumb";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import EditModal from "../../components/modals/EditModal";
+import NameField from "../../components/forms/fields/NameField";
+import PhoneField from "../../components/forms/fields/PhoenField";
+import UserStatusField from "../../components/forms/fields/UserStatusField";
 
 const { Title, Text } = Typography;
 
@@ -231,91 +234,37 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
       >
         <Row align="middle" justify="start">
           <Col span={4}>
-            <Form.Item
+            <NameField
               label="Имя"
-              name="firstName"
-              rules={[
-                {
-                  required: false,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              name={"firstName"}
+              required={false}
+            ></NameField>
           </Col>
 
           <Col span={4} push={1}>
-            <Form.Item
+            <NameField
               label="Фамилия"
-              name="secondName"
-              rules={[
-                {
-                  required: false,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              name={"secondName"}
+              required={false}
+            ></NameField>
           </Col>
 
           <Col span={4} push={2}>
-            <Form.Item
+            <NameField
               label="Отчество"
-              name="thirdName"
-              rules={[
-                {
-                  required: false,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              name={"thirdName"}
+              required={false}
+            ></NameField>
           </Col>
         </Row>
 
         <Row align="middle" justify="start">
           <Col span={4}>
-            <Form.Item
-              label="Телефон"
-              name="phone"
-              rules={[
-                {
-                  required: false,
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+            <PhoneField required={false}></PhoneField>
           </Col>
 
           <Col span={4} push={1}>
-            <Form.Item
-              label="Статус"
-              name="status"
-              rules={[
-                {
-                  required: false,
-                },
-              ]}
-            >
-              <Select
-                dropdownMatchSelectWidth={false}
-                options={[
-                  {
-                    label: "Подтвержден",
-                    value: "CONFIRMED",
-                  },
-                  {
-                    label: "В проверке",
-                    value: "IN_CHECK",
-                  },
-                  {
-                    label: "Забанен",
-                    value: "BANNED",
-                  },
-                ]}
-              />
-            </Form.Item>
+            <UserStatusField></UserStatusField>
           </Col>
         </Row>
       </EditModal>

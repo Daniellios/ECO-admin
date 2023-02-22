@@ -1,9 +1,10 @@
 import { Form, FormItemProps, Input } from "@pankod/refine-antd";
 import React from "react";
 
-const PhoneField: React.FC<FormItemProps> = () => {
+const PhoneField: React.FC<FormItemProps> = ({ ...props }) => {
   return (
     <Form.Item
+      {...props}
       label="Телефон"
       name="phone"
       rules={[

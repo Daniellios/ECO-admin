@@ -11,16 +11,10 @@ import EmailField from "../../components/forms/fields/EmailField";
 import NameField from "../../components/forms/fields/NameField";
 import PasswordField from "../../components/forms/fields/PasswordField";
 import PhoneField from "../../components/forms/fields/PhoenField";
+import StaffField from "../../components/forms/fields/StaffField";
 
 import { IStaffMember } from "../../interfaces";
 // import { useForm, Controller} from "@pankod/refine-react-hook-form";
-
-enum Role {
-  USER = "USER",
-  ADMIN = "ADMIN",
-  MANAGER = "MANAGER",
-  COMPANY = "COMPANY",
-}
 
 export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource();
@@ -82,44 +76,7 @@ export const StaffCreate: React.FC<IResourceComponentsProps> = () => {
 
         <PasswordField />
 
-        <Form.Item
-          label="Роль"
-          name="roles"
-          rules={[
-            {
-              message: "Это обязательное поле",
-              required: true,
-            },
-            {
-              type: "enum",
-              enum: [Role.ADMIN, Role.MANAGER],
-            },
-          ]}
-        >
-          <Select
-            dropdownMatchSelectWidth={false}
-            defaultValue={"MANAGER"}
-            options={
-              isAdmin
-                ? [
-                    {
-                      label: "Админ",
-                      value: "ADMIN",
-                    },
-                    {
-                      label: "Менеджер",
-                      value: "MANAGER",
-                    },
-                  ]
-                : [
-                    {
-                      label: "Менеджер",
-                      value: "MANAGER",
-                    },
-                  ]
-            }
-          />
-        </Form.Item>
+        <StaffField role={isAdmin}></StaffField>
       </Form>
     </Create>
   );

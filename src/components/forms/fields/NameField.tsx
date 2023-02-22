@@ -1,9 +1,10 @@
 import { Form, FormItemProps, Input } from "@pankod/refine-antd";
 import React from "react";
 
-const NameField: React.FC<FormItemProps> = ({ label, name }) => {
+const NameField: React.FC<FormItemProps> = ({ label, name, ...props }) => {
   return (
     <Form.Item
+      {...props}
       label={label}
       name={name}
       rules={[

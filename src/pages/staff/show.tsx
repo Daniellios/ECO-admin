@@ -18,6 +18,7 @@ import {
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
+import StaffField from "../../components/forms/fields/StaffField";
 import EditModal from "../../components/modals/EditModal";
 import { IStaffMember } from "../../interfaces";
 
@@ -109,38 +110,7 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
         }}
         formProps={editFormProps}
       >
-        <Form.Item
-          label="Роль"
-          name="roles"
-          rules={[
-            {
-              required: false,
-            },
-          ]}
-        >
-          <Select
-            defaultValue={"MANAGER"}
-            options={
-              isAdmin
-                ? [
-                    {
-                      label: "Админ",
-                      value: "ADMIN",
-                    },
-                    {
-                      label: "Менеджер",
-                      value: "MANAGER",
-                    },
-                  ]
-                : [
-                    {
-                      label: "Менеджер",
-                      value: "MANAGER",
-                    },
-                  ]
-            }
-          />
-        </Form.Item>
+        <StaffField role={isAdmin}></StaffField>
       </EditModal>
     </Show>
   );
