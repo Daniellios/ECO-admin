@@ -10,7 +10,7 @@ import MySaveButton from "../../components/buttons/MySaveButton";
 import EmailField from "../../components/forms/fields/EmailField";
 import NameField from "../../components/forms/fields/NameField";
 import PasswordField from "../../components/forms/fields/PasswordField";
-import PhoneField from "../../components/forms/fields/PhoenField";
+import PhoneField from "../../components/forms/fields/PhoneField";
 import StaffField from "../../components/forms/fields/StaffField";
 
 import { IStaffMember } from "../../interfaces";

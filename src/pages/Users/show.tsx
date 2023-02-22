@@ -37,7 +37,7 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import EditModal from "../../components/modals/EditModal";
 import NameField from "../../components/forms/fields/NameField";
-import PhoneField from "../../components/forms/fields/PhoenField";
+import PhoneField from "../../components/forms/fields/PhoneField";
 import UserStatusField from "../../components/forms/fields/UserStatusField";
 
 const { Title, Text } = Typography;
