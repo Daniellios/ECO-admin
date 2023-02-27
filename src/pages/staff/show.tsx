@@ -20,7 +20,7 @@ import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import StaffField from "../../components/forms/fields/StaffField";
 import ModalActionForm from "../../components/modals/ModalActionForm";
-import { IStaffMember } from "../../interfaces";
+import { IStaffMember } from "../..";
 
 //TODO Make form compnent for creating and updating
 export const StaffShow: React.FC<IResourceComponentsProps> = () => {

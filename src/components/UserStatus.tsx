@@ -1,5 +1,5 @@
 import { Tag } from "@pankod/refine-antd";
-import { UserStatus } from "../interfaces";
+import { UserStatus } from "..";
 
 interface UserStatusProps {
   status: UserStatus;

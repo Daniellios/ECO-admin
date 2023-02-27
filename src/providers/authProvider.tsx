@@ -2,7 +2,7 @@ import { AuthProvider } from "@pankod/refine-core";
 import { API_URL, axiosInstance } from "./config";
 import inMemoryJWT from "./inMemoryJWT";
 import jwt_decode from "jwt-decode";
-import { IDecodedIdentity, IDecodedJwt } from "../interfaces";
+import { IDecodedIdentity, IDecodedJwt } from "..";
 
 const authProvider: AuthProvider = {
   login: async ({ email, password }) => {

@@ -38,9 +38,9 @@ export interface IContract {
 
   // timeline: string;
 
-  // candidates: UserEntity[];
+  candidates: IUser[];
 
-  // ecologist: UserEntity;
+  ecologist: IUser;
 
   company: ICompany;
 }

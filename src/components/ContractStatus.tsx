@@ -1,8 +1,8 @@
 import { Tag } from "@pankod/refine-antd";
-import { ContractStatus } from "../interfaces";
+import { ContractStatus } from "..";
 
 interface ContractStatusProps {
-  status: ContractStatus;
+  status?: ContractStatus;
 }
 
 export const ContractStatusTag: React.FC<ContractStatusProps> = ({
@@ -26,8 +26,14 @@ export const ContractStatusTag: React.FC<ContractStatusProps> = ({
   }
 
   return (
-    <Tag title={text} color={color}>
-      {text}
-    </Tag>
+    <>
+      {status ? (
+        <Tag title={text} color={color}>
+          {text}
+        </Tag>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };

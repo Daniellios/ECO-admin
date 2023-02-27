@@ -17,7 +17,7 @@ import {
   usePermissions,
   useResource,
 } from "@pankod/refine-core";
-import { IStaffMember } from "../../interfaces";
+import { IStaffMember } from "../..";
 
 import { useTable } from "@pankod/refine-antd";
 import TableFilterForm from "../../components/forms/TableFilter";

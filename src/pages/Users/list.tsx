@@ -22,12 +22,7 @@ import {
 
 import { useTable } from "@pankod/refine-antd";
 
-import {
-  IFilterUserProps,
-  IUser,
-  IUserSkillForm,
-  UserStatus,
-} from "../../interfaces";
+import { IFilterUserProps, IUser, IUserSkillForm, UserStatus } from "../..";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
 import TableFilterForm from "../../components/forms/TableFilter";

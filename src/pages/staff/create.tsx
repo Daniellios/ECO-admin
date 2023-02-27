@@ -13,7 +13,7 @@ import PasswordField from "../../components/forms/fields/PasswordField";
 import PhoneField from "../../components/forms/fields/PhoneField";
 import StaffField from "../../components/forms/fields/StaffField";
 
-import { IStaffMember } from "../../interfaces";
+import { IStaffMember } from "../..";
 // import { useForm, Controller} from "@pankod/refine-react-hook-form";
 
 export const StaffCreate: React.FC<IResourceComponentsProps> = () => {

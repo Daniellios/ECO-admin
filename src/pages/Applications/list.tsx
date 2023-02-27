@@ -22,7 +22,7 @@ import {
 } from "@pankod/refine-antd";
 import React from "react";
 import { List, Table } from "@pankod/refine-antd";
-import { IApplication, IFilterApplication } from "../../interfaces";
+import { IApplication, IFilterApplication } from "../..";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import TableFilterForm from "../../components/forms/TableFilter";

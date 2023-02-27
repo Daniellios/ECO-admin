@@ -18,7 +18,7 @@ import {
   Select,
 } from "@pankod/refine-antd";
 
-import { IUser, IUserSkillForm } from "../../interfaces";
+import { IUser, IUserSkillForm } from "../..";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import CustomBreadCrumb from "../../components/shared/CustomBreadCrumb";

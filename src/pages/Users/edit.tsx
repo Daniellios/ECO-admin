@@ -21,7 +21,7 @@ import { useForm, useSelect } from "@pankod/refine-antd";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MySaveButton from "../../components/buttons/MySaveButton";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
-import { IUpdateUser, UserStatus } from "../../interfaces";
+import { IUpdateUser, UserStatus } from "../..";
 import { removeEmptyValues } from "../../helpers/removeEmptyValues";
 
 export const UserEdit: React.FC<IResourceComponentsProps> = () => {

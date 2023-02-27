@@ -19,7 +19,7 @@ import RefetchListButton from "../../components/buttons/RefetchListButton";
 import { ContractStatusTag } from "../../components/ContractStatus";
 import TableFilterForm from "../../components/forms/TableFilter";
 import BooleanCell from "../../components/tables/BooleanCell";
-import { ICompany, IContract, IContractJob } from "../../interfaces";
+import { ICompany, IContract, IContractJob } from "../..";
 
 const ContractsList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({

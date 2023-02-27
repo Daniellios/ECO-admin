@@ -14,7 +14,7 @@ import {
   useSelect,
 } from "@pankod/refine-antd";
 
-import { IUser } from "../../interfaces";
+import { IUser } from "../..";
 import MySaveButton from "../../components/buttons/MySaveButton";
 import { PlusCircleOutlined } from "@ant-design/icons";
 
