@@ -39,6 +39,10 @@ const App: React.FC = () => {
           Layout: {
             colorBgTrigger: "#333333",
           },
+          Card: {},
+          Divider: {
+            // colorBgContainer: "transparent",
+          },
         },
       }}
     >

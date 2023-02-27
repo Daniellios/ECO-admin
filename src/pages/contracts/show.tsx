@@ -6,6 +6,7 @@ import {
   Row,
   Show,
   ShowButton,
+  Timeline,
   Title,
   Typography,
 } from "@pankod/refine-antd";
@@ -22,7 +23,7 @@ import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MyShowButton from "../../components/buttons/MyShowButton";
 import { ContractStatusTag } from "../../components/ContractStatus";
 import DateCell from "../../components/tables/DateCell";
-
+const { Panel } = Collapse;
 const ContractShow: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
     resourceNameOrRouteName: "contracts",
@@ -65,14 +66,14 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
       }
     >
       <Card>
-        <Typography.Title level={3}>Общая информация </Typography.Title>
+        <Row align={"middle"} justify="space-between">
+          <Typography.Title level={3}>Общая информация </Typography.Title>
+          <ContractStatusTag status={record?.status}></ContractStatusTag>
+        </Row>
+
         <Divider></Divider>
 
         <Row>
-          <Col span={2}>
-            <Typography.Title level={5}>Статус</Typography.Title>
-            <ContractStatusTag status={record?.status}></ContractStatusTag>
-          </Col>
           <Col span={22}>
             <Typography.Title level={5}>Описание</Typography.Title>
             <Typography.Text>
@@ -131,9 +132,37 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
         </Row>
       </Card>
 
-      {record?.contractJobs && record.contractJobs.length > 0 && (
+      {services && services.length > 0 && (
         <Card>
-          <Typography.Title level={3}>Услуги </Typography.Title>
+          <Typography.Title level={3}>Список работ </Typography.Title>
+          <Row align={"middle"}>
+            <Col span={6}>
+              <Typography.Title level={5}> Название услуги</Typography.Title>
+            </Col>
+            <Col span={6}>
+              <Typography.Title level={5}> Объем работ</Typography.Title>
+            </Col>
+            <Col span={6}>
+              <Typography.Title level={5}>Регион</Typography.Title>
+            </Col>
+            <Col span={6}>
+              <Typography.Title level={5}>Адрес</Typography.Title>
+            </Col>
+          </Row>
+          <Divider style={{ marginTop: 8, marginBottom: 8 }}></Divider>
+          {services.map((job) => {
+            return (
+              <>
+                <Row align="middle" gutter={[16, 24]} key={job.id}>
+                  <Col span={6}>{job.serviceName}</Col>
+                  <Col span={6}>{job.serviceVolume}</Col>
+                  <Col span={6}>{job.region}</Col>
+                  <Col span={6}>{job.address}</Col>
+                </Row>
+                <Divider style={{ marginTop: 2, marginBottom: 2 }}></Divider>
+              </>
+            );
+          })}
         </Card>
       )}
 
@@ -175,7 +204,7 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
             {record?.id ? (
               <MyShowButton
                 hideText
-                title="Подробнее"
+                title="Перейти к компании"
                 size="large"
                 resource="companies"
                 recordItemId={record.id}
@@ -217,7 +246,7 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
               {ecologist?.id ? (
                 <MyShowButton
                   hideText
-                  title="Просмотреть"
+                  title="Перейти к экологу"
                   size="large"
                   resourceNameOrRouteName="users"
                   recordItemId={ecologist.id}
