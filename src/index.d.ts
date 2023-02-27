@@ -80,7 +80,7 @@ export interface ICompany {
 
   status: CompanyStatus;
 
-  readonly roles: Role;
+  roles: Role;
 
   createdAt: Date;
 

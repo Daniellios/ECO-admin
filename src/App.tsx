@@ -53,6 +53,7 @@ const App: React.FC = () => {
             initialRoute: "/users",
           }),
         }}
+        Sider={CustomSider}
         authProvider={authProvider}
         LoginPage={LoginPage}
         dataProvider={{

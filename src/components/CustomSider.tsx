@@ -142,11 +142,14 @@ const CustomSider: React.FC<RefineLayoutSiderProps> = ({ render }) => {
 
   const antLayoutSider: CSSProperties = {
     position: "relative",
+    backgroundColor: "#111111",
   };
   const antLayoutSiderMobile: CSSProperties = {
     position: "fixed",
     height: "100vh",
+
     zIndex: 999,
+    backgroundColor: "#111111",
   };
 
   return (
@@ -162,6 +165,7 @@ const CustomSider: React.FC<RefineLayoutSiderProps> = ({ render }) => {
       <Menu
         selectedKeys={[selectedKey]}
         defaultOpenKeys={defaultOpenKeys}
+        style={{ backgroundColor: "#111111", color: "white" }}
         mode="inline"
         onClick={() => {
           if (!breakpoint.lg) {
