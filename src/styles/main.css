@@ -1,6 +1,8 @@
 :root {
   --green: #52c41a;
   --white: #ffffff;
+  --black: #111111;
+  --dark-gray: #333333;
 }
 
 .greenBg {
@@ -13,4 +15,19 @@
   color: var(--green);
   border-color: var(--green);
   background-color: var(--white);
+}
+
+.ant-menu-item-selected {
+  background-color: var(--dark-gray) !important;
+  color: var(--green) !important;
+}
+
+.ant-menu-item-active {
+  background-color: var(--dark-gray) !important;
+  color: var(--white) !important;
+}
+
+.ant-layout-sider-trigger {
+  /* color: var(--green) !important; */
+  background-color: var(--dark-gray) !important;
 }

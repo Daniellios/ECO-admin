@@ -165,7 +165,11 @@ const CustomSider: React.FC<RefineLayoutSiderProps> = ({ render }) => {
       <Menu
         selectedKeys={[selectedKey]}
         defaultOpenKeys={defaultOpenKeys}
-        style={{ backgroundColor: "#111111", color: "white" }}
+        style={{
+          backgroundColor: "#111111",
+          color: "white",
+          accentColor: "white",
+        }}
         mode="inline"
         onClick={() => {
           if (!breakpoint.lg) {

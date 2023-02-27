@@ -33,19 +33,7 @@ import ContractShow from "./pages/contracts/show";
 
 const App: React.FC = () => {
   return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Layout: {
-            colorBgTrigger: "#333333",
-          },
-          Card: {},
-          Divider: {
-            // colorBgContainer: "transparent",
-          },
-        },
-      }}
-    >
+    <ConfigProvider>
       <Refine
         routerProvider={{
           ...routerProvider,
