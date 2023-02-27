@@ -11,6 +11,92 @@ export enum Role {
   COMPANY = "COMPANY",
 }
 
+export interface IContract {
+  id: string;
+
+  createdAt: Date;
+
+  updatedAt: Date;
+
+  startAt: Date;
+
+  endAt: Date;
+
+  contractJobs: IContractJob[];
+
+  totalPrice: number;
+
+  paymentAmount: number;
+
+  description: string;
+
+  status: ContractStatus;
+
+  hasCandidates: boolean;
+
+  // stage: string;
+
+  // timeline: string;
+
+  // candidates: UserEntity[];
+
+  // ecologist: UserEntity;
+
+  company: ICompany;
+}
+
+export interface IContractJob {
+  id: number;
+
+  region: string;
+
+  address: string;
+
+  serviceName: string;
+
+  serviceVolume: number;
+}
+
+export interface ICompany {
+  id: number;
+
+  companyName: string;
+
+  companySphere: string;
+
+  contactFirstName: string;
+
+  contactSecondName: string;
+
+  email: string;
+
+  isEmailConfirmed: boolean;
+
+  password: string;
+
+  hashedRT: string;
+
+  phone: string;
+
+  status: CompanyStatus;
+
+  readonly roles: Role;
+
+  createdAt: Date;
+
+  updatedAt: Date;
+
+  contracts: IContract[];
+
+  // needsForm: CompanyNeedsFormEntity;
+}
+
+export enum ContractStatus {
+  PREPARATION = "PREPARATION",
+  COMPLETED = "COMPLETED",
+  IN_WORK = "IN_WORK",
+}
+
 export interface IDecodedIdentity {
   id: number;
   roles: Role;

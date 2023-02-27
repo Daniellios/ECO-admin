@@ -29,6 +29,7 @@ import CustomSider from "./components/CustomSider";
 import { StaffCreate, StaffList, StaffShow } from "./pages/staff";
 import { contractsDataProvider } from "./providers/data/contracts-provider";
 import ContractsList from "./pages/contracts/list";
+import ContractShow from "./pages/contracts/show";
 
 const App: React.FC = () => {
   return (
@@ -51,11 +52,6 @@ const App: React.FC = () => {
         Layout={Layout}
         catchAll={<ErrorComponent />}
         resources={[
-          // {
-          //   name: "contracts",
-          //   options: { label: "Заказы" },
-          //   icon: <InboxOutlined />,
-          // },
           {
             name: "users",
             options: { label: "Экологи" },
@@ -70,6 +66,7 @@ const App: React.FC = () => {
             name: "contracts",
             options: { label: "Заказы" },
             list: ContractsList,
+            show: ContractShow,
             icon: <AuditOutlined />,
           },
           {
