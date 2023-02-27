@@ -1,6 +1,8 @@
 import {
   DateField,
   EditButton,
+  Form,
+  Input,
   List,
   ShowButton,
   Space,
@@ -19,7 +21,7 @@ import RefetchListButton from "../../components/buttons/RefetchListButton";
 import { ContractStatusTag } from "../../components/ContractStatus";
 import TableFilterForm from "../../components/forms/TableFilter";
 import BooleanCell from "../../components/tables/BooleanCell";
-import { ICompany, IContract, IContractJob } from "../..";
+import { ICompany, IContract, IContractJob, IFilterContract } from "../..";
 
 const ContractsList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
@@ -32,33 +34,23 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
 
   const { tableProps, tableQueryResult, searchFormProps } = useTable<
     IContract,
-    HttpError
-    // IFilterApplication
+    HttpError,
+    IFilterContract
   >({
     syncWithLocation: false,
     initialPageSize: 15,
     resource: resource.name,
     queryOptions: { keepPreviousData: true },
     dataProviderName: resource.name,
-    // onSearch: (values: IFilterApplication) => {
-    //   return [
-    //     {
-    //       field: "phone",
-    //       operator: "contains",
-    //       value: values.phone,
-    //     },
-    //     {
-    //       field: "createdAt",
-    //       operator: "eq",
-    //       value: values.createdAt,
-    //     },
-    //     {
-    //       field: "isProcessed",
-    //       operator: "eq",
-    //       value: values.isProcessed,
-    //     },
-    //   ];
-    // },
+    onSearch: (values: IFilterContract) => {
+      return [
+        {
+          field: "status",
+          operator: "contains",
+          value: values.status,
+        },
+      ];
+    },
   });
 
   return (
@@ -70,6 +62,15 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
         </>
       }
     >
+      <TableFilterForm
+        formTitle="Фильтр по заказам"
+        formProps={searchFormProps}
+      >
+        <Form.Item name="status">
+          <Input placeholder="Статус" />
+        </Form.Item>
+      </TableFilterForm>
+
       <Table<IContract>
         {...tableProps}
         rowKey="id"

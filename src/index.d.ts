@@ -91,6 +91,10 @@ export interface ICompany {
   // needsForm: CompanyNeedsFormEntity;
 }
 
+export interface IFilterContract {
+  status: ContractStatus;
+}
+
 export enum ContractStatus {
   PREPARATION = "PREPARATION",
   COMPLETED = "COMPLETED",
