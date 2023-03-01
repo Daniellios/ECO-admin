@@ -28,6 +28,8 @@ import MyEditButton from "../../components/buttons/MyEditButton";
 import TableFilterForm from "../../components/forms/TableFilter";
 import BooleanCell from "../../components/tables/BooleanCell";
 import ModalActionForm from "../../components/modals/ModalActionForm";
+import DatePickerField from "../../components/forms/fields/DatePickerField";
+import DateCell from "../../components/tables/DateCell";
 
 // TODO  DO not populate data if error
 
@@ -68,10 +70,6 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
     },
   });
 
-  const handleDatePick: DatePickerProps["onChange"] = (date) => {
-    return date?.get("d");
-  };
-
   const {
     modalProps: editModalProps,
     formProps: editFormProps,
@@ -93,10 +91,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
             <Input placeholder="Телефон" />
           </Form.Item>
           <Form.Item name="createdAt">
-            <DatePicker
-              onChange={handleDatePick}
-              placeholder="Дата заявки"
-            ></DatePicker>
+            <DatePickerField placeholder="Дата заявки"></DatePickerField>
           </Form.Item>
           <Form.Item name="isProcessed">
             <Select
@@ -151,7 +146,7 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
             title="Дата заявки"
             align="left"
             render={(value) => {
-              return <DateField value={value}> </DateField>;
+              return <DateCell value={value}> </DateCell>;
             }}
           />
 

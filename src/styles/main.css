@@ -31,3 +31,7 @@
   /* color: var(--green) !important; */
   background-color: var(--dark-gray) !important;
 }
+
+/* .ant-btn:hover {
+  border-color: var(--green) !important;
+} */

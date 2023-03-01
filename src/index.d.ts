@@ -92,7 +92,15 @@ export interface ICompany {
 }
 
 export interface IFilterContract {
+  id: string;
+
   status: ContractStatus;
+
+  startAt: Date;
+
+  endAt: Date;
+
+  hasCandidates: boolean;
 }
 
 export enum ContractStatus {

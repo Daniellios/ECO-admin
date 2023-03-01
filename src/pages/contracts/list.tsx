@@ -4,6 +4,7 @@ import {
   Form,
   Input,
   List,
+  Select,
   ShowButton,
   Space,
   Table,
@@ -22,6 +23,8 @@ import { ContractStatusTag } from "../../components/ContractStatus";
 import TableFilterForm from "../../components/forms/TableFilter";
 import BooleanCell from "../../components/tables/BooleanCell";
 import { ICompany, IContract, IContractJob, IFilterContract } from "../..";
+import DatePickerField from "../../components/forms/fields/DatePickerField";
+import DateCell from "../../components/tables/DateCell";
 
 const ContractsList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
@@ -49,6 +52,21 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
           operator: "contains",
           value: values.status,
         },
+        {
+          field: "startAt",
+          operator: "eq",
+          value: values.startAt,
+        },
+        {
+          field: "endAt",
+          operator: "eq",
+          value: values.endAt,
+        },
+        {
+          field: "hasCandidates",
+          operator: "eq",
+          value: values.hasCandidates,
+        },
       ];
     },
   });
@@ -67,7 +85,46 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
         formProps={searchFormProps}
       >
         <Form.Item name="status">
-          <Input placeholder="Статус" />
+          <Select
+            dropdownMatchSelectWidth={false}
+            placeholder="Статус"
+            options={[
+              {
+                label: "В работе",
+                value: "IN_WORK",
+              },
+              {
+                label: "Подготовка",
+                value: "PREPARATION",
+              },
+              {
+                label: "Завершен",
+                value: "COMPLETED",
+              },
+            ]}
+          />
+        </Form.Item>
+        <Form.Item name="startAt">
+          <DatePickerField placeholder="Начало"></DatePickerField>
+        </Form.Item>
+        <Form.Item name="endAt">
+          <DatePickerField placeholder="Конец"></DatePickerField>
+        </Form.Item>
+        <Form.Item name="hasCandidates">
+          <Select
+            dropdownMatchSelectWidth={false}
+            placeholder="Кандидаты"
+            options={[
+              {
+                label: "Имеются",
+                value: true,
+              },
+              {
+                label: "Не имеются",
+                value: false,
+              },
+            ]}
+          />
         </Form.Item>
       </TableFilterForm>
 
@@ -82,20 +139,20 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
         }}
         loading={tableQueryResult.isLoading}
       >
-        <Table.Column
+        {/* <Table.Column
           dataIndex="createdAt"
           title="Дата оформления"
           align="center"
           render={(value) => {
             return <DateField value={value}> </DateField>;
           }}
-        />
+        /> */}
         <Table.Column
           dataIndex="startAt"
           title="Начало работ"
           align="center"
           render={(value) => {
-            return <DateField value={value}> </DateField>;
+            return <DateCell value={value}> </DateCell>;
           }}
         />
         <Table.Column
@@ -103,7 +160,7 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
           title="Окончание работ"
           align="center"
           render={(value) => {
-            return <DateField value={value}> </DateField>;
+            return <DateCell value={value}> </DateCell>;
           }}
         />
         <Table.Column<ICompany>
@@ -111,7 +168,7 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
           title="Заказчик"
           align="center"
           render={(value: ICompany) => {
-            return value ? value.companyName : "";
+            return value ? value.companyName : "-";
           }}
         />
 

@@ -30,10 +30,11 @@ import { StaffCreate, StaffList, StaffShow } from "./pages/staff";
 import { contractsDataProvider } from "./providers/data/contracts-provider";
 import ContractsList from "./pages/contracts/list";
 import ContractShow from "./pages/contracts/show";
+import locale from "antd/locale/ru_RU";
 
 const App: React.FC = () => {
   return (
-    <ConfigProvider>
+    <ConfigProvider locale={locale}>
       <Refine
         routerProvider={{
           ...routerProvider,

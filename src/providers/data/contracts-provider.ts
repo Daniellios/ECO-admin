@@ -22,8 +22,6 @@ export const contractsDataProvider = (apiUrl: string): DataProvider => ({
       );
     }
 
-    // console.log("PARAMS ", paramFilter);
-
     const { data, headers } = await axiosInstance.get(url, {
       params: {
         perPage: pagination?.pageSize,
