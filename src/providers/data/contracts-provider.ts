@@ -23,8 +23,6 @@ export const contractsDataProvider = (apiUrl: string): DataProvider => ({
       );
     }
 
-    console.log(sort);
-
     if (sort) {
       sortFilters = Object.fromEntries(
         //@ts-ignore
@@ -35,7 +33,7 @@ export const contractsDataProvider = (apiUrl: string): DataProvider => ({
       );
     }
 
-    console.log(sortFilters);
+    console.log(paramFilter);
 
     const { data, headers } = await axiosInstance.get(url, {
       params: {

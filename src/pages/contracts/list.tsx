@@ -67,6 +67,11 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
           operator: "eq",
           value: values.hasCandidates,
         },
+        {
+          field: "companyName",
+          operator: "eq",
+          value: values.companyName,
+        },
       ];
     },
   });
@@ -107,25 +112,13 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
         <Form.Item name="startAt">
           <DatePickerField placeholder="Начало"></DatePickerField>
         </Form.Item>
+
         <Form.Item name="endAt">
           <DatePickerField placeholder="Конец"></DatePickerField>
         </Form.Item>
-        <Form.Item name="hasCandidates">
-          <Select
-            dropdownMatchSelectWidth={false}
-            placeholder="Кандидаты"
-            options={[
-              {
-                label: "Имеются",
-                value: true,
-              },
-              {
-                label: "Не имеются",
-                value: false,
-              },
-            ]}
-          />
-        </Form.Item>
+        {/* <Form.Item name="companyName">
+          <Input placeholder="Заказчик"></Input>
+        </Form.Item> */}
       </TableFilterForm>
 
       <Table<IContract>
@@ -195,8 +188,8 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
           render={(value: boolean) => (
             <BooleanCell
               value={value}
-              valueLabelFalse="Не обработана"
-              valueLabelTrue="Обработана"
+              valueLabelFalse="Нет"
+              valueLabelTrue="Есть"
             ></BooleanCell>
           )}
         />

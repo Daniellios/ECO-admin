@@ -1,24 +1,36 @@
 import {
+  CheckCircleOutlined,
+  CheckOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
   Card,
   Col,
   Collapse,
   Divider,
+  EditButton,
   Row,
   Show,
   ShowButton,
+  Space,
   Timeline,
   Title,
+  Tooltip,
   Typography,
 } from "@pankod/refine-antd";
 import {
   HttpError,
   IResourceComponentsProps,
+  useDelete,
   usePermissions,
   useResource,
   useShow,
+  useUpdate,
 } from "@pankod/refine-core";
 import { IContract } from "../..";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
+import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MyShowButton from "../../components/buttons/MyShowButton";
 import { ContractStatusTag } from "../../components/ContractStatus";
@@ -29,14 +41,21 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
     resourceNameOrRouteName: "contracts",
   });
 
+  const { mutate: ecologistMutation } = useUpdate();
+
+  const { mutate: contractJobMutation } = useDelete();
+
   const { data: identity, isFetched } = usePermissions({});
 
   const { queryResult } = useShow<IContract, HttpError>({});
-  const { data, isLoading } = queryResult;
+  const { data, isLoading, refetch } = queryResult;
   const record = data?.data;
 
   const ecologist = record?.ecologist;
   const company = record?.company;
+  const candidates = record?.candidates;
+
+  console.log(candidates);
 
   const services = record?.contractJobs;
 
@@ -45,6 +64,26 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
   const isAdmin = identity?.roles === "ADMIN";
 
   console.log(ecologist?.id);
+
+  const assignEcologistToContract = (ecologistId: number) => {
+    ecologistMutation({
+      resource: `${resource.name}/assignEcologist`,
+      id: record?.id || "",
+      values: {
+        id: ecologistId,
+      },
+    });
+  };
+
+  const removeContractJob = (jobId: number) => {
+    contractJobMutation({
+      resource: `${resource.name}/job`,
+      id: "",
+      values: {
+        id: jobId,
+      },
+    });
+  };
 
   return (
     <Show
@@ -116,48 +155,44 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
             <Typography.Text> {record?.paymentAmount}</Typography.Text>
           </Col>
         </Row>
-
-        <Divider></Divider>
-        <Row>
-          {contractStatus === "IN_WORK" || "COMPLETED" ? (
-            <></>
-          ) : (
-            <Col span={6}>
-              <Typography.Title level={5}>
-                Кандидаты на выполнение
-              </Typography.Title>
-              <Typography.Text> {record?.hasCandidates}</Typography.Text>
-            </Col>
-          )}
-        </Row>
       </Card>
 
       {services && services.length > 0 && (
         <Card>
           <Typography.Title level={3}>Список работ </Typography.Title>
           <Row align={"middle"}>
-            <Col span={6}>
+            <Col span={5}>
               <Typography.Title level={5}> Название услуги</Typography.Title>
             </Col>
-            <Col span={6}>
+            <Col span={5}>
               <Typography.Title level={5}> Объем работ</Typography.Title>
             </Col>
-            <Col span={6}>
+            <Col span={5}>
               <Typography.Title level={5}>Регион</Typography.Title>
             </Col>
-            <Col span={6}>
+            <Col span={5}>
               <Typography.Title level={5}>Адрес</Typography.Title>
+            </Col>
+            <Col span={4}>
+              <Typography.Title level={5}>Действие</Typography.Title>
             </Col>
           </Row>
           <Divider style={{ marginTop: 8, marginBottom: 8 }}></Divider>
           {services.map((job) => {
             return (
               <>
-                <Row align="middle" gutter={[16, 24]} key={job.id}>
-                  <Col span={6}>{job.serviceName}</Col>
-                  <Col span={6}>{job.serviceVolume}</Col>
-                  <Col span={6}>{job.region}</Col>
-                  <Col span={6}>{job.address}</Col>
+                <Row align="middle" justify={"start"} key={job.id}>
+                  <Col span={5}>{job.serviceName}</Col>
+                  <Col span={5}>{job.serviceVolume}</Col>
+                  <Col span={5}>{job.region}</Col>
+                  <Col span={5}>{job.address}</Col>
+                  <Col span={4}>
+                    <Button
+                      danger
+                      onClick={() => removeContractJob(job.id)}
+                      icon={<DeleteOutlined />}
+                    ></Button>
+                  </Col>
                 </Row>
                 <Divider style={{ marginTop: 2, marginBottom: 2 }}></Divider>
               </>
@@ -169,53 +204,100 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
       {contractStatus !== "IN_WORK" && contractStatus !== "COMPLETED" && (
         <Card>
           <Typography.Title level={3}>Кандидаты</Typography.Title>
+          {candidates &&
+            candidates?.map((ecologist) => {
+              return (
+                <Row align={"middle"} justify="space-between">
+                  <Col span={6}>
+                    <Typography.Title level={5}>Ф.И.О</Typography.Title>
+                    <Typography.Text>
+                      {`${ecologist.firstName} ${ecologist.secondName} ${ecologist.thirdName}`}
+                    </Typography.Text>
+                  </Col>
+                  <Col span={6}>
+                    <Typography.Title level={5}>Телефон</Typography.Title>
+                    <Typography.Text>
+                      {company?.companySphere
+                        ? company.companySphere
+                        : "Не указано"}
+                    </Typography.Text>
+                  </Col>
+                  <Col span={6}>
+                    <Typography.Title level={5}>Почта</Typography.Title>
+                    <Typography.Text>{ecologist?.email}</Typography.Text>
+                  </Col>
+                  <Col span={6}>
+                    <Typography.Title level={5}>Действие</Typography.Title>
+                    <Space>
+                      <MyShowButton
+                        hideText
+                        title="Перейти к экологу"
+                        size="small"
+                        resourceNameOrRouteName="users"
+                        recordItemId={ecologist.id}
+                        icon
+                      />
+                      <MyEditButton
+                        hideText
+                        onClick={() => assignEcologistToContract(ecologist.id)}
+                        title="Назначить на заказ"
+                        icon={<CheckOutlined />}
+                        size="small"
+                      ></MyEditButton>
+                    </Space>
+                  </Col>
+                </Row>
+              );
+            })}
         </Card>
       )}
 
-      <Card>
-        <Typography.Title level={3}>Заказчик</Typography.Title>
+      {company && (
+        <Card>
+          <Typography.Title level={3}>Заказчик</Typography.Title>
 
-        <Row align={"middle"}>
-          <Col span={6}>
-            <Typography.Title level={5}>Наименование</Typography.Title>
-            <Typography.Text>
-              {company?.companyName ? company.companyName : "Не указано"}
-            </Typography.Text>
-          </Col>
-          <Col span={4}>
-            <Typography.Title level={5}>Сфера</Typography.Title>
-            <Typography.Text>
-              {company?.companySphere ? company.companySphere : "Не указано"}
-            </Typography.Text>
-          </Col>
-          <Col span={6}>
-            <Typography.Title level={5}>Почта</Typography.Title>
-            <Typography.Text>
-              {company?.email ? company.email : "Не указана"}
-            </Typography.Text>
-          </Col>
-          <Col span={6}>
-            <Typography.Title level={5}>Телефон</Typography.Title>
-            <Typography.Text>
-              {company?.phone ? company.phone : "Не указан"}
-            </Typography.Text>
-          </Col>
-          <Col span={2}>
-            {record?.id ? (
-              <MyShowButton
-                hideText
-                title="Перейти к компании"
-                size="large"
-                resource="companies"
-                recordItemId={record.id}
-                icon
-              />
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-      </Card>
+          <Row align={"middle"}>
+            <Col span={6}>
+              <Typography.Title level={5}>Наименование</Typography.Title>
+              <Typography.Text>
+                {company?.companyName ? company.companyName : "Не указано"}
+              </Typography.Text>
+            </Col>
+            <Col span={4}>
+              <Typography.Title level={5}>Сфера</Typography.Title>
+              <Typography.Text>
+                {company?.companySphere ? company.companySphere : "Не указано"}
+              </Typography.Text>
+            </Col>
+            <Col span={6}>
+              <Typography.Title level={5}>Почта</Typography.Title>
+              <Typography.Text>
+                {company?.email ? company.email : "Не указана"}
+              </Typography.Text>
+            </Col>
+            <Col span={6}>
+              <Typography.Title level={5}>Телефон</Typography.Title>
+              <Typography.Text>
+                {company?.phone ? company.phone : "Не указан"}
+              </Typography.Text>
+            </Col>
+            <Col span={2}>
+              {record?.id ? (
+                <MyShowButton
+                  hideText
+                  title="Перейти к компании"
+                  size="large"
+                  resource="companies"
+                  recordItemId={record.id}
+                  icon
+                />
+              ) : (
+                <></>
+              )}
+            </Col>
+          </Row>
+        </Card>
+      )}
 
       {contractStatus === "IN_WORK" && (
         <Card>

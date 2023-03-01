@@ -101,6 +101,7 @@ export interface IFilterContract {
   endAt: Date;
 
   hasCandidates: boolean;
+  companyName: string;
 }
 
 export enum ContractStatus {

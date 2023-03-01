@@ -21,7 +21,7 @@ const MyShowButton: React.FC<ShowButtonProps> = ({
           resourceNameOrRouteName ? resourceNameOrRouteName : undefined
         }
         recordItemId={recordItemId}
-        icon={icon ? <EyeOutlined></EyeOutlined> : ""}
+        icon={icon ? <EyeOutlined /> : ""}
       >
         {title}
       </ShowButton>
