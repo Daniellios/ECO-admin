@@ -10,10 +10,11 @@ export const contractsDataProvider = (apiUrl: string): DataProvider => ({
     hasPagination,
     filters,
     pagination,
+    sort,
     metaData,
   }) => {
     const url = `${resource}`;
-    let paramFilter;
+    let paramFilter, sortFilters;
 
     if (filters) {
       paramFilter = Object.fromEntries(
@@ -22,10 +23,25 @@ export const contractsDataProvider = (apiUrl: string): DataProvider => ({
       );
     }
 
+    console.log(sort);
+
+    if (sort) {
+      sortFilters = Object.fromEntries(
+        //@ts-ignore
+        sort.map((item) => {
+          const sortValue = item.order.toUpperCase();
+          return [item.field, sortValue];
+        })
+      );
+    }
+
+    console.log(sortFilters);
+
     const { data, headers } = await axiosInstance.get(url, {
       params: {
         perPage: pagination?.pageSize,
         page: pagination?.current,
+        order: { ...sortFilters },
         ...paramFilter,
       },
     });

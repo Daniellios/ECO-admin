@@ -35,7 +35,7 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
 
   const isAdmin = identity?.roles === "ADMIN";
 
-  const { tableProps, tableQueryResult, searchFormProps } = useTable<
+  const { tableProps, tableQueryResult, searchFormProps, sorter } = useTable<
     IContract,
     HttpError,
     IFilterContract
@@ -154,6 +154,7 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
           render={(value) => {
             return <DateCell value={value}> </DateCell>;
           }}
+          sorter
         />
         <Table.Column
           dataIndex="endAt"
@@ -162,6 +163,7 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
           render={(value) => {
             return <DateCell value={value}> </DateCell>;
           }}
+          sorter
         />
         <Table.Column<ICompany>
           dataIndex="company"
