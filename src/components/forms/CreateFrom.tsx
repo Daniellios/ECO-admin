@@ -14,7 +14,9 @@ const CreateFrom: React.FC<ICreateFormProps> = ({ children, ...props }) => {
     formLoading,
     form,
     onFinish,
-  } = useForm<any, HttpError>({});
+  } = useForm<any, HttpError>({
+    action: "create",
+  });
 
   const onHandleSubmit = async () => {
     await form

@@ -80,16 +80,6 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
     });
   };
 
-  const removeContractJob = (jobId: number) => {
-    contractJobMutation({
-      resource: `${resource.name}/job`,
-      id: "",
-      values: {
-        id: jobId,
-      },
-    });
-  };
-
   return (
     <Show
       isLoading={isLoading}
@@ -163,50 +153,6 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
       </Card>
 
       <ContractJobsTable contractId={record?.id}></ContractJobsTable>
-      {/* 
-      {services && services.length > 0 && (
-        <Card>
-          <Typography.Title level={3}>Список работ </Typography.Title>
-          <Row align={"middle"}>
-            <Col span={5}>
-              <Typography.Title level={5}> Название услуги</Typography.Title>
-            </Col>
-            <Col span={5}>
-              <Typography.Title level={5}> Объем работ</Typography.Title>
-            </Col>
-            <Col span={5}>
-              <Typography.Title level={5}>Регион</Typography.Title>
-            </Col>
-            <Col span={5}>
-              <Typography.Title level={5}>Адрес</Typography.Title>
-            </Col>
-            <Col span={4}>
-              <Typography.Title level={5}>Действие</Typography.Title>
-            </Col>
-          </Row>
-          <Divider style={{ marginTop: 8, marginBottom: 8 }}></Divider>
-          {services.map((job) => {
-            return (
-              <>
-                <Row align="middle" justify={"start"} key={job.id}>
-                  <Col span={5}>{job.serviceName}</Col>
-                  <Col span={5}>{job.serviceVolume}</Col>
-                  <Col span={5}>{job.region}</Col>
-                  <Col span={5}>{job.address}</Col>
-                  <Col span={4}>
-                    <Button
-                      danger
-                      onClick={() => removeContractJob(job.id)}
-                      icon={<DeleteOutlined />}
-                    ></Button>
-                  </Col>
-                </Row>
-                <Divider style={{ marginTop: 2, marginBottom: 2 }}></Divider>
-              </>
-            );
-          })}
-        </Card>
-      )} */}
 
       {contractStatus !== "IN_WORK" && contractStatus !== "COMPLETED" && (
         <Card>

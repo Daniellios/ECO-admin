@@ -58,6 +58,26 @@ export interface IContractJob {
   contractId: string;
 }
 
+export interface IUpdateContractJob {
+  region?: string;
+
+  address?: string;
+
+  serviceName?: string;
+
+  serviceVolume?: number;
+}
+
+export interface ICreateContractJob {
+  region: string;
+
+  address: string;
+
+  serviceName: string;
+
+  serviceVolume: number;
+}
+
 export interface ICompany {
   id: number;
 
