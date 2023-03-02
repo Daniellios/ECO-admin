@@ -55,6 +55,7 @@ export interface IContractJob {
   serviceName: string;
 
   serviceVolume: number;
+  contractId: string;
 }
 
 export interface ICompany {

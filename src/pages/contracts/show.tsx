@@ -14,10 +14,16 @@ import {
   Show,
   ShowButton,
   Space,
+  Table,
+  TextField,
   Timeline,
+  useTable,
   Title,
   Tooltip,
   Typography,
+  useEditableTable,
+  Form,
+  SaveButton,
 } from "@pankod/refine-antd";
 import {
   HttpError,
@@ -28,12 +34,13 @@ import {
   useShow,
   useUpdate,
 } from "@pankod/refine-core";
-import { IContract } from "../..";
+import { IContract, IContractJob } from "../..";
 import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MyShowButton from "../../components/buttons/MyShowButton";
 import { ContractStatusTag } from "../../components/ContractStatus";
+import ContractJobsTable from "../../components/tables/ContractJobsTable";
 import DateCell from "../../components/tables/DateCell";
 const { Panel } = Collapse;
 const ContractShow: React.FC<IResourceComponentsProps> = () => {
@@ -56,8 +63,6 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
   const candidates = record?.candidates;
 
   console.log(candidates);
-
-  const services = record?.contractJobs;
 
   const contractStatus = record?.status;
 
@@ -157,6 +162,8 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
         </Row>
       </Card>
 
+      <ContractJobsTable contractId={record?.id}></ContractJobsTable>
+      {/* 
       {services && services.length > 0 && (
         <Card>
           <Typography.Title level={3}>Список работ </Typography.Title>
@@ -199,7 +206,7 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
             );
           })}
         </Card>
-      )}
+      )} */}
 
       {contractStatus !== "IN_WORK" && contractStatus !== "COMPLETED" && (
         <Card>
