@@ -43,7 +43,7 @@ import MyShowButton from "../../components/buttons/MyShowButton";
 import { ContractStatusTag } from "../../components/ContractStatus";
 import ContractJobsTable from "../../components/tables/ContractJobsTable";
 import DateCell from "../../components/tables/DateCell";
-const { Panel } = Collapse;
+
 export const ContractShow: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
     resourceNameOrRouteName: "contracts",

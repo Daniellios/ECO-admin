@@ -21,17 +21,15 @@ const TableFilterForm: React.FC<ITableFilterForm> = ({
 
   const handleFilterFormSubmit = () => {
     console.log("Call form submit");
-
-    console.log(props.formProps.form?.getFieldsValue());
+    const values = props.formProps.form?.getFieldsValue();
+    console.log(values);
 
     props.formProps.form?.submit();
   };
 
   return (
     <>
-      <Row>
-        <h3>{props.formTitle}</h3>
-      </Row>
+      <h3>{props.formTitle}</h3>
       <Row>
         <Form
           {...props.formProps}

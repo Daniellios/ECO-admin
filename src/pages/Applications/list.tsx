@@ -98,9 +98,12 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
           <Form.Item name="phone">
             <Input placeholder="Телефон" />
           </Form.Item>
-          <Form.Item name="createdAt">
-            <DatePickerField placeholder="Дата заявки"></DatePickerField>
-          </Form.Item>
+
+          <DatePickerField
+            fromItemProps={{ name: "createdAt" }}
+            datePickerProps={{ placeholder: "Дата заявки" }}
+          ></DatePickerField>
+
           <Form.Item name="isProcessed">
             <Select
               dropdownMatchSelectWidth={false}

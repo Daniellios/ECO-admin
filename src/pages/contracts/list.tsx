@@ -43,6 +43,7 @@ export const ContractsList: React.FC<IResourceComponentsProps> = () => {
   >({
     syncWithLocation: false,
     initialPageSize: 15,
+
     resource: resource.name,
     queryOptions: { keepPreviousData: true },
     dataProviderName: resource.name,
@@ -111,13 +112,17 @@ export const ContractsList: React.FC<IResourceComponentsProps> = () => {
             ]}
           />
         </Form.Item>
-        <Form.Item name="startAt">
-          <DatePickerField placeholder="Начало"></DatePickerField>
-        </Form.Item>
 
-        <Form.Item name="endAt">
-          <DatePickerField placeholder="Конец"></DatePickerField>
-        </Form.Item>
+        <DatePickerField
+          fromItemProps={{ name: "startAt" }}
+          datePickerProps={{ placeholder: "Начало" }}
+        ></DatePickerField>
+
+        <DatePickerField
+          fromItemProps={{ name: "endAt" }}
+          datePickerProps={{ placeholder: "Конец" }}
+        ></DatePickerField>
+
         {/* <Form.Item name="companyName">
           <Input placeholder="Заказчик"></Input>
         </Form.Item> */}
