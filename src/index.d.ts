@@ -45,6 +45,18 @@ export interface IContract {
   company: ICompany;
 }
 
+export interface ICreateContract {
+  startAt: Date;
+
+  endAt: Date;
+
+  // contractJobs: IContractJob[];
+
+  description: string;
+
+  totalPrice: number;
+}
+
 export interface IContractJob {
   id: number;
 
