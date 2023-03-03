@@ -235,7 +235,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
 
       <Divider></Divider>
 
-      <Form {...createJobFormProps} size="small">
+      <Form {...createJobFormProps} size="middle">
         <Row justify={"start"} gutter={30}>
           <Col span={5} style={{ maxWidth: 200 }}>
             <CyrilicTextField
@@ -246,6 +246,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
           <Col span={5} style={{ maxWidth: 200 }}>
             <Form.Item
               name="serviceVolume"
+              initialValue={1}
               rules={[
                 {
                   pattern: /^\d*[1-9]\d*$/,
@@ -253,11 +254,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
                 },
               ]}
             >
-              <Input
-                type={"number"}
-                defaultValue={1}
-                placeholder="Объем работы"
-              ></Input>
+              <Input type={"number"} placeholder="Объем работы"></Input>
             </Form.Item>
           </Col>
           <Col span={5}>

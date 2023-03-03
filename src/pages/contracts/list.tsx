@@ -25,8 +25,9 @@ import BooleanCell from "../../components/tables/BooleanCell";
 import { ICompany, IContract, IContractJob, IFilterContract } from "../..";
 import DatePickerField from "../../components/forms/fields/DatePickerField";
 import DateCell from "../../components/tables/DateCell";
+import MyCreateButton from "../../components/buttons/MyCreateButton";
 
-const ContractsList: React.FC<IResourceComponentsProps> = () => {
+export const ContractsList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
     resourceNameOrRouteName: "contracts",
   });
@@ -82,6 +83,7 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
       headerButtons={
         <>
           <RefetchListButton query={tableQueryResult}></RefetchListButton>
+          <MyCreateButton resource={resource.name}></MyCreateButton>
         </>
       }
     >
@@ -132,14 +134,14 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
         }}
         loading={tableQueryResult.isLoading}
       >
-        {/* <Table.Column
-          dataIndex="createdAt"
-          title="Дата оформления"
-          align="center"
-          render={(value) => {
-            return <DateField value={value}> </DateField>;
-          }}
-        /> */}
+        <Table.Column
+          dataIndex="id"
+          title="Id"
+          align="left"
+          ellipsis
+          width={200}
+          render={(value) => value}
+        />
         <Table.Column
           dataIndex="startAt"
           title="Начало работ"
@@ -219,5 +221,3 @@ const ContractsList: React.FC<IResourceComponentsProps> = () => {
     </List>
   );
 };
-
-export default ContractsList;

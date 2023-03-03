@@ -1,6 +1,7 @@
 import {
   CheckCircleOutlined,
   CheckOutlined,
+  CloseOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
 import {
@@ -43,18 +44,18 @@ import { ContractStatusTag } from "../../components/ContractStatus";
 import ContractJobsTable from "../../components/tables/ContractJobsTable";
 import DateCell from "../../components/tables/DateCell";
 const { Panel } = Collapse;
-const ContractShow: React.FC<IResourceComponentsProps> = () => {
+export const ContractShow: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
     resourceNameOrRouteName: "contracts",
   });
 
   const { mutate: ecologistMutation } = useUpdate();
 
-  const { mutate: contractJobMutation } = useDelete();
-
   const { data: identity, isFetched } = usePermissions({});
 
-  const { queryResult } = useShow<IContract, HttpError>({});
+  const { queryResult } = useShow<IContract, HttpError>({
+    liveMode: "auto",
+  });
   const { data, isLoading, refetch } = queryResult;
   const record = data?.data;
 
@@ -62,20 +63,35 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
   const company = record?.company;
   const candidates = record?.candidates;
 
-  console.log(candidates);
-
   const contractStatus = record?.status;
 
   const isAdmin = identity?.roles === "ADMIN";
 
-  console.log(ecologist?.id);
-
-  const assignEcologistToContract = (ecologistId: number) => {
+  const assignEcologistToContract = async (ecologistId: number) => {
     ecologistMutation({
+      successNotification: {
+        type: "success",
+        message: `Эколог успешно назначен на заказ ${record?.id}`,
+      },
+
       resource: `${resource.name}/assignEcologist`,
       id: record?.id || "",
       values: {
         id: ecologistId,
+      },
+    });
+  };
+
+  const removeEcologistFromContract = async () => {
+    ecologistMutation({
+      successNotification: {
+        type: "success",
+        message: `Эколог был снят с заказа ${record?.id}`,
+      },
+      resource: `${resource.name}/removeEcologist`,
+      id: record?.id || "",
+      values: {
+        id: "",
       },
     });
   };
@@ -157,30 +173,42 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
       {contractStatus !== "IN_WORK" && contractStatus !== "COMPLETED" && (
         <Card>
           <Typography.Title level={3}>Кандидаты</Typography.Title>
+          <Row align={"middle"} justify="space-between">
+            <Col span={6}>
+              <Typography.Title level={5}>Ф.И.О</Typography.Title>
+            </Col>
+            <Col span={6}>
+              <Typography.Title level={5}>Телефон</Typography.Title>
+            </Col>
+            <Col span={6}>
+              <Typography.Title level={5}>Почта</Typography.Title>
+            </Col>
+            <Col span={6}>
+              <Typography.Title level={5}>Действие</Typography.Title>
+            </Col>
+          </Row>
           {candidates &&
             candidates?.map((ecologist) => {
               return (
-                <Row align={"middle"} justify="space-between">
+                <Row
+                  align={"middle"}
+                  justify="space-between"
+                  style={{ marginBottom: 8 }}
+                >
                   <Col span={6}>
-                    <Typography.Title level={5}>Ф.И.О</Typography.Title>
                     <Typography.Text>
                       {`${ecologist.firstName} ${ecologist.secondName} ${ecologist.thirdName}`}
                     </Typography.Text>
                   </Col>
                   <Col span={6}>
-                    <Typography.Title level={5}>Телефон</Typography.Title>
                     <Typography.Text>
-                      {company?.companySphere
-                        ? company.companySphere
-                        : "Не указано"}
+                      {ecologist.phone || "Не указан"}
                     </Typography.Text>
                   </Col>
                   <Col span={6}>
-                    <Typography.Title level={5}>Почта</Typography.Title>
                     <Typography.Text>{ecologist?.email}</Typography.Text>
                   </Col>
                   <Col span={6}>
-                    <Typography.Title level={5}>Действие</Typography.Title>
                     <Space>
                       <MyShowButton
                         hideText
@@ -279,14 +307,23 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
 
             <Col span={2}>
               {ecologist?.id ? (
-                <MyShowButton
-                  hideText
-                  title="Перейти к экологу"
-                  size="large"
-                  resourceNameOrRouteName="users"
-                  recordItemId={ecologist.id}
-                  icon
-                />
+                <>
+                  <MyShowButton
+                    hideText
+                    title="Перейти к экологу"
+                    size="large"
+                    resourceNameOrRouteName="users"
+                    recordItemId={ecologist.id}
+                    icon
+                  />
+                  <MyEditButton
+                    hideText
+                    onClick={removeEcologistFromContract}
+                    title="Снять с заказа"
+                    icon={<CloseOutlined />}
+                    size="large"
+                  ></MyEditButton>{" "}
+                </>
               ) : (
                 <></>
               )}
@@ -297,5 +334,3 @@ const ContractShow: React.FC<IResourceComponentsProps> = () => {
     </Show>
   );
 };
-
-export default ContractShow;

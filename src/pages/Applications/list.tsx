@@ -30,6 +30,7 @@ import BooleanCell from "../../components/tables/BooleanCell";
 import ModalActionForm from "../../components/modals/ModalActionForm";
 import DatePickerField from "../../components/forms/fields/DatePickerField";
 import DateCell from "../../components/tables/DateCell";
+import RefetchListButton from "../../components/buttons/RefetchListButton";
 
 // TODO  DO not populate data if error
 
@@ -82,7 +83,14 @@ export const ApplicationsList: React.FC<IResourceComponentsProps> = () => {
 
   return (
     <>
-      <List title="Заявки на консультацию">
+      <List
+        title="Заявки на консультацию"
+        headerButtons={
+          <>
+            <RefetchListButton query={tableQueryResult}></RefetchListButton>
+          </>
+        }
+      >
         <TableFilterForm
           formTitle="Фильтр по заявкам"
           formProps={searchFormProps}

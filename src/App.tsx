@@ -28,9 +28,9 @@ import { LoginPage } from "./pages/auth/loginPage";
 import CustomSider from "./components/CustomSider";
 import { StaffCreate, StaffList, StaffShow } from "./pages/staff";
 import { contractsDataProvider } from "./providers/data/contracts-provider";
-import ContractsList from "./pages/contracts/list";
-import ContractShow from "./pages/contracts/show";
+
 import locale from "antd/locale/ru_RU";
+import { ContractsList, ContractShow } from "./pages/contracts";
 
 const App: React.FC = () => {
   return (

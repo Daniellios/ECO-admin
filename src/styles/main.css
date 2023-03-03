@@ -3,6 +3,7 @@
   --white: #ffffff;
   --black: #111111;
   --dark-gray: #333333;
+  --border-color: #d9d9d9;
 }
 
 .greenBg {
@@ -32,7 +33,24 @@
   background-color: var(--dark-gray) !important;
 }
 
-.ant-btn:hover:not(.ant-btn-dangerous) {
+.ant-btn-primary {
+  background-color: var(--green) !important;
+  color: var(--white) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: var(--white) !important;
+  border-color: var(--green) !important;
+
+  color: var(--green) !important;
+}
+
+.ant-input:hover:not(.ant-input-status-error) {
+  border-color: var(--green) !important;
+}
+
+.ant-btn:hover:not(.ant-btn-dangerous, .ant-btn-primary) {
   border-color: var(--green) !important;
   color: var(--green) !important;
 }
