@@ -4,6 +4,7 @@ import {
   Card,
   Col,
   DeleteButton,
+  Divider,
   EditButton,
   Form,
   Input,
@@ -27,6 +28,7 @@ import {
 import React from "react";
 import { IContractJob, IUpdateContractJob } from "../..";
 import { removeEmptyValues } from "../../helpers/removeEmptyValues";
+import CyrilicTextField from "../forms/fields/CyrilicTextFIeld";
 
 interface IContractJobsTableProps {
   contractId: string | undefined;
@@ -83,30 +85,38 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
     onFinish: createJobOnFinish,
   } = useForm<IContractJob, HttpError>({
     action: "create",
-
+    onMutationSuccess: (data, variables, context) => {
+      console.log({ data, variables, context });
+    },
+    redirect: false,
+    successNotification: {
+      message: "Услуга успешно создана",
+      type: "success",
+    },
     resource: `${resource.name}/${contractId}/jobs`,
   });
 
-  const handleAddNewJob = () => {
-    const values = createJobForm.getFieldsValue();
-    console.log(values);
+  const handleAddNewJob = async () => {
+    await createJobForm
+      .validateFields()
+      .then(() => {
+        const values: IUpdateContractJob = createJobForm.getFieldsValue();
+        if (values.serviceVolume)
+          values.serviceVolume = Number(values.serviceVolume);
+        const updated = removeEmptyValues(values);
 
-    //   await createJobForm
-    //     .validateFields()
-    //     .then(() => {
-    //       const values = createJobForm.getFieldsValue();
-    //       console.log(values);
-
-    //       createJobOnFinish(values);
-    //     })
-    //     .catch((errorfields) => {
-    //       createJobForm.getFieldError(errorfields);
-    //     });
+        createJobOnFinish(updated);
+        createJobForm.resetFields();
+      })
+      .catch((errorfields) => {
+        createJobForm.getFieldError(errorfields);
+      });
   };
 
   const onHandleSubmit = () => {
     const values: IUpdateContractJob = form.getFieldsValue();
-    if (values.serviceName) values.serviceVolume = Number(values.serviceVolume);
+    if (values.serviceVolume)
+      values.serviceVolume = Number(values.serviceVolume);
 
     const updated = removeEmptyValues(values);
     onFinish(updated);
@@ -116,8 +126,6 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
     <Card>
       <Row align={"middle"} justify="space-between">
         <Typography.Title level={3}>Список работ </Typography.Title>
-
-        <Button onClick={handleAddNewJob}> Добавить</Button>
       </Row>
 
       <Form {...formProps}>
@@ -130,6 +138,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
         >
           <Table.Column<IContractJob>
             title="Вид работы"
+            width={200}
             dataIndex={"serviceName"}
             render={(value, record) => {
               if (isEditing(record.id)) {
@@ -144,6 +153,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
           ></Table.Column>
           <Table.Column<IContractJob>
             title="Объем  работ"
+            width={200}
             dataIndex={"serviceVolume"}
             render={(value, record) => {
               if (isEditing(record.id)) {
@@ -223,34 +233,50 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
         </Table>
       </Form>
 
-      <Form {...createJobFormProps}>
-        <Row justify={"start"}>
-          <Col span={5}>
-            <Form.Item name="serviceName">
-              <Input name="serviceName" placeholder="Вид работы"></Input>
-            </Form.Item>
+      <Divider></Divider>
+
+      <Form {...createJobFormProps} size="small">
+        <Row justify={"start"} gutter={30}>
+          <Col span={5} style={{ maxWidth: 200 }}>
+            <CyrilicTextField
+              fromItemProps={{ name: "serviceName" }}
+              inputProps={{ type: "text", placeholder: "Вид работы" }}
+            />
           </Col>
-          <Col span={5}>
-            <Form.Item>
+          <Col span={5} style={{ maxWidth: 200 }}>
+            <Form.Item
+              name="serviceVolume"
+              rules={[
+                {
+                  pattern: /^\d*[1-9]\d*$/,
+                  message: "Целые числа больше 0",
+                },
+              ]}
+            >
               <Input
-                name="serviceVolume"
                 type={"number"}
+                defaultValue={1}
                 placeholder="Объем работы"
               ></Input>
             </Form.Item>
           </Col>
           <Col span={5}>
-            <Form.Item>
-              <Input name="region" placeholder="Регион "></Input>
-            </Form.Item>
+            <CyrilicTextField
+              fromItemProps={{ name: "region" }}
+              inputProps={{ type: "text", placeholder: "Регион" }}
+            />
           </Col>
           <Col span={5}>
-            <Form.Item>
-              <Input name="address" placeholder="Адрес"></Input>
-            </Form.Item>
+            <CyrilicTextField
+              fromItemProps={{ name: "address" }}
+              inputProps={{ type: "text", placeholder: "Адрес" }}
+            />
+          </Col>
+
+          <Col>
+            <Button onClick={handleAddNewJob}> Добавить работу</Button>
           </Col>
         </Row>
-        <Button onClick={handleAddNewJob}> Добавить</Button>
       </Form>
     </Card>
   );

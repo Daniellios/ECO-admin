@@ -32,6 +32,7 @@
   background-color: var(--dark-gray) !important;
 }
 
-/* .ant-btn:hover {
+.ant-btn:hover:not(.ant-btn-dangerous) {
   border-color: var(--green) !important;
-} */
+  color: var(--green) !important;
+}
