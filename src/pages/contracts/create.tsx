@@ -1,5 +1,5 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Create, Form, Input, useForm } from "@pankod/refine-antd";
+import { Create, Form, Input, Row, useForm } from "@pankod/refine-antd";
 import {
   HttpError,
   IResourceComponentsProps,
@@ -17,10 +17,12 @@ export const ContractCreate: React.FC<IResourceComponentsProps> = () => {
 
   const { formProps, form, onFinish } = useForm<ICreateContract, HttpError>({
     submitOnEnter: true,
+    redirect: "show",
     successNotification: {
       message: "Заказ успешно создан",
       type: "success",
     },
+    action: "create",
     errorNotification: (error?, values?, resource?) => {
       return {
         message: `error`,

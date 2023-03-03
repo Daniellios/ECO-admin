@@ -63,6 +63,8 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
   const company = record?.company;
   const candidates = record?.candidates;
 
+  console.log(candidates);
+
   const contractStatus = record?.status;
 
   const isAdmin = identity?.roles === "ADMIN";
@@ -126,9 +128,7 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
         <Row>
           <Col span={22}>
             <Typography.Title level={5}>Описание</Typography.Title>
-            <Typography.Text>
-              {record?.description ? record.description : "Нет"}
-            </Typography.Text>
+            <Typography.Text>{record?.description || "Нет"}</Typography.Text>
           </Col>
         </Row>
         <Divider></Divider>
@@ -172,64 +172,77 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
 
       {contractStatus !== "IN_WORK" && contractStatus !== "COMPLETED" && (
         <Card>
-          <Typography.Title level={3}>Кандидаты</Typography.Title>
-          <Row align={"middle"} justify="space-between">
-            <Col span={6}>
-              <Typography.Title level={5}>Ф.И.О</Typography.Title>
-            </Col>
-            <Col span={6}>
-              <Typography.Title level={5}>Телефон</Typography.Title>
-            </Col>
-            <Col span={6}>
-              <Typography.Title level={5}>Почта</Typography.Title>
-            </Col>
-            <Col span={6}>
-              <Typography.Title level={5}>Действие</Typography.Title>
-            </Col>
-          </Row>
-          {candidates &&
-            candidates?.map((ecologist) => {
-              return (
-                <Row
-                  align={"middle"}
-                  justify="space-between"
-                  style={{ marginBottom: 8 }}
-                >
-                  <Col span={6}>
-                    <Typography.Text>
-                      {`${ecologist.firstName} ${ecologist.secondName} ${ecologist.thirdName}`}
-                    </Typography.Text>
-                  </Col>
-                  <Col span={6}>
-                    <Typography.Text>
-                      {ecologist.phone || "Не указан"}
-                    </Typography.Text>
-                  </Col>
-                  <Col span={6}>
-                    <Typography.Text>{ecologist?.email}</Typography.Text>
-                  </Col>
-                  <Col span={6}>
-                    <Space>
-                      <MyShowButton
-                        hideText
-                        title="Перейти к экологу"
-                        size="small"
-                        resourceNameOrRouteName="users"
-                        recordItemId={ecologist.id}
-                        icon
-                      />
-                      <MyEditButton
-                        hideText
-                        onClick={() => assignEcologistToContract(ecologist.id)}
-                        title="Назначить на заказ"
-                        icon={<CheckOutlined />}
-                        size="small"
-                      ></MyEditButton>
-                    </Space>
-                  </Col>
-                </Row>
-              );
-            })}
+          <>
+            <Typography.Title level={3}>Кандидаты</Typography.Title>
+            {candidates && candidates?.length > 0 && (
+              <Row align={"middle"} justify="space-between">
+                <Col span={6}>
+                  <Typography.Title level={5}>Ф.И.О</Typography.Title>
+                </Col>
+                <Col span={6}>
+                  <Typography.Title level={5}>Телефон</Typography.Title>
+                </Col>
+                <Col span={6}>
+                  <Typography.Title level={5}>Почта</Typography.Title>
+                </Col>
+                <Col span={6}>
+                  <Typography.Title level={5}>Действие</Typography.Title>
+                </Col>
+              </Row>
+            )}
+
+            {candidates && candidates?.length < 1 && (
+              <Typography.Title level={4} style={{ textAlign: "center" }}>
+                Кандидатов на выполнение заказа пока нет
+              </Typography.Title>
+            )}
+
+            {candidates &&
+              candidates?.map((ecologist) => {
+                return (
+                  <Row
+                    align={"middle"}
+                    justify="space-between"
+                    style={{ marginBottom: 8 }}
+                  >
+                    <Col span={6}>
+                      <Typography.Text>
+                        {`${ecologist.firstName} ${ecologist.secondName} ${ecologist.thirdName}`}
+                      </Typography.Text>
+                    </Col>
+                    <Col span={6}>
+                      <Typography.Text>
+                        {ecologist.phone || "Не указан"}
+                      </Typography.Text>
+                    </Col>
+                    <Col span={6}>
+                      <Typography.Text>{ecologist?.email}</Typography.Text>
+                    </Col>
+                    <Col span={6}>
+                      <Space>
+                        <MyShowButton
+                          hideText
+                          title="Перейти к экологу"
+                          size="small"
+                          resourceNameOrRouteName="users"
+                          recordItemId={ecologist.id}
+                          icon
+                        />
+                        <MyEditButton
+                          hideText
+                          onClick={() =>
+                            assignEcologistToContract(ecologist.id)
+                          }
+                          title="Назначить на заказ"
+                          icon={<CheckOutlined />}
+                          size="small"
+                        ></MyEditButton>
+                      </Space>
+                    </Col>
+                  </Row>
+                );
+              })}
+          </>
         </Card>
       )}
 
@@ -241,29 +254,25 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
             <Col span={6}>
               <Typography.Title level={5}>Наименование</Typography.Title>
               <Typography.Text>
-                {company?.companyName ? company.companyName : "Не указано"}
+                {company.companyName || "Не указано"}
               </Typography.Text>
             </Col>
             <Col span={4}>
               <Typography.Title level={5}>Сфера</Typography.Title>
               <Typography.Text>
-                {company?.companySphere ? company.companySphere : "Не указано"}
+                {company.companySphere || "Не указано"}
               </Typography.Text>
             </Col>
             <Col span={6}>
               <Typography.Title level={5}>Почта</Typography.Title>
-              <Typography.Text>
-                {company?.email ? company.email : "Не указана"}
-              </Typography.Text>
+              <Typography.Text>{company.email || "Не указана"}</Typography.Text>
             </Col>
             <Col span={6}>
               <Typography.Title level={5}>Телефон</Typography.Title>
-              <Typography.Text>
-                {company?.phone ? company.phone : "Не указан"}
-              </Typography.Text>
+              <Typography.Text>{company.phone || "Не указан"}</Typography.Text>
             </Col>
             <Col span={2}>
-              {record?.id ? (
+              {record?.id && (
                 <MyShowButton
                   hideText
                   title="Перейти к компании"
@@ -272,8 +281,6 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
                   recordItemId={record.id}
                   icon
                 />
-              ) : (
-                <></>
               )}
             </Col>
           </Row>
@@ -304,30 +311,25 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
                 {ecologist?.phone ? ecologist.phone : "Не указан"}
               </Typography.Text>
             </Col>
-
-            <Col span={2}>
-              {ecologist?.id ? (
-                <>
-                  <MyShowButton
-                    hideText
-                    title="Перейти к экологу"
-                    size="large"
-                    resourceNameOrRouteName="users"
-                    recordItemId={ecologist.id}
-                    icon
-                  />
-                  <MyEditButton
-                    hideText
-                    onClick={removeEcologistFromContract}
-                    title="Снять с заказа"
-                    icon={<CloseOutlined />}
-                    size="large"
-                  ></MyEditButton>{" "}
-                </>
-              ) : (
-                <></>
-              )}
-            </Col>
+            {ecologist?.id && (
+              <Col span={2}>
+                <MyShowButton
+                  hideText
+                  title="Перейти к экологу"
+                  size="large"
+                  resourceNameOrRouteName="users"
+                  recordItemId={ecologist.id}
+                  icon
+                />
+                <MyEditButton
+                  hideText
+                  onClick={removeEcologistFromContract}
+                  title="Снять с заказа"
+                  icon={<CloseOutlined />}
+                  size="large"
+                ></MyEditButton>
+              </Col>
+            )}
           </Row>
         </Card>
       )}
