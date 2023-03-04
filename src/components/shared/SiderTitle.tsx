@@ -4,7 +4,7 @@ import React from "react";
 interface IHeaderProprs {
   collapsed: boolean;
 }
-const CustomTitle: React.FC<IHeaderProprs> = ({ collapsed }) => {
+const SiderTitle: React.FC<IHeaderProprs> = ({ collapsed }) => {
   return (
     <div className="header_logo">
       {collapsed ? (
@@ -16,4 +16,4 @@ const CustomTitle: React.FC<IHeaderProprs> = ({ collapsed }) => {
   );
 };
 
-export default CustomTitle;
+export default SiderTitle;

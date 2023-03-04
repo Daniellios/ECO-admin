@@ -34,14 +34,14 @@ import locale from "antd/locale/ru_RU";
 import { ContractsList, ContractShow, ContractCreate } from "./pages/contracts";
 
 import "./styles/header.css";
-import CustomTitle from "./components/shared/CustomTitle";
 import { CompaniesList } from "./pages/companies";
+import SiderTitle from "./components/shared/SiderTitle";
 
 const App: React.FC = () => {
   return (
     <ConfigProvider locale={locale}>
       <Refine
-        Title={({ collapsed }) => <CustomTitle collapsed={collapsed} />}
+        Title={({ collapsed }) => <SiderTitle collapsed={collapsed} />}
         routerProvider={{
           ...routerProvider,
           RouterComponent: BrowserRouterComponent.bind({

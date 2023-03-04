@@ -40,6 +40,7 @@ import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MyShowButton from "../../components/buttons/MyShowButton";
+import PageTitle from "../../components/shared/PageTitle";
 
 import ContractJobsTable from "../../components/tables/ContractJobsTable";
 import DateCell from "../../components/tables/DateCell";
@@ -104,7 +105,7 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
       isLoading={isLoading}
       canEdit={true}
       canDelete={isAdmin}
-      title={`Заказ ${record?.id}`}
+      title={<PageTitle title="Заказ" id={record?.id} />}
       headerButtons={
         <>
           <MyDeleteButton

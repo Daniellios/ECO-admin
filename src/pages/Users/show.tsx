@@ -33,6 +33,7 @@ import UserSkillEditModalForm from "../../components/modals/edit/UserSkillEditMo
 import UserProfileEditModalForm from "../../components/modals/edit/UserProfileEditModalForm";
 import UserSkillCreateModalForm from "../../components/modals/create/UserSkillCreateModalForm";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
+import PageTitle from "../../components/shared/PageTitle";
 
 const { Title, Text } = Typography;
 
@@ -91,7 +92,7 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
   return (
     <Show
       isLoading={isLoading}
-      title={"Профиль эколога"}
+      title={<PageTitle title="Эколог" id={record?.id} />}
       canEdit={true}
       canDelete={isAdmin}
       // breadcrumb={<CustomBreadCrumb />}
@@ -121,10 +122,6 @@ export const UserShow: React.FC<IResourceComponentsProps> = () => {
     >
       <>
         <Row align={"middle"} justify="start">
-          <Col span={12}>
-            <Title level={5}>ID</Title>
-            <Text>{record?.id}</Text>
-          </Col>
           <Col span={12}>
             <Title level={5}>Ф.И.О</Title>
             <Text>{fullName.length > 2 ? fullName : "-"}</Text>
