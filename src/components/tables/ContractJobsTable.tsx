@@ -29,6 +29,7 @@ import React from "react";
 import { IContractJob, IUpdateContractJob } from "../..";
 import { removeEmptyValues } from "../../helpers/removeEmptyValues";
 import CyrilicTextField from "../forms/fields/CyrilicTextFIeld";
+import PositiveNumberField from "../forms/fields/PositiveNumberField";
 
 interface IContractJobsTableProps {
   contractId: string | undefined;
@@ -143,9 +144,13 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
             render={(value, record) => {
               if (isEditing(record.id)) {
                 return (
-                  <Form.Item name="serviceName" style={{ margin: 0 }}>
-                    <Input />
-                  </Form.Item>
+                  <CyrilicTextField
+                    fromItemProps={{
+                      name: "serviceName",
+                      style: { margin: 0, minWidth: 100 },
+                    }}
+                    inputProps={{ type: "text", placeholder: "Вид работы" }}
+                  />
                 );
               }
               return <TextField value={value} />;
@@ -158,9 +163,10 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
             render={(value, record) => {
               if (isEditing(record.id)) {
                 return (
-                  <Form.Item name="serviceVolume" style={{ margin: 0 }}>
-                    <Input type={"number"} />
-                  </Form.Item>
+                  <PositiveNumberField
+                    fromItemProps={{ name: "serviceVolume" }}
+                    inputProps={{ placeholder: "Объем работы" }}
+                  ></PositiveNumberField>
                 );
               }
               return <NumberField value={value} />;
@@ -172,9 +178,10 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
             render={(value, record) => {
               if (isEditing(record.id)) {
                 return (
-                  <Form.Item name="region" style={{ margin: 0 }}>
-                    <Input />
-                  </Form.Item>
+                  <CyrilicTextField
+                    fromItemProps={{ name: "region", style: { margin: 0 } }}
+                    inputProps={{ type: "text", placeholder: "Регион" }}
+                  />
                 );
               }
               return <TextField value={value} />;
@@ -186,9 +193,10 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
             render={(value, record) => {
               if (isEditing(record.id)) {
                 return (
-                  <Form.Item name="address" style={{ margin: 0 }}>
-                    <Input />
-                  </Form.Item>
+                  <CyrilicTextField
+                    fromItemProps={{ name: "address", style: { margin: 0 } }}
+                    inputProps={{ type: "text", placeholder: "Адрес" }}
+                  />
                 );
               }
               return <TextField value={value} />;
@@ -244,18 +252,10 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
             />
           </Col>
           <Col span={5} style={{ maxWidth: 200 }}>
-            <Form.Item
-              name="serviceVolume"
-              initialValue={1}
-              rules={[
-                {
-                  pattern: /^\d*[1-9]\d*$/,
-                  message: "Целые числа больше 0",
-                },
-              ]}
-            >
-              <Input type={"number"} placeholder="Объем работы"></Input>
-            </Form.Item>
+            <PositiveNumberField
+              fromItemProps={{ name: "serviceVolume" }}
+              inputProps={{ placeholder: "Объем работы" }}
+            />
           </Col>
           <Col span={5}>
             <CyrilicTextField

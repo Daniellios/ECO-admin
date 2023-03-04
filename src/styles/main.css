@@ -54,3 +54,8 @@
   border-color: var(--green) !important;
   color: var(--green) !important;
 }
+
+/* .ant-form-item-explain {
+  position: absolute !important;
+  z-index: 99999 !important;
+} */
