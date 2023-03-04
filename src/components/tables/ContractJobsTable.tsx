@@ -243,6 +243,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
 
       <Divider></Divider>
 
+      {/* TODO Create multi job form to add to contract */}
       <Form {...createJobFormProps} size="middle">
         <Row justify={"start"} gutter={30}>
           <Col span={5} style={{ maxWidth: 200 }}>

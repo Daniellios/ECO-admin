@@ -40,9 +40,10 @@ import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MyShowButton from "../../components/buttons/MyShowButton";
-import { ContractStatusTag } from "../../components/ContractStatus";
+
 import ContractJobsTable from "../../components/tables/ContractJobsTable";
 import DateCell from "../../components/tables/DateCell";
+import { ContractStatusTag } from "../../components/tags/ContractStatus";
 
 export const ContractShow: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({

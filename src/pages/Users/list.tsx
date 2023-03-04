@@ -26,7 +26,7 @@ import { IFilterUserProps, IUser, IUserSkillForm, UserStatus } from "../..";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
 import TableFilterForm from "../../components/forms/TableFilter";
-import { UserStatusTag } from "../../components/UserStatus";
+import { UserStatusTag } from "../../components/tags/UserStatus";
 import RefetchListButton from "../../components/buttons/RefetchListButton";
 import BooleanCell from "../../components/tables/BooleanCell";
 
