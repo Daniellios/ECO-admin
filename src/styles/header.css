@@ -3,7 +3,7 @@
   width: 100%;
   justify-content: center;
   align-items: center;
-  height: 3rem;
+  height: 3.5rem;
 }
 
 .header_logo_title {
@@ -11,5 +11,6 @@
   font-weight: bold;
   letter-spacing: 3px;
   font-size: 2rem;
+  cursor: default;
   transition: all ease-in-out 0.2s;
 }

@@ -16,6 +16,7 @@ import authProvider from "./providers/authProvider";
 
 import {
   AuditOutlined,
+  BankOutlined,
   BookOutlined,
   CrownOutlined,
   InboxOutlined,
@@ -34,6 +35,7 @@ import { ContractsList, ContractShow, ContractCreate } from "./pages/contracts";
 
 import "./styles/header.css";
 import CustomTitle from "./components/shared/CustomTitle";
+import { CompaniesList } from "./pages/companies";
 
 const App: React.FC = () => {
   return (
@@ -75,6 +77,12 @@ const App: React.FC = () => {
             show: ContractShow,
             create: ContractCreate,
             icon: <AuditOutlined />,
+          },
+          {
+            name: "companies",
+            options: { label: "Организации" },
+            list: CompaniesList,
+            icon: <BankOutlined />,
           },
           {
             name: "applications",

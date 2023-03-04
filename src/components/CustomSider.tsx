@@ -169,6 +169,7 @@ const CustomSider: React.FC<RefineLayoutSiderProps> = ({ render }) => {
           backgroundColor: "#111111",
           color: "white",
           accentColor: "white",
+          fontSize: 16,
         }}
         mode="inline"
         onClick={() => {
