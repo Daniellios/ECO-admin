@@ -32,10 +32,14 @@ import { contractsDataProvider } from "./providers/data/contracts-provider";
 import locale from "antd/locale/ru_RU";
 import { ContractsList, ContractShow, ContractCreate } from "./pages/contracts";
 
+import "./styles/header.css";
+import CustomTitle from "./components/shared/CustomTitle";
+
 const App: React.FC = () => {
   return (
     <ConfigProvider locale={locale}>
       <Refine
+        Title={({ collapsed }) => <CustomTitle collapsed={collapsed} />}
         routerProvider={{
           ...routerProvider,
           RouterComponent: BrowserRouterComponent.bind({

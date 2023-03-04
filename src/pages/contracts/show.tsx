@@ -302,13 +302,13 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
             <Col span={6}>
               <Typography.Title level={5}>Почта</Typography.Title>
               <Typography.Text>
-                {ecologist?.email ? ecologist.email : "Не указана"}
+                {ecologist?.email || "Не указана"}
               </Typography.Text>
             </Col>
             <Col span={6}>
               <Typography.Title level={5}>Телефон</Typography.Title>
               <Typography.Text>
-                {ecologist?.phone ? ecologist.phone : "Не указан"}
+                {ecologist?.phone || "Не указан"}
               </Typography.Text>
             </Col>
             {ecologist?.id && (
