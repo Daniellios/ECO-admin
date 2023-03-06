@@ -1,4 +1,10 @@
-import { Form, FormItemProps, InputProps, Input } from "@pankod/refine-antd";
+import {
+  Form,
+  FormItemProps,
+  InputProps,
+  Input,
+  InputNumber,
+} from "@pankod/refine-antd";
 import React from "react";
 
 interface INumberFieldProps {
@@ -24,7 +30,7 @@ const PositiveNumberField: React.FC<INumberFieldProps> = ({
         },
       ]}
     >
-      <Input {...inputProps} type={"number"}></Input>
+      <InputNumber placeholder={inputProps.placeholder}></InputNumber>
     </Form.Item>
   );
 };

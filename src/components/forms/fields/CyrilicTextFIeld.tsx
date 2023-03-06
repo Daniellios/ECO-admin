@@ -4,10 +4,12 @@ import React from "react";
 interface ICyrilicTextFieldProps {
   fromItemProps: FormItemProps;
   inputProps: InputProps;
+  isTextArea?: boolean;
 }
 const CyrilicTextField: React.FC<ICyrilicTextFieldProps> = ({
   fromItemProps,
   inputProps,
+  isTextArea,
 }) => {
   return (
     <Form.Item
@@ -30,7 +32,11 @@ const CyrilicTextField: React.FC<ICyrilicTextFieldProps> = ({
         },
       ]}
     >
-      <Input {...inputProps} type={"text"} />
+      {isTextArea ? (
+        <Input.TextArea placeholder={inputProps.placeholder} />
+      ) : (
+        <Input {...inputProps} type={"text"} />
+      )}
     </Form.Item>
   );
 };

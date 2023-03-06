@@ -102,8 +102,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
       .validateFields()
       .then(() => {
         const values: IUpdateContractJob = createJobForm.getFieldsValue();
-        if (values.serviceVolume)
-          values.serviceVolume = Number(values.serviceVolume);
+
         const updated = removeEmptyValues(values);
 
         createJobOnFinish(updated);
@@ -149,7 +148,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
                       name: "serviceName",
                       style: { margin: 0, minWidth: 100 },
                     }}
-                    inputProps={{ type: "text", placeholder: "Вид работы" }}
+                    inputProps={{ placeholder: "Вид работы" }}
                   />
                 );
               }
@@ -180,7 +179,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
                 return (
                   <CyrilicTextField
                     fromItemProps={{ name: "region", style: { margin: 0 } }}
-                    inputProps={{ type: "text", placeholder: "Регион" }}
+                    inputProps={{ placeholder: "Регион" }}
                   />
                 );
               }
@@ -195,7 +194,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
                 return (
                   <CyrilicTextField
                     fromItemProps={{ name: "address", style: { margin: 0 } }}
-                    inputProps={{ type: "text", placeholder: "Адрес" }}
+                    inputProps={{ placeholder: "Адрес" }}
                   />
                 );
               }

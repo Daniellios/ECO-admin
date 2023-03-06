@@ -19,13 +19,14 @@ import {
 } from "@pankod/refine-core";
 import React from "react";
 import RefetchListButton from "../../components/buttons/RefetchListButton";
-import { ContractStatusTag } from "../../components/ContractStatus";
+
 import TableFilterForm from "../../components/forms/TableFilter";
 import BooleanCell from "../../components/tables/BooleanCell";
 import { ICompany, IContract, IContractJob, IFilterContract } from "../..";
 import DatePickerField from "../../components/forms/fields/DatePickerField";
 import DateCell from "../../components/tables/DateCell";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
+import { ContractStatusTag } from "../../components/tags/ContractStatus";
 
 export const ContractsList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({

@@ -50,7 +50,7 @@ export interface ICreateContract {
 
   endAt: Date;
 
-  // contractJobs: IContractJob[];
+  contractJobs: ICreateContractJob[];
 
   description: string;
 
