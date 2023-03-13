@@ -28,6 +28,7 @@ import DateCell from "../../components/tables/DateCell";
 import MyCreateButton from "../../components/buttons/MyCreateButton";
 import { ContractStatusTag } from "../../components/tags/ContractStatus";
 
+//TODO - add amount of contract filtering ?
 export const ContractsList: React.FC<IResourceComponentsProps> = () => {
   const { resource } = useResource({
     resourceNameOrRouteName: "contracts",
@@ -175,12 +176,15 @@ export const ContractsList: React.FC<IResourceComponentsProps> = () => {
           }}
         />
 
-        <Table.Column<ICompany>
+        <Table.Column<IContract>
           dataIndex="contractJobs"
           title="Кол-во услуг"
           align="center"
           render={(value: IContractJob[]) => {
             return value ? value.length : 0;
+          }}
+          sorter={{
+            compare: (a, b) => a.contractJobs.length - b.contractJobs.length,
           }}
         />
 

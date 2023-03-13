@@ -273,7 +273,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
-                <Space key={key} size={16} wrap>
+                <Space key={key} size={16} wrap align="end">
                   <CyrilicTextField
                     fromItemProps={{
                       ...restField,
@@ -325,21 +325,23 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
                   ></Button>
                 </Space>
               ))}
-              <Form.Item>
-                <Button
-                  style={{ maxWidth: 180 }}
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                >
-                  Добавить услугу
-                </Button>
-              </Form.Item>
+              <Space align="center">
+                <Form.Item style={{ margin: 0 }}>
+                  <Button
+                    style={{ maxWidth: 180 }}
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    Добавить услугу
+                  </Button>
+                </Form.Item>
 
-              <Button style={{ marginLeft: 16 }} onClick={handleAddNewJob}>
-                Сохранить
-              </Button>
+                <Button style={{ marginLeft: 16 }} onClick={handleAddNewJob}>
+                  Сохранить
+                </Button>
+              </Space>
             </>
           )}
         </Form.List>

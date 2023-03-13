@@ -2,7 +2,7 @@ import React from "react";
 
 interface IPageTitleProps {
   title: string;
-  id: any;
+  id: string | number | undefined;
 }
 
 const PageTitle: React.FC<IPageTitleProps> = ({ title, id }) => {
