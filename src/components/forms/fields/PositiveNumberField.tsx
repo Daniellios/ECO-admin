@@ -4,12 +4,13 @@ import {
   InputProps,
   Input,
   InputNumber,
+  InputNumberProps,
 } from "@pankod/refine-antd";
 import React from "react";
 
 interface INumberFieldProps {
   fromItemProps: FormItemProps;
-  inputProps: InputProps;
+  inputProps: InputNumberProps;
 }
 
 const PositiveNumberField: React.FC<INumberFieldProps> = ({
@@ -19,18 +20,21 @@ const PositiveNumberField: React.FC<INumberFieldProps> = ({
   return (
     <Form.Item
       name={fromItemProps.name}
-      initialValue={1}
       style={{ margin: 0 }}
       {...fromItemProps}
       rules={[
         {
           pattern: /^\d*[1-9]\d*$/,
           required: true,
-          message: "Целые числа больше 0",
+          message: "Числа > 0",
         },
       ]}
     >
-      <InputNumber placeholder={inputProps.placeholder}></InputNumber>
+      <InputNumber
+        onChange={inputProps.onChange}
+        placeholder={inputProps.placeholder}
+        maxLength={8}
+      ></InputNumber>
     </Form.Item>
   );
 };

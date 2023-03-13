@@ -1,4 +1,8 @@
-import { DeleteOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -26,7 +30,12 @@ import {
   useResource,
 } from "@pankod/refine-core";
 import React from "react";
-import { IContractJob, IUpdateContractJob } from "../..";
+import {
+  IContractJob,
+  ICreateContractJob,
+  IUpdateContract,
+  IUpdateContractJob,
+} from "../..";
 import { removeEmptyValues } from "../../helpers/removeEmptyValues";
 import CyrilicTextField from "../forms/fields/CyrilicTextFIeld";
 import PositiveNumberField from "../forms/fields/PositiveNumberField";
@@ -50,12 +59,10 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
     form,
     saveButtonProps,
     isEditing,
-
     onFinish,
     setId: setEditId,
     cancelButtonProps,
     editButtonProps,
-
     tableQueryResult,
   } = useEditableTable<IContractJob>({
     hasPagination: false,
@@ -84,14 +91,14 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
     formLoading: createJobFormLoading,
     form: createJobForm,
     onFinish: createJobOnFinish,
-  } = useForm<IContractJob, HttpError>({
+  } = useForm<IUpdateContractJob, HttpError, IUpdateContract>({
     action: "create",
     onMutationSuccess: (data, variables, context) => {
       console.log({ data, variables, context });
     },
     redirect: false,
     successNotification: {
-      message: "Услуга успешно создана",
+      message: "Услуга успешно добавлена",
       type: "success",
     },
     resource: `${resource.name}/${contractId}/jobs`,
@@ -101,11 +108,13 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
     await createJobForm
       .validateFields()
       .then(() => {
-        const values: IUpdateContractJob = createJobForm.getFieldsValue();
+        const values = createJobForm.getFieldsValue();
 
-        const updated = removeEmptyValues(values);
+        values.contractJobs?.forEach((job) => {
+          const parsedJOb = removeEmptyValues(job);
+          createJobOnFinish(parsedJOb);
+        });
 
-        createJobOnFinish(updated);
         createJobForm.resetFields();
       })
       .catch((errorfields) => {
@@ -115,6 +124,7 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
 
   const onHandleSubmit = () => {
     const values: IUpdateContractJob = form.getFieldsValue();
+
     if (values.serviceVolume)
       values.serviceVolume = Number(values.serviceVolume);
 
@@ -165,6 +175,22 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
                   <PositiveNumberField
                     fromItemProps={{ name: "serviceVolume" }}
                     inputProps={{ placeholder: "Объем работы" }}
+                  ></PositiveNumberField>
+                );
+              }
+              return <NumberField value={value} />;
+            }}
+          ></Table.Column>
+          <Table.Column<IContractJob>
+            title="Стоимость работы"
+            width={200}
+            dataIndex={"servicePrice"}
+            render={(value, record) => {
+              if (isEditing(record.id)) {
+                return (
+                  <PositiveNumberField
+                    fromItemProps={{ name: "servicePrice" }}
+                    inputProps={{ placeholder: "Стоимость работы" }}
                   ></PositiveNumberField>
                 );
               }
@@ -242,38 +268,81 @@ const ContractJobsTable: React.FC<IContractJobsTableProps> = ({
 
       <Divider></Divider>
 
-      {/* TODO Create multi job form to add to contract */}
       <Form {...createJobFormProps} size="middle">
-        <Row justify={"start"} gutter={30}>
-          <Col span={5} style={{ maxWidth: 200 }}>
-            <CyrilicTextField
-              fromItemProps={{ name: "serviceName" }}
-              inputProps={{ type: "text", placeholder: "Вид работы" }}
-            />
-          </Col>
-          <Col span={5} style={{ maxWidth: 200 }}>
-            <PositiveNumberField
-              fromItemProps={{ name: "serviceVolume" }}
-              inputProps={{ placeholder: "Объем работы" }}
-            />
-          </Col>
-          <Col span={5}>
-            <CyrilicTextField
-              fromItemProps={{ name: "region" }}
-              inputProps={{ type: "text", placeholder: "Регион" }}
-            />
-          </Col>
-          <Col span={5}>
-            <CyrilicTextField
-              fromItemProps={{ name: "address" }}
-              inputProps={{ type: "text", placeholder: "Адрес" }}
-            />
-          </Col>
+        <Form.List name={"contractJobs"}>
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, ...restField }) => (
+                <Space key={key} size={16} wrap>
+                  <CyrilicTextField
+                    fromItemProps={{
+                      ...restField,
+                      name: [name, "serviceName"],
+                    }}
+                    inputProps={{ placeholder: "Вид работы" }}
+                  ></CyrilicTextField>
 
-          <Col>
-            <Button onClick={handleAddNewJob}> Добавить работу</Button>
-          </Col>
-        </Row>
+                  <PositiveNumberField
+                    fromItemProps={{
+                      ...restField,
+
+                      name: [name, "serviceVolume"],
+                      style: { marginBottom: 24 },
+                    }}
+                    inputProps={{
+                      placeholder: "Объем работы",
+                    }}
+                  />
+
+                  <PositiveNumberField
+                    fromItemProps={{
+                      ...restField,
+                      name: [name, "servicePrice"],
+                      style: { marginBottom: 24 },
+                    }}
+                    inputProps={{
+                      placeholder: "Стоимость услуги",
+                    }}
+                  ></PositiveNumberField>
+
+                  <CyrilicTextField
+                    fromItemProps={{ ...restField, name: [name, "region"] }}
+                    inputProps={{ placeholder: "Регион" }}
+                  ></CyrilicTextField>
+
+                  <CyrilicTextField
+                    fromItemProps={{
+                      ...restField,
+                      name: [name, "address"],
+                    }}
+                    inputProps={{ placeholder: "Адрес" }}
+                  ></CyrilicTextField>
+
+                  <Button
+                    icon={<MinusCircleOutlined />}
+                    style={{ marginBottom: 24, border: "none" }}
+                    onClick={() => remove(name)}
+                  ></Button>
+                </Space>
+              ))}
+              <Form.Item>
+                <Button
+                  style={{ maxWidth: 180 }}
+                  type="dashed"
+                  onClick={() => add()}
+                  block
+                  icon={<PlusOutlined />}
+                >
+                  Добавить услугу
+                </Button>
+              </Form.Item>
+
+              <Button style={{ marginLeft: 16 }} onClick={handleAddNewJob}>
+                Сохранить
+              </Button>
+            </>
+          )}
+        </Form.List>
       </Form>
     </Card>
   );

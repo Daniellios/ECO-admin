@@ -57,6 +57,18 @@ export interface ICreateContract {
   totalPrice: number;
 }
 
+export interface IUpdateContract {
+  startAt?: Date;
+
+  endAt?: Date;
+
+  contractJobs?: ICreateContractJob[];
+
+  description?: string;
+
+  totalPrice?: number;
+}
+
 export interface IContractJob {
   id: number;
 
@@ -67,6 +79,9 @@ export interface IContractJob {
   serviceName: string;
 
   serviceVolume: number;
+
+  servicePrice: number;
+
   contractId: string;
 }
 
@@ -74,6 +89,8 @@ export interface IUpdateContractJob {
   region?: string;
 
   address?: string;
+
+  servicePrice?: number;
 
   serviceName?: string;
 
@@ -85,9 +102,11 @@ export interface ICreateContractJob {
 
   address: string;
 
+  servicePrice: number | null;
+
   serviceName: string;
 
-  serviceVolume: number;
+  serviceVolume: number | null;
 }
 
 export interface ICompany {
