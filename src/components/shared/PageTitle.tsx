@@ -9,7 +9,7 @@ const PageTitle: React.FC<IPageTitleProps> = ({ title, id }) => {
   return (
     <p className="page_title_wrap">
       <span className="page_title">
-        {title} <span className="id">{id ? `#${id}` : ""}</span>
+        {title} <span className="sub_text">{id ? `#${id}` : ""}</span>
       </span>
     </p>
   );

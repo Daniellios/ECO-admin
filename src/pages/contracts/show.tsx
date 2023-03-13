@@ -194,7 +194,7 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
             )}
 
             {candidates && candidates?.length < 1 && (
-              <Typography.Title level={4} style={{ textAlign: "center" }}>
+              <Typography.Title level={4} className="sub_text">
                 Кандидатов на выполнение заказа пока нет
               </Typography.Title>
             )}
