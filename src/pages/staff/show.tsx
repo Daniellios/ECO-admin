@@ -40,7 +40,6 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
   const {
     modalProps: editModalProps,
     formProps: editFormProps,
-
     show: editModalShow,
   } = useModalForm<IStaffMember>({
     autoSubmitClose: true,
@@ -74,35 +73,33 @@ export const StaffShow: React.FC<IResourceComponentsProps> = () => {
         </>
       }
     >
-      <>
-        <Row align={"middle"} justify="start">
-          <Col span={12}>
-            <Typography.Title level={5}>ID</Typography.Title>
-            <Typography.Text>{record?.id}</Typography.Text>
-          </Col>
-          <Col span={12}>
-            <Typography.Title level={5}>Роль</Typography.Title>
-            <Typography.Text>{record?.roles}</Typography.Text>
-          </Col>
+      <Row align={"middle"} justify="start">
+        <Col span={12}>
+          <Typography.Title level={5}>ID</Typography.Title>
+          <Typography.Text>{record?.id}</Typography.Text>
+        </Col>
+        <Col span={12}>
+          <Typography.Title level={5}>Роль</Typography.Title>
+          <Typography.Text>{record?.roles}</Typography.Text>
+        </Col>
 
-          <Divider></Divider>
+        <Divider></Divider>
 
-          <Col span={8}>
-            <Typography.Title level={5}>Имя</Typography.Title>
-            <Typography.Text>{fullName}</Typography.Text>
-          </Col>
+        <Col span={8}>
+          <Typography.Title level={5}>Имя</Typography.Title>
+          <Typography.Text>{fullName}</Typography.Text>
+        </Col>
 
-          <Col span={8}>
-            <Typography.Title level={5}>Почта</Typography.Title>
-            <Typography.Text>{record?.email}</Typography.Text>
-          </Col>
+        <Col span={8}>
+          <Typography.Title level={5}>Почта</Typography.Title>
+          <Typography.Text>{record?.email}</Typography.Text>
+        </Col>
 
-          <Col span={8}>
-            <Typography.Title level={5}>Телефон</Typography.Title>
-            <Typography.Text>{record?.phone}</Typography.Text>
-          </Col>
-        </Row>
-      </>
+        <Col span={8}>
+          <Typography.Title level={5}>Телефон</Typography.Title>
+          <Typography.Text>{record?.phone}</Typography.Text>
+        </Col>
+      </Row>
 
       <ModalActionForm
         modalProps={{

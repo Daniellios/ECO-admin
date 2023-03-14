@@ -25,6 +25,9 @@ import {
   useEditableTable,
   Form,
   SaveButton,
+  useModalForm,
+  DatePicker,
+  useForm,
 } from "@pankod/refine-antd";
 import {
   HttpError,
@@ -40,6 +43,10 @@ import MyDeleteButton from "../../components/buttons/MyDeleteButton";
 import MyEditButton from "../../components/buttons/MyEditButton";
 import MyRefreshButton from "../../components/buttons/MyRefreshButton";
 import MyShowButton from "../../components/buttons/MyShowButton";
+import CyrilicTextField from "../../components/forms/fields/CyrilicTextFIeld";
+import DatePickerField from "../../components/forms/fields/DatePickerField";
+import PositiveNumberField from "../../components/forms/fields/PositiveNumberField";
+import ModalActionForm from "../../components/modals/ModalActionForm";
 import PageTitle from "../../components/shared/PageTitle";
 
 import ContractJobsTable from "../../components/tables/ContractJobsTable";
@@ -70,6 +77,8 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
   const contractStatus = record?.status;
 
   const isAdmin = identity?.roles === "ADMIN";
+
+  const { formProps, form, onFinish } = useForm({ action: "edit" });
 
   const assignEcologistToContract = async (ecologistId: number) => {
     ecologistMutation({
@@ -115,6 +124,7 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
               type: "success",
             }}
           ></MyDeleteButton>
+          <MyEditButton resource={resource.name}></MyEditButton>
           <MyRefreshButton resource={resource.name}></MyRefreshButton>
         </>
       }
@@ -138,7 +148,7 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
         <Row>
           <Col span={6}>
             <Typography.Title level={5}>Обновлено</Typography.Title>
-            <DateCell value={record?.createdAt}></DateCell>
+            <DateCell value={record?.updatedAt}></DateCell>
           </Col>
 
           <Col span={6}>
@@ -148,14 +158,45 @@ export const ContractShow: React.FC<IResourceComponentsProps> = () => {
 
           <Col span={6}>
             <Typography.Title level={5}>Начало работ</Typography.Title>
-            <DateCell value={record?.createdAt}></DateCell>
+            <DateCell value={record?.startAt}></DateCell>
           </Col>
 
           <Col span={6}>
             <Typography.Title level={5}>Конец работ</Typography.Title>
-            <DateCell value={record?.createdAt}></DateCell>
+            <DateCell value={record?.endAt}></DateCell>
           </Col>
         </Row>
+        {/* 
+        <Form {...formProps} layout="vertical">
+      
+       
+              <DatePickerField
+                fromItemProps={{ name: "startAt" }}
+                datePickerProps={{ placeholder: "Дата начала" }}
+              ></DatePickerField>
+          
+            <DatePickerField
+            fromItemProps={{ name: "endAt" }}
+            datePickerProps={{ placeholder: "Дата конца" }}
+          ></DatePickerField>
+
+
+          <CyrilicTextField
+            isTextArea
+            fromItemProps={{ name: "description" }}
+            inputProps={{ placeholder: "Описание" }}
+          ></CyrilicTextField>
+          <PositiveNumberField
+            fromItemProps={{
+              label: "Сумма всего",
+              name: "totalPrice",
+              initialValue: null,
+            }}
+            inputProps={{
+              placeholder: "Сумма",
+            }}
+          ></PositiveNumberField>
+        </Form> */}
 
         <Divider></Divider>
         <Row>

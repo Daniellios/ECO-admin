@@ -31,7 +31,12 @@ import { StaffCreate, StaffList, StaffShow } from "./pages/staff";
 import { contractsDataProvider } from "./providers/data/contracts-provider";
 
 import locale from "antd/locale/ru_RU";
-import { ContractsList, ContractShow, ContractCreate } from "./pages/contracts";
+import {
+  ContractsList,
+  ContractShow,
+  ContractCreate,
+  ContractEdit,
+} from "./pages/contracts";
 
 import "./styles/header.css";
 import { CompaniesList } from "./pages/companies";
@@ -74,6 +79,7 @@ const App: React.FC = () => {
             name: "contracts",
             options: { label: "Заказы" },
             list: ContractsList,
+            edit: ContractEdit,
             show: ContractShow,
             create: ContractCreate,
             icon: <AuditOutlined />,

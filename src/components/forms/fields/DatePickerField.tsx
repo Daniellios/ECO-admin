@@ -16,6 +16,7 @@ const DatePickerField: React.FC<IDatePickerFieldProps> = ({
   fromItemProps,
 }) => {
   const handleDatePick: DatePickerProps["onChange"] = (date) => {
+    // return date?.toDate().getUTCDate();
     return date?.get("d");
   };
 
@@ -24,9 +25,7 @@ const DatePickerField: React.FC<IDatePickerFieldProps> = ({
       <DatePicker
         onChange={handleDatePick}
         format="DD/MM/YYYY"
-        placeholder={
-          datePickerProps.placeholder ? datePickerProps.placeholder : "Дата"
-        }
+        placeholder={datePickerProps.placeholder || "Дата"}
         {...datePickerProps}
       ></DatePicker>
     </Form.Item>

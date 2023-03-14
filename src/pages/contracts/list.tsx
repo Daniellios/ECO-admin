@@ -14,6 +14,7 @@ import {
 import {
   HttpError,
   IResourceComponentsProps,
+  useNavigation,
   usePermissions,
   useResource,
 } from "@pankod/refine-core";
@@ -35,6 +36,7 @@ export const ContractsList: React.FC<IResourceComponentsProps> = () => {
   });
 
   const { data: identity, isFetched } = usePermissions({});
+  const { show } = useNavigation();
 
   const isAdmin = identity?.roles === "ADMIN";
 
@@ -117,12 +119,12 @@ export const ContractsList: React.FC<IResourceComponentsProps> = () => {
 
         <DatePickerField
           fromItemProps={{ name: "startAt" }}
-          datePickerProps={{ placeholder: "Начало" }}
+          datePickerProps={{ placeholder: "Начало работ" }}
         ></DatePickerField>
 
         <DatePickerField
           fromItemProps={{ name: "endAt" }}
-          datePickerProps={{ placeholder: "Конец" }}
+          datePickerProps={{ placeholder: "Конец работ" }}
         ></DatePickerField>
 
         {/* <Form.Item name="companyName">
@@ -132,6 +134,13 @@ export const ContractsList: React.FC<IResourceComponentsProps> = () => {
 
       <Table<IContract>
         {...tableProps}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              show(resource.name, record.id);
+            },
+          };
+        }}
         rowKey="id"
         bordered={true}
         pagination={{
@@ -182,9 +191,6 @@ export const ContractsList: React.FC<IResourceComponentsProps> = () => {
           align="center"
           render={(value: IContractJob[]) => {
             return value ? value.length : 0;
-          }}
-          sorter={{
-            compare: (a, b) => a.contractJobs.length - b.contractJobs.length,
           }}
         />
 
